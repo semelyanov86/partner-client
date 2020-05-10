@@ -7,12 +7,14 @@ use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use \DateTimeInterface;
+use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Shareholder extends Model
+class Shareholder extends Authenticatable
 {
     use SoftDeletes, Auditable;
 
     public $table = 'shareholders';
+    protected $guarded = 'shareholder';
 
     protected $dates = [
         'sms_sended_at',
@@ -23,8 +25,6 @@ class Shareholder extends Model
 
     protected $fillable = [
         'phone',
-        'password',
-        'code',
         'sms_sended_at',
         'doc',
         'fio',
@@ -32,6 +32,13 @@ class Shareholder extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'password',
+        'code',
+    ];
+
+    protected $hidden = [
+        'password',
+        'code',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

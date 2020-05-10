@@ -1,6 +1,7 @@
 <?php
 
-Route::redirect('/', '/login');
+Route::redirect('/', '/client/login');
+
 Route::get('/home', function () {
     if (session('status')) {
         return redirect()->route('admin.home')->with('status', session('status'));
@@ -10,8 +11,18 @@ Route::get('/home', function () {
 });
 
 Auth::routes();
-// Admin
 
+//clients - shareholders
+Route::group(['prefix' => 'client', 'as' => 'client.' ], function () {
+    Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
+    Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
+    Route::get('/login', 'Auth\ShareholderLoginController@showLoginForm')->name('login');
+    Route::post('/login', 'Auth\ShareholderLoginController@login')->name('login.submit');
+    Route::get('/home', 'ShareholderController@index')->name('home');
+    Route::redirect('/', '/client/home');
+});
+
+// Admin
 Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions

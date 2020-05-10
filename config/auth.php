@@ -46,6 +46,11 @@ return [
             'provider' => 'users',
             'hash'     => false,
         ],
+
+        'shareholder' => [
+            'driver'   => 'session',
+            'provider' => 'shareholders',
+        ],
     ],
 
     /*
@@ -71,6 +76,11 @@ return [
             'model'  => App\User::class,
         ],
 
+        'shareholders' => [
+            'driver' => 'eloquent',
+            'model'  => App\Shareholder::class,
+        ]
+
         // 'users' => [
         //     'driver' => 'database',
         //     'table' => 'users',
@@ -95,6 +105,11 @@ return [
     'passwords' => [
         'users' => [
             'provider' => 'users',
+            'table'    => 'password_resets',
+            'expire'   => 60,
+        ],
+        'shareholders' => [
+            'provider' => 'shareholders',
             'table'    => 'password_resets',
             'expire'   => 60,
         ],
