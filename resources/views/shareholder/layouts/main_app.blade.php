@@ -13,10 +13,11 @@
 @endsection
 
 @section('scripts')
-    <script src="../js/client/metisMenu.js"></script>
-    <script src="../js/client/waves.js"></script>
-    <script src="../js/client/jquery.slimscroll.js"></script>
-    <script src="../js/client/app.min.js"></script>
-    <script src="../js/client/main.js"></script>
+    <script src="{{asset('/js/client/metisMenu.js')}}"></script>
+    <script src="{{asset('/js/client/waves.js')}}"></script>
+    <script src="{{asset('/js/client/jquery.slimscroll.js')}}"></script>
+    <script src="{{asset('/js/client/app.min.js')}}"></script>
+    <script src="{{asset('/js/client/main.js')}}"></script>
 @endsection
+
 

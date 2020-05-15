@@ -8,19 +8,21 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>Клиентский портал</title>
-    <link href="../css/client//bootstrap.min.css" rel="stylesheet" />
-    <link href="../css/client//app.min.css" rel="stylesheet" type="text/css" />
-    <link href="../css/client//icons.min.css" rel="stylesheet" type="text/css" />
-    <link href="../css/client//custom.css" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/client/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('/css/client/app.min.css') }}"rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/client/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/client/custom.css') }}" rel="stylesheet" type="text/css" />
     @yield('styles')
 </head>
 
 <body class="enlarged">
     @yield('content')
-    <script src="../js/jquery.min.js"></script>
-    <script src="../js/jquery.mask.min.js"></script>
-    <script src="../js/bootstrap.min.js"></script>
+    <script src="{{asset('/js/jquery.min.js')}}"></script>
+    <script src="{{asset('/js/popper.min.js')}}"></script>
+    <script src="{{asset('/js/jquery.mask.min.js')}}"></script>
+    <script src="{{asset('/js/bootstrap.min.js')}}"></script>
     @yield('scripts')
+    @yield('custom-scripts')
 </body>
 
 </html>

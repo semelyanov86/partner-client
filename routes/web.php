@@ -20,6 +20,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.' ], function () {
     Route::post('/login', 'Auth\ShareholderLoginController@login')->name('login.submit');
     Route::get('/home', 'ShareholderController@index')->name('home');
     Route::redirect('/', '/client/home');
+    Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
+    Route::GET('/requests/data', 'ShareholderRequestsController@search')->name('requests.data');
 });
 
 // Admin
