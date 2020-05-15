@@ -5,8 +5,7 @@ namespace App\Http\Controllers;
 use App\DepositContract;
 use App\LoanContract;
 use App\LoanRequest;
-use Illuminate\Http\Request;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ShareholderController extends Controller
 {
@@ -32,12 +31,12 @@ class ShareholderController extends Controller
 
     public function getBadges()
     {
-        $requestsCount = LoanRequest::where('shareholder_id', '=', Auth::id())->count();
-        $loansCount = LoanContract::where('shareholder_id', '=', Auth::id())->count();
-        $depositsCount = DepositContract::where('shareholder_id', '=', Auth::id())->count();
+        $requestsCount = LoanRequest::where('shareholder_id', Auth::id())->count();
+        $loansCount = LoanContract::where('shareholder_id', Auth::id())->count();
+        $depositsCount = DepositContract::where('shareholder_id', Auth::id())->count();
 
         $badges = array("loans" => $loansCount, "requests" => $requestsCount, "deposits" => $depositsCount);
 
-        return $badges;
+        return response()->json($badges);
     }
 }
