@@ -7,8 +7,6 @@ use Illuminate\Http\Request;
 
 class ShareholderRequestsController extends ShareholderController
 {
-    const PAGINATE_NUMBER = 5;
-
     public function __construct()
     {
         $this->middleware('auth:shareholder');
@@ -16,8 +14,16 @@ class ShareholderRequestsController extends ShareholderController
 
     public function index()
     {
-        $loanRequests = LoanRequest::where('shareholder_id', auth()->user()->id)->orderBy('request_date', 'desc')->paginate(self::PAGINATE_NUMBER);
-        return view('shareholder.requests')->with('badges',  $this->getBadges())->with('loanRequests', $loanRequests);
+        return view('shareholder.requests');
+    }
+
+    public function item($id)
+    {
+        $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)->where('id', $id);
+        if ($loanRequest->count() > 0)
+            return view('shareholder.requests-item')->with('loanRequest', $loanRequest->get());
+        else
+            abort(404);
     }
 
     public function search (Request $request)

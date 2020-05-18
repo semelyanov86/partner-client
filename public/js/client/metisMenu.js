@@ -3,7 +3,7 @@
 * A jQuery menu plugin
 * @version 3.0.4
 * @author Osman Nuri Okumus <onokumus@gmail.com> (https://github.com/onokumus)
-* @license: MIT 
+* @license: MIT
 */
 (function (global, factory) {
   typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('jquery')) :
@@ -90,7 +90,7 @@
   var EVENT_KEY = "." + DATA_KEY;
   var DATA_API_KEY = '.data-api';
   var JQUERY_NO_CONFLICT = $.fn[NAME];
-  var TRANSITION_DURATION = 350;
+  var TRANSITION_DURATION = 0;
   var Default = {
     toggle: true,
     preventDefault: true,

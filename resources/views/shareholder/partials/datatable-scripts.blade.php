@@ -1,7 +1,7 @@
 <link rel="stylesheet" type="text/css" href="{{asset('/js/client/datatables/dataTables.bootstrap4.min.css')}}"/>
 
-<script type="text/javascript" src="{{asset('/js/client/datatables/pdfmake.min.js')}}"></script>
-<script type="text/javascript" src="{{asset('/js/client/datatables/vfs_fonts.js')}}"></script>
+{{--<script type="text/javascript" src="{{asset('/js/client/datatables/pdfmake.min.js')}}"></script>--}}
+{{--<script type="text/javascript" src="{{asset('/js/client/datatables/vfs_fonts.js')}}"></script>--}}
 
 <script src="{{asset('/js/client/datatables/moment.min.js')}}"></script>
 <script type="text/javascript" src="{{asset('/js/client/datatables/jquery.dataTables.min.js')}}"></script>

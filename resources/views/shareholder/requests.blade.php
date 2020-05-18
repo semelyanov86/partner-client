@@ -83,13 +83,16 @@
                         customize : function(doc){
                             doc.pageMargins = [20,20,20,20];
                             doc.styles.tableHeader.alignment = 'left';
-                            doc.content[1].table.widths = ["*", "*", "*","*", "*"];
+                            doc.content[1].table.widths = ["*","*", "*", "*","*", "*"];
                         }
                     },
                     {
                         extend : "print",
                         title: "Заявки",
-                        className: "d-none"
+                        className: "d-none",
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
                     },
                     {
                         extend : "excel",
@@ -105,6 +108,7 @@
                 "searching" : false,
                 "serverSide": true,
                 "processing" : true,
+                "scrollX": true,
                 "ajax": {
                     "url" : "{{route('client.requests.data')}}",
                     "data": function (d) {
@@ -121,7 +125,7 @@
                     },
                     { "data": "request_no",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html("<a href='{{route('client.requests')}}'>"+oData.request_no+"</a>");
+                            $(nTd).html("<a href='{{route('client.requests')}}/" + oData.id + "'>"+oData.request_no+"</a>");
                         }
                     },
                     { "data": "request_date",
@@ -129,7 +133,11 @@
                         render: function (data, type, row) { return data ? moment(data).format('DD-MM-YYYY') : ''; }
                     },
                     { "data": "amount" },
-                    { "data": "status" }
+                    { "data": "status" },
+                    {
+                        "data": "id",
+                        "visible" : false
+                    }
                 ],
                 "language": {
                     "url" : "{{asset('/js/client/datatables/datatables-ru.json')}}"

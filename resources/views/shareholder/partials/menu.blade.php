@@ -1,6 +1,6 @@
-<div class="left-side-menu">
-    <div id="sidebar-menu">
-        <ul class="metismenu" id="side-menu">
+<div class="left-side-menu non-animation">
+    <div id="sidebar-menu" class="non-animation">
+        <ul class="metismenu non-animation" id="side-menu">
             <li class="menu-title">Меню</li>
             <li>
                 <a href="{{route('client.home')}}">
@@ -22,7 +22,7 @@
                 <a href="{{route('client.requests')}}">
                     <i class="ti-pencil-alt"></i>
                     <span> Заявки </span>
-                    <span class="badge badge-primary float-right">{{ $badges['requests'] }}</span>
+                    <span class="badge badge-primary float-right">{{$loan_requests_badge}}</span>
                 </a>
             </li>
 
@@ -30,7 +30,7 @@
                 <a href="#">
                     <i class="mdi mdi-coin-outline"></i>
                     <span> Займы </span>
-                    <span class="badge badge-primary float-right">{{ $badges['loans'] }}</span>
+                    <span class="badge badge-primary float-right">{{$loans_badge}}</span>
                 </a>
             </li>
 
@@ -38,7 +38,7 @@
                 <a href="#">
                     <i class="mdi mdi-piggy-bank"></i>
                     <span> Сбережения </span>
-                    <span class="badge badge-primary float-right">{{ $badges['deposits'] }}</span>
+                    <span class="badge badge-primary float-right">{{$deposits_badge}}</span>
                 </a>
             </li>
 
@@ -58,14 +58,14 @@
                     <i class="mdi mdi-exit-to-app"></i>
                     <span> Выйти </span>
                 </a>
-                <form id="logout-form" action="{{ route('logout') }}" method="POST" >
+                <form id="logout-form" action="{{ route('logout') }}" method="POST">
                     @csrf
                 </form>
             </li>
-
         </ul>
 
     </div>
     <div class="clearfix"></div>
+
 </div>
 

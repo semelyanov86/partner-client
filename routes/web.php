@@ -21,7 +21,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.' ], function () {
     Route::get('/home', 'ShareholderController@index')->name('home');
     Route::redirect('/', '/client/home');
     Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
-    Route::GET('/requests/data', 'ShareholderRequestsController@search')->name('requests.data');
+    Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
+    Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
 });
 
 // Admin

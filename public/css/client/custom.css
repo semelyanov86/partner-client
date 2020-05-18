@@ -5,3 +5,15 @@ body {
     padding: 10px 15px;
 }
 
+.non-animation {
+    transition-property: none !important;
+    transform: none !important;
+    transition: none !important;
+    animation: none !important;
+}
+
+@media print {
+    .non-print {
+        display: none;
+    }
+}

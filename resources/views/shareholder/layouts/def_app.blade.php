@@ -9,8 +9,8 @@
 
     <title>Клиентский портал</title>
     <link href="{{ asset('/css/client/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('/css/client/app.min.css') }}"rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/client/icons.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('/css/client/app.min.css') }}"rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/client/custom.css') }}" rel="stylesheet" type="text/css" />
     @yield('styles')
 </head>

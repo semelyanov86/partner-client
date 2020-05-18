@@ -26,17 +26,7 @@ class ShareholderController extends Controller
      */
     public function index()
     {
-        return view('shareholder.home')->with('badges',  $this->getBadges());
+        return view('shareholder.home');
     }
 
-    public function getBadges()
-    {
-        $requestsCount = LoanRequest::where('shareholder_id', Auth::id())->count();
-        $loansCount = LoanContract::where('shareholder_id', Auth::id())->count();
-        $depositsCount = DepositContract::where('shareholder_id', Auth::id())->count();
-
-        $badges = array("loans" => $loansCount, "requests" => $requestsCount, "deposits" => $depositsCount);
-
-        return response()->json($badges);
-    }
 }
