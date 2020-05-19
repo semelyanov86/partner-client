@@ -13,7 +13,7 @@ Route::get('/home', function () {
 Auth::routes();
 
 //clients - shareholders
-Route::group(['prefix' => 'client', 'as' => 'client.' ], function () {
+Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofactor'] ], function () {
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
     Route::get('/login', 'Auth\ShareholderLoginController@showLoginForm')->name('login');
@@ -23,6 +23,9 @@ Route::group(['prefix' => 'client', 'as' => 'client.' ], function () {
     Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
     Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
     Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
+    Route::get('/verify', 'Auth\ShareholderVerifyController@index')->name('verify');
+    Route::post('/verify', 'Auth\ShareholderVerifyController@verify')->name('verify.submit');
+    Route::POST('/resend', 'Auth\ShareholderVerifyController@resend')->name('resend');
 });
 
 // Admin

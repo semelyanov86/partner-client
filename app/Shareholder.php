@@ -21,6 +21,7 @@ class Shareholder extends Authenticatable
         'created_at',
         'updated_at',
         'deleted_at',
+        'code_expires_at',
     ];
 
     protected $fillable = [
@@ -34,6 +35,7 @@ class Shareholder extends Authenticatable
         'deleted_at',
         'password',
         'code',
+        'code_expires_at',
     ];
 
     protected $hidden = [
@@ -76,4 +78,37 @@ class Shareholder extends Authenticatable
         $this->attributes['sms_sended_at'] = $value ? Carbon::createFromFormat(config('panel.date_format') . ' ' . config('panel.time_format'), $value)->format('Y-m-d H:i:s') : null;
 
     }
+
+    public function resetTwoFactorCode()
+    {
+        $this->timestamps = false;
+        $this->code = null;
+        $this->code_expires_at = null;
+        $this->sms_sended_at = null;
+        $this->save();
+    }
+
+    public function generateTwoFactorCode()
+    {
+        $this->timestamps = false;
+        //$this->code = rand(100000, 999999);
+        //tmp
+        $this->code = 123123;
+        $this->code_expires_at = now()->addSeconds(env('SMS_EXPIRES_SECONDS', 60));
+        $this->sms_sended_at = now();
+        $this->save();
+    }
+
+    public function canResendSMS()
+    {
+        $sms_expires = new Carbon($this->sms_sended_at);
+        $sms_expires = $sms_expires->addSeconds(env('SMS_RESEND_DELAY_SECONDS', 30));
+
+        if ( ($this->sms_sended_at && $sms_expires->gt(now()))
+            || !$this->sms_sended_at)
+            return false;
+
+        return true;
+    }
+
 }

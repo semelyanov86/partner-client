@@ -14,6 +14,11 @@
                                     <span><img src="{{asset('/images/logo.png')}}" alt="" height="70"></span>
                                 </a>
                             </div>
+                            @if(session()->has('message'))
+                                <p class="alert alert-info">
+                                    {{ session()->get('message') }}
+                                </p>
+                            @endif
                             <form action="{{ route('client.login.submit') }}" method="POST"  class="p-2">
                                 @csrf
                                 <div class="form-group">

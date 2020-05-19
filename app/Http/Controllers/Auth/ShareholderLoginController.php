@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Shareholder;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use Auth;
@@ -32,9 +33,15 @@ class ShareholderLoginController extends Controller
             'password' => 'required'
         ]);
 
+        //TODO check phone in 1c
+
         if (Auth::guard('shareholder')->attempt(['phone'=> $formatedPhone, 'password' => $request->password]))
         {
-            return redirect('/client/home');
+            $shareholder = Shareholder::where("phone", $formatedPhone)->first();
+            $shareholder->generateTwoFactorCode();
+            //TODO send SMS code
+
+            return redirect()->route('client.verify');
         }
         return redirect()->back()->withInput($request->only('phone'));
     }
