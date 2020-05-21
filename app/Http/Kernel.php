@@ -44,5 +44,6 @@ class Kernel extends HttpKernel
         'throttle'         => \Illuminate\Routing\Middleware\ThrottleRequests::class,
         'password.confirm' => \Illuminate\Auth\Middleware\RequirePassword::class,
         'twofactor'     => \App\Http\Middleware\TwoFactor::class,
+        'failtoban'     => \App\Http\Middleware\FailToBan::class,
     ];
 }

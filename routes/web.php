@@ -13,7 +13,7 @@ Route::get('/home', function () {
 Auth::routes();
 
 //clients - shareholders
-Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofactor'] ], function () {
+Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofactor', 'failtoban'] ], function () {
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
     Route::get('/login', 'Auth\ShareholderLoginController@showLoginForm')->name('login');
@@ -26,6 +26,13 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     Route::get('/verify', 'Auth\ShareholderVerifyController@index')->name('verify');
     Route::post('/verify', 'Auth\ShareholderVerifyController@verify')->name('verify.submit');
     Route::POST('/resend', 'Auth\ShareholderVerifyController@resend')->name('resend');
+    Route::GET('/block', function () {
+        return view('shareholder.block');
+    })->name('block');
+    Route::GET('/forgot', 'Auth\ShareholderForgotPassController@index')->name('forgot');
+    Route::POST('/forgot', 'Auth\ShareholderForgotPassController@reset')->name('forgot.submit');
+    Route::GET('/reset', 'Auth\ShareholderResetPassController@index')->name('reset');
+    Route::POST('/reset', 'Auth\ShareholderResetPassController@update')->name('reset.submit');
 });
 
 // Admin

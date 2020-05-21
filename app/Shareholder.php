@@ -99,16 +99,4 @@ class Shareholder extends Authenticatable
         $this->save();
     }
 
-    public function canResendSMS()
-    {
-        $sms_expires = new Carbon($this->sms_sended_at);
-        $sms_expires = $sms_expires->addSeconds(env('SMS_RESEND_DELAY_SECONDS', 30));
-
-        if ( ($this->sms_sended_at && $sms_expires->gt(now()))
-            || !$this->sms_sended_at)
-            return false;
-
-        return true;
-    }
-
 }

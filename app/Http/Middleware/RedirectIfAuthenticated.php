@@ -35,7 +35,7 @@ class RedirectIfAuthenticated
                                 ->withMessage('Срок действия СМС кода истек. Пожалуйста, войдите еще раз.'.$shareholder->code_expires_at );
                         }
 
-                        if(!$request->is('*verify*'))
+                        if(!$request->is('*client/verify*'))
                         {
                             return redirect()->route('client.verify');
                         }

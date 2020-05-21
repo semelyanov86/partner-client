@@ -27,10 +27,11 @@ class TwoFactor
                 $shareholder->resetTwoFactorCode();
                 auth()->logout();
                 return redirect()->route('client.login')
-                    ->withMessage('Срок действия СМС кода истек. Пожалуйста, войдите еще раз.'.$shareholder->code_expires_at );
+                    ->withMessage('Срок действия СМС кода истек. Пожалуйста, войдите еще раз.');
             }
 
-            if(!$request->is('*verify*') && !$request->is('*resend*') && !$request->is('*logout*'))
+            if(!$request->is('*client/verify*') && !$request->is('*client/resend*')
+                && !$request->is('*client/logout*') && !$request->is('*client/block*'))
             {
                return redirect()->route('client.verify');
             }

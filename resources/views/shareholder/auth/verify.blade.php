@@ -19,9 +19,9 @@
                                     {{ session()->get('message') }}
                                 </p>
                             @endif
-                            @if($errors->has('send_sms'))
+                            @if($errors->has('error_msg'))
                                 <p class="alert alert-danger">
-                                    {{ $errors->first('send_sms') }}
+                                    {{ $errors->first('error_msg') }}
                                 </p>
                             @endif
                             <div class="p-2">

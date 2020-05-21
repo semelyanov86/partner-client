@@ -24,7 +24,7 @@
                                     {{ $errors->first('error_msg') }}
                                 </p>
                             @endif
-                            <form action="{{ route('client.login.submit') }}" method="POST"  class="p-2">
+                            <form action="{{ route('client.forgot.submit') }}" method="POST"  class="p-2">
                                 @csrf
                                 <div class="form-group">
                                     <label for="phone">Номер телефона</label>
@@ -35,25 +35,15 @@
                                         </div>
                                     @endif
                                 </div>
-                                <div class="form-group">
-                                    <a href="{{route('client.forgot')}}" class=" float-right">Забыли пароль?</a>
-                                    <label for="password">Пароль</label>
-                                    <input class="form-control {{ $errors->has('password') ? ' is-invalid' : '' }}" type="password" required="" id="password" name="password" placeholder="Введите ваш пароль">
-                                    @if($errors->has('password'))
-                                        <div class="invalid-feedback">
-                                            {{ $errors->first('password') }}
-                                        </div>
-                                    @endif
-                                </div>
                                 <div class="mb-3 text-center">
-                                    <button class="btn btn-primary btn-block" type="submit"> Войти </button>
+                                    <button class="btn btn-primary btn-block" type="submit"> Сбросить пароль </button>
                                 </div>
                             </form>
                         </div>
                     </div>
                     <div class="row mt-4">
                         <div class="col-sm-12 text-center">
-                            <p class="text-muted mb-0">В первый раз? <a href="{{route('client.register')}}" class="text-dark ml-1"><b>Зарегистрироваться</b></a></p>
+                            <p class="text-muted mb-0">Оказались здесь случайно? <a href="{{route('client.login')}}" class="text-dark ml-1"><b>Вернуться на страницу входа</b></a></p>
                         </div>
                     </div>
                 </div>

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\FailedLoginUtils;
+use App\Helpers\SmsUtils;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,27 +32,20 @@ class ShareholderVerifyController extends Controller
             $shareholder->resetTwoFactorCode();
             return redirect()->route('client.home');
         }
+
+        FailedLoginUtils::addNewFailEvent($request->ip(), $shareholder->phone, 0);
         return redirect()->back()
             ->withErrors(['code' =>
                 'Введен неверный код']);
     }
 
-    public function resend()
+    public function resend(Request $request)
     {
         $shareholder = Auth::user();
-        if ($shareholder->canResendSMS())
-        {
-            $shareholder->generateTwoFactorCode();
-            //TODO Send SMS
-            return redirect()->back()->withMessage("СМС отправлен повторно");
-        }
-        else
-        {
-            return redirect()->back()
-                ->withErrors(['send_sms' =>
-                    'СМС не может быть отправлена чаще чем 1 раз в '.env('SMS_RESEND_DELAY_SECONDS', 60)." секунд.  "  ]);
-        }
+        $shareholder->generateTwoFactorCode();
 
+        SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());
+        return redirect()->back()->withMessage("СМС отправлен повторно");
     }
 
 }
