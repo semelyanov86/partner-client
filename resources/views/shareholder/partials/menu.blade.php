@@ -12,7 +12,7 @@
                 <br>
             </li>
             <li>
-                <a href="#">
+                <a href="{{route('client.creditcalc')}}">
                     <i class=" mdi mdi-calculator"></i>
                     <span> Кредитный калькулятор </span>
                 </a>

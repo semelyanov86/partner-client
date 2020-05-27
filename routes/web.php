@@ -14,25 +14,40 @@ Auth::routes();
 
 //clients - shareholders
 Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofactor', 'failtoban'] ], function () {
+    //Register
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
+
+    //Login
     Route::get('/login', 'Auth\ShareholderLoginController@showLoginForm')->name('login');
     Route::post('/login', 'Auth\ShareholderLoginController@login')->name('login.submit');
-    Route::get('/home', 'ShareholderController@index')->name('home');
-    Route::redirect('/', '/client/home');
-    Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
-    Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
-    Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
+
+    //Verify
     Route::get('/verify', 'Auth\ShareholderVerifyController@index')->name('verify');
     Route::post('/verify', 'Auth\ShareholderVerifyController@verify')->name('verify.submit');
     Route::POST('/resend', 'Auth\ShareholderVerifyController@resend')->name('resend');
-    Route::GET('/block', function () {
-        return view('shareholder.block');
-    })->name('block');
+
+    //Forgot-reset
     Route::GET('/forgot', 'Auth\ShareholderForgotPassController@index')->name('forgot');
     Route::POST('/forgot', 'Auth\ShareholderForgotPassController@reset')->name('forgot.submit');
     Route::GET('/reset', 'Auth\ShareholderResetPassController@index')->name('reset');
     Route::POST('/reset', 'Auth\ShareholderResetPassController@update')->name('reset.submit');
+
+    //Home
+    Route::get('/home', 'ShareholderController@index')->name('home');
+    Route::redirect('/', '/client/home');
+    Route::GET('/block', function () {
+        return view('shareholder.block');
+    })->name('block');
+
+    //Loan Requests
+    Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
+    Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
+    Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
+
+    //Loan Requests
+    Route::get('/creditcalc', 'ShareholderCreditCalcController@index')->name('creditcalc');
+    Route::GET('/creditcalcData', 'ShareholderCreditCalcController@data')->name('creditcalc.data');
 });
 
 // Admin
