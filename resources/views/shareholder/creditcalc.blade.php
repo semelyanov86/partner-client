@@ -248,10 +248,16 @@
 
             $('#btn-calc').on('click', function () {
                table.clear().rows.add(getCalcDataWithInputs()).draw();
+                $('html, body').animate({
+                    scrollTop: parseInt($("#calc-table").offset().top)
+                }, 300);
             });
 
             $('#form-calc').on('submit', function () {
-                table.clear().rows.add(getCalcDataWithInputs()).draw(); ;
+                table.clear().rows.add(getCalcDataWithInputs()).draw();
+                $('html, body').animate({
+                    scrollTop: parseInt($("#calc-table").offset().top)
+                }, 300);
                 return false;
             });
 

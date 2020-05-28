@@ -147,11 +147,17 @@
             $('#btn-search').on('click', function () {
                 table.ajax.reload();
                 table.draw();
+                $('html, body').animate({
+                    scrollTop: parseInt($("#requests-table").offset().top)
+                }, 300);
             });
 
             $('#form-search').on('submit', function () {
                 table.ajax.reload();
                 table.draw();
+                $('html, body').animate({
+                    scrollTop: parseInt($("#requests-table").offset().top)
+                }, 300);
                 return false;
             });
 
