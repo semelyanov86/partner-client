@@ -79,7 +79,6 @@ class ShareholdersController extends Controller
         $shareholder = Shareholder::create($request->all());
 
         return redirect()->route('admin.shareholders.index');
-
     }
 
     public function edit(Shareholder $shareholder)
@@ -94,7 +93,6 @@ class ShareholdersController extends Controller
         $shareholder->update($request->all());
 
         return redirect()->route('admin.shareholders.index');
-
     }
 
     public function show(Shareholder $shareholder)
@@ -113,7 +111,6 @@ class ShareholdersController extends Controller
         $shareholder->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyShareholderRequest $request)
@@ -121,7 +118,5 @@ class ShareholdersController extends Controller
         Shareholder::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

@@ -27,6 +27,17 @@
                 <span class="help-block">{{ trans('cruds.failedLogin.fields.phone_helper') }}</span>
             </div>
             <div class="form-group">
+                <div class="form-check {{ $errors->has('sms') ? 'is-invalid' : '' }}">
+                    <input type="hidden" name="sms" value="0">
+                    <input class="form-check-input" type="checkbox" name="sms" id="sms" value="1" {{ $failedLogin->sms || old('sms', 0) === 1 ? 'checked' : '' }}>
+                    <label class="form-check-label" for="sms">{{ trans('cruds.failedLogin.fields.sms') }}</label>
+                </div>
+                @if($errors->has('sms'))
+                    <span class="text-danger">{{ $errors->first('sms') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.failedLogin.fields.sms_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

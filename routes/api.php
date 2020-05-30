@@ -34,4 +34,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
     // Loan Memfee Schedules
     Route::apiResource('loan-memfee-schedules', 'LoanMemfeeScheduleApiController');
 
+    // Posts
+    Route::post('posts/media', 'PostsApiController@storeMedia')->name('posts.storeMedia');
+    Route::apiResource('posts', 'PostsApiController');
 });

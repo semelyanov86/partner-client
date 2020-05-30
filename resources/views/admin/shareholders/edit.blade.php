@@ -70,6 +70,14 @@
                 <span class="help-block">{{ trans('cruds.shareholder.fields.allow_request_helper') }}</span>
             </div>
             <div class="form-group">
+                <label for="code_expires_at">{{ trans('cruds.shareholder.fields.code_expires_at') }}</label>
+                <input class="form-control datetime {{ $errors->has('code_expires_at') ? 'is-invalid' : '' }}" type="text" name="code_expires_at" id="code_expires_at" value="{{ old('code_expires_at', $shareholder->code_expires_at) }}">
+                @if($errors->has('code_expires_at'))
+                    <span class="text-danger">{{ $errors->first('code_expires_at') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.shareholder.fields.code_expires_at_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

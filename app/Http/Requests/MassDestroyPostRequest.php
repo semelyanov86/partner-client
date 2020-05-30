@@ -2,16 +2,16 @@
 
 namespace App\Http\Requests;
 
-use App\Shareholder;
+use App\Post;
 use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Symfony\Component\HttpFoundation\Response;
 
-class MassDestroyShareholderRequest extends FormRequest
+class MassDestroyPostRequest extends FormRequest
 {
     public function authorize()
     {
-        abort_if(Gate::denies('shareholder_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
+        abort_if(Gate::denies('post_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
     }
@@ -20,7 +20,7 @@ class MassDestroyShareholderRequest extends FormRequest
     {
         return [
             'ids'   => 'required|array',
-            'ids.*' => 'exists:shareholders,id',
+            'ids.*' => 'exists:posts,id',
         ];
     }
 }

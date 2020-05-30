@@ -1,38 +1,35 @@
 @extends('layouts.admin')
 @section('content')
-@can('failed_login_create')
+@can('post_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.failed-logins.create") }}">
-                {{ trans('global.add') }} {{ trans('cruds.failedLogin.title_singular') }}
+            <a class="btn btn-success" href="{{ route("admin.posts.create") }}">
+                {{ trans('global.add') }} {{ trans('cruds.post.title_singular') }}
             </a>
         </div>
     </div>
 @endcan
 <div class="card">
     <div class="card-header">
-        {{ trans('cruds.failedLogin.title_singular') }} {{ trans('global.list') }}
+        {{ trans('cruds.post.title_singular') }} {{ trans('global.list') }}
     </div>
 
     <div class="card-body">
         <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-FailedLogin">
+            <table class=" table table-bordered table-striped table-hover datatable datatable-Post">
                 <thead>
                     <tr>
                         <th width="10">
 
                         </th>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.id') }}
+                            {{ trans('cruds.post.fields.id') }}
                         </th>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.ip_address') }}
+                            {{ trans('cruds.post.fields.title') }}
                         </th>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.phone') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.failedLogin.fields.sms') }}
+                            {{ trans('cruds.post.fields.active') }}
                         </th>
                         <th>
                             &nbsp;
@@ -40,39 +37,36 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach($failedLogins as $key => $failedLogin)
-                        <tr data-entry-id="{{ $failedLogin->id }}">
+                    @foreach($posts as $key => $post)
+                        <tr data-entry-id="{{ $post->id }}">
                             <td>
 
                             </td>
                             <td>
-                                {{ $failedLogin->id ?? '' }}
+                                {{ $post->id ?? '' }}
                             </td>
                             <td>
-                                {{ $failedLogin->ip_address ?? '' }}
+                                {{ $post->title ?? '' }}
                             </td>
                             <td>
-                                {{ $failedLogin->phone ?? '' }}
+                                <span style="display:none">{{ $post->active ?? '' }}</span>
+                                <input type="checkbox" disabled="disabled" {{ $post->active ? 'checked' : '' }}>
                             </td>
                             <td>
-                                <span style="display:none">{{ $failedLogin->sms ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $failedLogin->sms ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                @can('failed_login_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.failed-logins.show', $failedLogin->id) }}">
+                                @can('post_show')
+                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.posts.show', $post->id) }}">
                                         {{ trans('global.view') }}
                                     </a>
                                 @endcan
 
-                                @can('failed_login_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.failed-logins.edit', $failedLogin->id) }}">
+                                @can('post_edit')
+                                    <a class="btn btn-xs btn-info" href="{{ route('admin.posts.edit', $post->id) }}">
                                         {{ trans('global.edit') }}
                                     </a>
                                 @endcan
 
-                                @can('failed_login_delete')
-                                    <form action="{{ route('admin.failed-logins.destroy', $failedLogin->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
+                                @can('post_delete')
+                                    <form action="{{ route('admin.posts.destroy', $post->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
                                         <input type="hidden" name="_method" value="DELETE">
                                         <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                         <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
@@ -97,11 +91,11 @@
 <script>
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
-@can('failed_login_delete')
+@can('post_delete')
   let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
   let deleteButton = {
     text: deleteButtonTrans,
-    url: "{{ route('admin.failed-logins.massDestroy') }}",
+    url: "{{ route('admin.posts.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
       var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
@@ -131,7 +125,7 @@
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-FailedLogin:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('.datatable-Post:not(.ajaxTable)').DataTable({ buttons: dtButtons })
     $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
         $($.fn.dataTable.tables(true)).DataTable()
             .columns.adjust();

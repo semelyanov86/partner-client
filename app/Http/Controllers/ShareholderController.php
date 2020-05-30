@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\DepositContract;
 use App\LoanContract;
 use App\LoanRequest;
+use App\Post;
 use Illuminate\Support\Facades\Auth;
 
 class ShareholderController extends Controller
@@ -26,7 +27,8 @@ class ShareholderController extends Controller
      */
     public function index()
     {
-        return view('shareholder.home');
+        $posts = Post::where('Active', 1)->orderBy('created_at')->paginate(3);
+        return view('shareholder.home', ['posts' => $posts]);
     }
 
 }

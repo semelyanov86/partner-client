@@ -79,6 +79,14 @@
                             <input type="checkbox" disabled="disabled" {{ $shareholder->allow_request ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.shareholder.fields.code_expires_at') }}
+                        </th>
+                        <td>
+                            {{ $shareholder->code_expires_at }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

@@ -83,6 +83,18 @@
                         </ul>
                     </li>
                 @endcan
+                @can('post_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.posts.index") }}" class="nav-link {{ request()->is('admin/posts') || request()->is('admin/posts/*') ? 'active' : '' }}">
+                            <i class="fa-fw nav-icon far fa-newspaper">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.post.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('failed_login_access')
                     <li class="nav-item">
                         <a href="{{ route("admin.failed-logins.index") }}" class="nav-link {{ request()->is('admin/failed-logins') || request()->is('admin/failed-logins/*') ? 'active' : '' }}">

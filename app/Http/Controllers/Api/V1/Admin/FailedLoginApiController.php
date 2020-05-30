@@ -18,7 +18,6 @@ class FailedLoginApiController extends Controller
         abort_if(Gate::denies('failed_login_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new FailedLoginResource(FailedLogin::all());
-
     }
 
     public function store(StoreFailedLoginRequest $request)
@@ -28,7 +27,6 @@ class FailedLoginApiController extends Controller
         return (new FailedLoginResource($failedLogin))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(FailedLogin $failedLogin)
@@ -36,7 +34,6 @@ class FailedLoginApiController extends Controller
         abort_if(Gate::denies('failed_login_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new FailedLoginResource($failedLogin);
-
     }
 
     public function update(UpdateFailedLoginRequest $request, FailedLogin $failedLogin)
@@ -46,7 +43,6 @@ class FailedLoginApiController extends Controller
         return (new FailedLoginResource($failedLogin))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(FailedLogin $failedLogin)
@@ -56,6 +52,5 @@ class FailedLoginApiController extends Controller
         $failedLogin->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

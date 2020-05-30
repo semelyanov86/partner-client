@@ -55,6 +55,14 @@
                             {{ $loanRequest->status }}
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.loanRequest.fields.request_date') }}
+                        </th>
+                        <td>
+                            {{ $loanRequest->request_date }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

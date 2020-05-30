@@ -46,6 +46,14 @@
                 <span class="help-block">{{ trans('cruds.loanRequest.fields.status_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required" for="request_date">{{ trans('cruds.loanRequest.fields.request_date') }}</label>
+                <input class="form-control date {{ $errors->has('request_date') ? 'is-invalid' : '' }}" type="text" name="request_date" id="request_date" value="{{ old('request_date') }}" required>
+                @if($errors->has('request_date'))
+                    <span class="text-danger">{{ $errors->first('request_date') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.loanRequest.fields.request_date_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <button class="btn btn-danger" type="submit">
                     {{ trans('global.save') }}
                 </button>

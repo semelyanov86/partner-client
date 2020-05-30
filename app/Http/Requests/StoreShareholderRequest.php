@@ -14,26 +14,32 @@ class StoreShareholderRequest extends FormRequest
         abort_if(Gate::denies('shareholder_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'phone'         => [
+            'phone'           => [
                 'min:5',
                 'max:15',
-                'required'],
-            'password'      => [
-                'required'],
-            'sms_sended_at' => [
+                'required',
+            ],
+            'password'        => [
+                'required',
+            ],
+            'sms_sended_at'   => [
                 'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
-                'nullable'],
-            'fio'           => [
+                'nullable',
+            ],
+            'fio'             => [
                 'min:5',
                 'max:190',
-                'required'],
+                'required',
+            ],
+            'code_expires_at' => [
+                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'nullable',
+            ],
         ];
-
     }
 }

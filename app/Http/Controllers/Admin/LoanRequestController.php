@@ -80,7 +80,6 @@ class LoanRequestController extends Controller
         $loanRequest = LoanRequest::create($request->all());
 
         return redirect()->route('admin.loan-requests.index');
-
     }
 
     public function edit(LoanRequest $loanRequest)
@@ -99,7 +98,6 @@ class LoanRequestController extends Controller
         $loanRequest->update($request->all());
 
         return redirect()->route('admin.loan-requests.index');
-
     }
 
     public function show(LoanRequest $loanRequest)
@@ -118,7 +116,6 @@ class LoanRequestController extends Controller
         $loanRequest->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyLoanRequestRequest $request)
@@ -126,7 +123,5 @@ class LoanRequestController extends Controller
         LoanRequest::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

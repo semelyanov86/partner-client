@@ -45,9 +45,9 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
     Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
 
-    //Loan Requests
+    //Credit calc
     Route::get('/creditcalc', 'ShareholderCreditCalcController@index')->name('creditcalc');
-    Route::GET('/creditcalcData', 'ShareholderCreditCalcController@data')->name('creditcalc.data');
+
 });
 
 // Admin
@@ -100,6 +100,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::delete('loan-memfee-schedules/destroy', 'LoanMemfeeScheduleController@massDestroy')->name('loan-memfee-schedules.massDestroy');
     Route::resource('loan-memfee-schedules', 'LoanMemfeeScheduleController');
 
+    // Posts
+    Route::delete('posts/destroy', 'PostsController@massDestroy')->name('posts.massDestroy');
+    Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
+    Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
+    Route::resource('posts', 'PostsController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password

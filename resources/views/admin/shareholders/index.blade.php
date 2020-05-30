@@ -40,6 +40,9 @@
                         {{ trans('cruds.shareholder.fields.allow_request') }}
                     </th>
                     <th>
+                        {{ trans('cruds.shareholder.fields.code_expires_at') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -101,6 +104,7 @@
 { data: 'code', name: 'code' },
 { data: 'fio', name: 'fio' },
 { data: 'allow_request', name: 'allow_request' },
+{ data: 'code_expires_at', name: 'code_expires_at' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 5, 'desc' ]],

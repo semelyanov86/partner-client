@@ -37,6 +37,9 @@
                         {{ trans('cruds.loanRequest.fields.status') }}
                     </th>
                     <th>
+                        {{ trans('cruds.loanRequest.fields.request_date') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -97,6 +100,7 @@
 { data: 'request_no', name: 'request_no' },
 { data: 'amount', name: 'amount' },
 { data: 'status', name: 'status' },
+{ data: 'request_date', name: 'request_date' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     order: [[ 1, 'desc' ]],

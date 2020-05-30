@@ -49,10 +49,6 @@
                 </ul>
             @endif
 
-
-
-
-
         </nav>
 
         @include('partials.menu')
@@ -157,6 +153,11 @@
         text: selectAllButtonTrans,
         exportOptions: {
           columns: ':visible'
+        },
+        action: function(e, dt) {
+          e.preventDefault()
+          dt.rows().deselect();
+          dt.rows({ search: 'applied' }).select();
         }
       },
       {

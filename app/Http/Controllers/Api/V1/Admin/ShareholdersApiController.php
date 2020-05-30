@@ -18,7 +18,6 @@ class ShareholdersApiController extends Controller
         abort_if(Gate::denies('shareholder_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ShareholderResource(Shareholder::all());
-
     }
 
     public function store(StoreShareholderRequest $request)
@@ -28,7 +27,6 @@ class ShareholdersApiController extends Controller
         return (new ShareholderResource($shareholder))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(Shareholder $shareholder)
@@ -36,7 +34,6 @@ class ShareholdersApiController extends Controller
         abort_if(Gate::denies('shareholder_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new ShareholderResource($shareholder);
-
     }
 
     public function update(UpdateShareholderRequest $request, Shareholder $shareholder)
@@ -46,7 +43,6 @@ class ShareholdersApiController extends Controller
         return (new ShareholderResource($shareholder))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(Shareholder $shareholder)
@@ -56,6 +52,5 @@ class ShareholdersApiController extends Controller
         $shareholder->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

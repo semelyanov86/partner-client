@@ -34,7 +34,6 @@ class FailedLoginController extends Controller
         $failedLogin = FailedLogin::create($request->all());
 
         return redirect()->route('admin.failed-logins.index');
-
     }
 
     public function edit(FailedLogin $failedLogin)
@@ -49,7 +48,6 @@ class FailedLoginController extends Controller
         $failedLogin->update($request->all());
 
         return redirect()->route('admin.failed-logins.index');
-
     }
 
     public function show(FailedLogin $failedLogin)
@@ -66,7 +64,6 @@ class FailedLoginController extends Controller
         $failedLogin->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyFailedLoginRequest $request)
@@ -74,6 +71,5 @@ class FailedLoginController extends Controller
         FailedLogin::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

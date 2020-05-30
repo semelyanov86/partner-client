@@ -3,13 +3,13 @@
 
 <div class="card">
     <div class="card-header">
-        {{ trans('global.show') }} {{ trans('cruds.failedLogin.title') }}
+        {{ trans('global.show') }} {{ trans('cruds.post.title') }}
     </div>
 
     <div class="card-body">
         <div class="form-group">
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.failed-logins.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.posts.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>
@@ -17,40 +17,40 @@
                 <tbody>
                     <tr>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.id') }}
+                            {{ trans('cruds.post.fields.id') }}
                         </th>
                         <td>
-                            {{ $failedLogin->id }}
+                            {{ $post->id }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.ip_address') }}
+                            {{ trans('cruds.post.fields.title') }}
                         </th>
                         <td>
-                            {{ $failedLogin->ip_address }}
+                            {{ $post->title }}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.phone') }}
+                            {{ trans('cruds.post.fields.content') }}
                         </th>
                         <td>
-                            {{ $failedLogin->phone }}
+                            {!! $post->content !!}
                         </td>
                     </tr>
                     <tr>
                         <th>
-                            {{ trans('cruds.failedLogin.fields.sms') }}
+                            {{ trans('cruds.post.fields.active') }}
                         </th>
                         <td>
-                            <input type="checkbox" disabled="disabled" {{ $failedLogin->sms ? 'checked' : '' }}>
+                            <input type="checkbox" disabled="disabled" {{ $post->active ? 'checked' : '' }}>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div class="form-group">
-                <a class="btn btn-default" href="{{ route('admin.failed-logins.index') }}">
+                <a class="btn btn-default" href="{{ route('admin.posts.index') }}">
                     {{ trans('global.back_to_list') }}
                 </a>
             </div>

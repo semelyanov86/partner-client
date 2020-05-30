@@ -37,6 +37,9 @@
                                 {{ trans('cruds.loanRequest.fields.status') }}
                             </th>
                             <th>
+                                {{ trans('cruds.loanRequest.fields.request_date') }}
+                            </th>
+                            <th>
                                 &nbsp;
                             </th>
                         </tr>
@@ -61,6 +64,9 @@
                                 </td>
                                 <td>
                                     {{ $loanRequest->status ?? '' }}
+                                </td>
+                                <td>
+                                    {{ $loanRequest->request_date ?? '' }}
                                 </td>
                                 <td>
                                     @can('loan_request_show')
