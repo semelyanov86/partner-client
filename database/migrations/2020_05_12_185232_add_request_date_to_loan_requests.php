@@ -14,7 +14,7 @@ class AddRequestDateToLoanRequests extends Migration
     public function up()
     {
         Schema::table('loan_requests', function (Blueprint $table) {
-            $table->date('request_date')->default(DB::raw('NOW()'))->nullable(false);
+            $table->date('request_date')->default(null);
         });
     }
 

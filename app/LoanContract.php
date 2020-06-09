@@ -38,6 +38,7 @@ class LoanContract extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'mainamt_per_month',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

@@ -27,7 +27,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{route('client.loans')}}">
                     <i class="mdi mdi-coin-outline"></i>
                     <span> Займы </span>
                     <span class="badge badge-primary float-right">{{$loans_badge}}</span>

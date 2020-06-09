@@ -18,6 +18,7 @@ class LoanMemfeeSchedule extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'date_fact',
     ];
 
     protected $fillable = [
@@ -29,6 +30,7 @@ class LoanMemfeeSchedule extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'date_fact',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

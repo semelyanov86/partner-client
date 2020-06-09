@@ -48,6 +48,15 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     //Credit calc
     Route::get('/creditcalc', 'ShareholderCreditCalcController@index')->name('creditcalc');
 
+    //Contract loan
+    Route::get('/loans', 'ShareholderLoanController@index')->name('loans');
+    Route::get('/loans/{id}', 'ShareholderLoanController@item')->name('loans.item');
+    Route::POST('/loans/{id}', 'ShareholderLoanController@update')->name('loans.item.update');
+    Route::GET('/loansData', 'ShareholderLoanController@search')->name('loans.data');
+
+    //qr-code
+    Route::get('/qr-code', function () { abort(404);})->name('qr');
+    Route::get('/qr-code&text={text}', 'ShareholderController@qrCode');
 });
 
 // Admin

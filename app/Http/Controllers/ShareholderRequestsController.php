@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\ExtApiUtils;
 use App\LoanRequest;
 use Illuminate\Http\Request;
 
@@ -21,7 +22,7 @@ class ShareholderRequestsController extends ShareholderController
     {
         $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)->where('id', $id);
         if ($loanRequest->count() > 0)
-            return view('shareholder.requests-item')->with('loanRequest', $loanRequest->get());
+             return view('shareholder.requests-item')->with('loanRequest', $loanRequest->get());
         else
             abort(404);
     }
