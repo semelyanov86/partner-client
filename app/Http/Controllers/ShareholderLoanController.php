@@ -23,6 +23,7 @@ class ShareholderLoanController extends Controller
      */
     public function index()
     {
+        ExtApiUtils::updateAllContractLoan(auth()->user()->id, true);
         return view('shareholder.loans');
     }
 
@@ -58,7 +59,7 @@ class ShareholderLoanController extends Controller
         $loanContract = LoanContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
         if ($loanContract->count() > 0)
         {
-            if (ExtApiUtils::updateContractLoan($loanContract->first()->agreement))
+            if (ExtApiUtils::updateContractLoan($id))
                 return $this->item($id);
             else
                 return redirect()->back()->withErrors(['error_msg' =>
@@ -70,8 +71,8 @@ class ShareholderLoanController extends Controller
 
     public function search (Request $request)
     {
-        $loanContracts = LoanContract::where('shareholder_id', auth()->user()->id)
-            ->whereNull('deleted_at')->when(request('dateFromFilter'), function($query) {
+        $loanContracts = LoanContract::where('shareholder_id', auth()->user()->id)->whereNull('deleted_at')
+            ->when(request('dateFromFilter'), function($query) {
             return $query->where('date_start','>=', request('dateFromFilter'));
         })->when(request('dateToFilter'), function($query) {
             return $query->where('date_start','<=', request('dateToFilter'));
@@ -79,9 +80,20 @@ class ShareholderLoanController extends Controller
             return $query->where('full_debt', '>', 0);
         })->orderBy('date_start', 'desc');
 
-        $recordsTotal =  $loanContracts->count();
+        $recordsTotal = $loanContracts->count();
 
-        $data = array('data' => $loanContracts->skip($request->query('start'))->take($request->query('length'))->get(),
+        $start = 0;
+        if ($request->query('start'))
+            $start = $request->query('start');
+
+        $length = $recordsTotal;
+        if ($request->query('length'))
+            $length =  $request->query('length');
+
+        $data = array('data' => $loanContracts
+            ->skip($start)
+            ->take($length)
+            ->get(),
             'recordsTotal' => $recordsTotal,
             'recordsFiltered' => $recordsTotal,
         );

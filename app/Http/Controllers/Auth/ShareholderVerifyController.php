@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Shareholder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,6 +33,13 @@ class ShareholderVerifyController extends Controller
         if($request->input('code') == $shareholder->code)
         {
             $shareholder->resetTwoFactorCode();
+
+            //update shareholder info
+            ExtApiUtils::updateShareholderInfo($shareholder->phone);
+
+            //update shareholder headers info
+            ExtApiUtils::updateShareholderHeadersInfo($shareholder->id);
+
             return redirect()->route('client.home');
         }
 

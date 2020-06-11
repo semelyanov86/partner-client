@@ -1,12 +1,8 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title')Договора займа@endsection
+@section('page-title') Договора займа @endsection
 @section('page-content')
 
     <div class="row d-flex pb-4">
-{{--        <div class="col-12 col-md-auto pt-1">--}}
-{{--            <a class="btn btn-primary w-100" href=""><i class="ti-pencil-alt"></i> Новая заявка</a>--}}
-{{--        </div>--}}
-
         <div class="col-12 col-md-auto pt-1 ml-md-auto">
             <div class="btn-group w-100" role="group" aria-label="Button group with nested dropdown">
                 <button  class="btn btn-outline-primary" id="btnPrint"><i class="ti-printer"></i> Печать</button>
@@ -63,12 +59,13 @@
         <div class="col-12 content-table">
             <table class="table table-sm table-striped table-hover w-100" id="loans-table">
                 <thead class="table">
-                <th>№</th>
-                <th>Номер договора</th>
-                <th>Дата договора</th>
-                <th>Сумма</th>
-                <th>Остаток</th>
-                <th>Договор открыт</th>
+                    <th>№</th>
+                    <th>Номер договора</th>
+                    <th>Дата договора</th>
+                    <th>Сумма</th>
+                    <th>Остаток</th>
+                    <th>Договор открыт</th>
+                    <th>id</th>
                 </thead>
             </table>
         </div>
@@ -129,6 +126,9 @@
                 "scrollX": true,
                 "ajax": {
                     "url" : "{{route('client.loans.data')}}",
+                    "timeout" : 10000,
+                    "retries" : 3,
+                    "retryInterval" : 1000,
                     "data": function (d) {
                         d.dateFromFilter = $("#dateFromFilter").val();
                         d.dateToFilter = $("#dateToFilter").val();

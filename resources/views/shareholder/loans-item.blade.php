@@ -17,7 +17,7 @@
                     <p><em>Данные актуальны на {{\Carbon\Carbon::parse($loanContract->date_calculate)->format('d-m-Y')}}г. Если данные не актуальны, нажмите "Обновить". </em></p>
                 </div>
                 <div class="col-12 col-md-auto ml-md-auto non-print">
-                    <form action="{{route('client.loans')}}/{{$loanContract->first()->id}}" method="POST">
+                    <form action="{{route('client.loans')}}/{{$loanContract->id}}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary w-100"><i class="mdi mdi-refresh"></i> Обновить</button>
                     </form>
@@ -71,7 +71,7 @@
             </div>
             <div class="col-6 col-md-4">
                 <p>
-                    20%
+                    {{$loanContract->mem_fee}}%
                 </p>
             </div>
         </div>
@@ -89,18 +89,6 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-6 col-md-3">
-                <p>
-                    <b>Членский взнос: </b>
-                </p>
-            </div>
-            <div class="col-6 col-md-4">
-                <p>
-                    {{$loanContract->mem_fee}} р.
-                </p>
-            </div>
-        </div>
         @if( $loanContract->is_open == "1")
             <hr>
             <div class="row">
@@ -142,25 +130,27 @@
             <div class="col-12 table-responsive">
                 <table class="table table-sm table-striped table-bordered table-hover w-100" id="main-schedule-table">
                     <thead class="table">
-                        <th colspan="6" class="text-center">По графику</th>
-                        <th colspan="4" class="text-center">По плану</th>
-                        <th colspan="4" class="text-center">Неустойка расчетная</th>
-                    </thead>
-                    <thead class="table">
-                        <th>Дата</th>
-                        <th>Остаток</th>
-                        <th>Период</th>
-                        <th>Кол-во дней</th>
-                        <th>Проценты</th>
-                        <th>Займ</th>
-                        <th>Дата</th>
-                        <th>Проценты</th>
-                        <th>Сумма займа</th>
-                        <th>Неустойка</th>
-                        <th>Сумма долга</th>
-                        <th>Период неустойки</th>
-                        <th>Кол-во дней</th>
-                        <th>Сумма неустойки</th>
+                        <tr>
+                            <th colspan="6" class="text-center">По плану</th>
+                            <th colspan="4" class="text-center">По графику</th>
+                            <th colspan="4" class="text-center">Неустойка расчетная</th>
+                        </tr>
+                        <tr>
+                            <th>Дата</th>
+                            <th>Остаток</th>
+                            <th>Период</th>
+                            <th>Кол-во дней</th>
+                            <th>Проценты</th>
+                            <th>Займ</th>
+                            <th>Дата</th>
+                            <th>Проценты</th>
+                            <th>Сумма займа</th>
+                            <th>Неустойка</th>
+                            <th>Сумма долга</th>
+                            <th>Период неустойки</th>
+                            <th>Кол-во дней</th>
+                            <th>Сумма неустойки</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach($mainSchedule as $line)
@@ -191,14 +181,16 @@
             <div class="col-12 table-responsive">
                 <table class="table table-sm table-striped table-bordered table-hover w-100" id="memfee-schedule-table">
                     <thead class="table">
-                        <th colspan="2" class="text-center">По графику</th>
-                        <th colspan="2" class="text-center">По плану</th>
-                    </thead>
-                    <thead class="table">
-                        <th>Дата </th>
-                        <th>Сумма чл.взноса</th>
-                        <th>Дата</th>
-                        <th>Сумма чл. взноса</th>
+                        <tr>
+                            <th colspan="2" class="text-center">По графику</th>
+                            <th colspan="2" class="text-center">По плану</th>
+                        </tr>
+                        <tr>
+                            <th>Дата </th>
+                            <th>Сумма чл.взноса</th>
+                            <th>Дата</th>
+                            <th>Сумма чл. взноса</th>
+                        </tr>
                     </thead>
                     <tbody>
                     @foreach($memfeeSchedule as $line)
@@ -242,7 +234,7 @@
                         <div class="form-group" id="qr-payment-amount-block">
                             <label for="qr-payment-amount">Введите сумму</label>
                             <div class="input-group mt-3">
-                                <input type="number" id="qr-payment-amount" name="qr-payment-amount" class="form-control" min="0" max="{{$loanContract->first()->full_debt}}" value="{{$loanContract->first()->actual_debt}}" placeholder="Введите сумму">
+                                <input type="number" id="qr-payment-amount" name="qr-payment-amount" class="form-control" min="0" max="{{$loanContract->full_debt}}" value="{{$loanContract->actual_debt}}" placeholder="Введите сумму">
                                 <span class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="qr-payment-generate"><i class="mdi mdi-qrcode-plus"></i>  Сгенерировать</button>
                                 </span>

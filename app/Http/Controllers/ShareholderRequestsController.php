@@ -20,7 +20,8 @@ class ShareholderRequestsController extends ShareholderController
 
     public function item($id)
     {
-        $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)->where('id', $id);
+        $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)
+            ->whereNull('deleted_at')->where('id', $id);
         if ($loanRequest->count() > 0)
              return view('shareholder.requests-item')->with('loanRequest', $loanRequest->get());
         else
@@ -29,7 +30,8 @@ class ShareholderRequestsController extends ShareholderController
 
     public function search (Request $request)
     {
-        $loanRequests = LoanRequest::where('shareholder_id', auth()->user()->id)->when(request('dateFromFilter'), function($query) {
+        $loanRequests = LoanRequest::where('shareholder_id', auth()->user()->id)
+        ->whereNull('deleted_at')->when(request('dateFromFilter'), function($query) {
             return $query->where('request_date','>=', request('dateFromFilter'));
         })->when(request('dateToFilter'), function($query) {
             return $query->where('request_date','<=', request('dateToFilter'));

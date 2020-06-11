@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\DepositContract;
-use App\LoanContract;
-use App\LoanRequest;
+
+use App\Helpers\ExtApiUtils;
 use App\Post;
+use App\Shareholder;
 use Illuminate\Support\Facades\Auth;
 use SimpleSoftwareIO\QrCode\Generator;
 

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Shareholder;
 use Illuminate\Support\Facades\Validator;
@@ -27,10 +28,9 @@ class ShareholderLoginController extends Controller
 
     public function login(Request $request)
     {
-        $formatedPhone = str_replace('+7', '', $request->phone);
-        $formatedPhone = preg_replace('/[^0-9]/', '', $formatedPhone);
+        $phone = Utils::getFormatedPhone($request->phone);
 
-        $request['phone'] = $formatedPhone;
+        $request['phone'] = $phone;
 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|min:10|max:10|exists:shareholders,phone',
@@ -39,23 +39,23 @@ class ShareholderLoginController extends Controller
 
         if ($validator->fails())
         {
-            FailedLoginUtils::addNewFailEvent($request->ip(), $formatedPhone, 0);
+            FailedLoginUtils::addNewFailEvent($request->ip(), $phone, 0);
             return redirect()->back()->withErrors(['error_msg' =>
                 'Указан неверный номер телефона и(или) пароль'])
                 ->withInput($request->only('phone'));
         }
 
-        if (Auth::guard('shareholder')->attempt(['phone'=> $formatedPhone, 'password' => $request->password]))
+        if (Auth::guard('shareholder')->attempt(['phone'=> $phone, 'password' => $request->password]))
         {
-            $shareholder = Shareholder::where("phone", $formatedPhone)->first();
+            $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
             $shareholder->generateTwoFactorCode();
 
-            SmsUtils::sendSMSCode($formatedPhone, $shareholder->code, $request->ip());
+            SmsUtils::sendSMSCode($phone, $shareholder->code, $request->ip());
 
             return redirect()->route('client.verify');
         }
 
-        FailedLoginUtils::addNewFailEvent($request->ip(), $formatedPhone, 0);
+        FailedLoginUtils::addNewFailEvent($request->ip(), $phone, 0);
         return redirect()->back()->withErrors(['error_msg' =>
             'Указан неверный номер телефона и(или) пароль'])->withInput($request->only('phone'));
     }

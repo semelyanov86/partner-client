@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Helpers\FailedLoginUtils;
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Shareholder;
@@ -87,11 +88,9 @@ class ShareholderRegisterController extends Controller
 
     public function register(\Illuminate\Http\Request $request)
     {
-        $formatedPhone = str_replace('+7', '', $request->phone);
-        $formatedPhone = preg_replace('/[^0-9]/', '', $formatedPhone);
-
+        $phone = Utils::getFormatedPhone($request->phone);
         $request->merge([
-            'phone' => $formatedPhone,
+            'phone' => $phone,
         ]);
 
         $this->validator($request->all())->validate();
@@ -109,6 +108,7 @@ class ShareholderRegisterController extends Controller
         }
 
         event(new Registered($user = $this->create($request->all())));
+        ExtApiUtils::updateShareholderInfo($phone);
 
         return redirect()->route('client.login')->withMessage('Вы успешно прошли регистрацию');
     }

@@ -34,6 +34,7 @@ class DepositContract extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'amount',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

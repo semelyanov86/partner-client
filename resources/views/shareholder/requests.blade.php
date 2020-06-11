@@ -1,7 +1,6 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title')Заявки@endsection
+@section('page-title') Заявки @endsection
 @section('page-content')
-
     <div class="row d-flex pb-4">
         <div class="col-12 col-md-auto pt-1">
             <a class="btn btn-primary w-100" href=""><i class="ti-pencil-alt"></i> Новая заявка</a>
@@ -56,11 +55,12 @@
         <div class="col-12 content-table">
             <table class="table table-sm table-striped table-hover w-100" id="requests-table">
                 <thead class="table">
-                <th>№</th>
-                <th>Номер заявки</th>
-                <th>Дата заявки</th>
-                <th>Сумма</th>
-                <th>Статус</th>
+                    <th>№</th>
+                    <th>Номер заявки</th>
+                    <th>Дата заявки</th>
+                    <th>Сумма</th>
+                    <th>Статус</th>
+                    <th>id</th>
                 </thead>
             </table>
         </div>
@@ -111,6 +111,9 @@
                 "scrollX": true,
                 "ajax": {
                     "url" : "{{route('client.requests.data')}}",
+                    "timeout" : 10000,
+                    "retries" : 3,
+                    "retryInterval" : 1000,
                     "data": function (d) {
                         d.dateFromFilter = $("#dateFromFilter").val();
                         d.dateToFilter = $("#dateToFilter").val();
