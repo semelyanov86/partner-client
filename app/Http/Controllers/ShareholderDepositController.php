@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\DepositContract;
+use App\DepositSchedule;
 use App\Helpers\ExtApiUtils;
-use App\LoanContract;
-use App\LoanMainSchedule;
-use App\LoanMemfeeSchedule;
 use Illuminate\Http\Request;
 
 
-class ShareholderLoanController extends Controller
+class ShareholderDepositController extends Controller
 {
     public function __construct()
     {
@@ -23,31 +22,24 @@ class ShareholderLoanController extends Controller
      */
     public function index()
     {
-        //ExtApiUtils::updateAllContractLoan(auth()->user()->id, true);
-        return view('shareholder.loans');
+        return view('shareholder.deposits');
     }
 
     public function item($id)
     {
-        $loanContract = LoanContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
-        if ($loanContract->count() > 0)
+        $depositContract = DepositContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        if ($depositContract->count() > 0)
         {
-            $mainSchedule = LoanMainSchedule::where('loan_id', $id)
+            $mainSchedule = DepositSchedule::where('deposit_id', $id)
                 ->whereNull('deleted_at')
                 ->orderByRaw('ISNULL(date_plan), date_plan', 'ASC')
                 ->orderByRaw('ISNULL(date_fact), date_fact', 'ASC');
 
-            $memfeeSchedule = LoanMemfeeSchedule::where('loan_id', $id)
-                ->whereNull('deleted_at')
-                ->orderByRaw('ISNULL(date_plan), date_plan', 'ASC')
-                ->orderByRaw('ISNULL(date_fact), date_fact', 'ASC');
+            $qrCodeText = ExtApiUtils::generateQrCodeText("Договор сбережений №".$depositContract->first()->agreement, auth()->user()->fio);
 
-            $qrCodeText = ExtApiUtils::generateQrCodeText("Договор займа №".$loanContract->first()->agreement, auth()->user()->fio);
-
-            return view('shareholder.loans-item')
-                ->with('loanContract', $loanContract->first())
+            return view('shareholder.deposits-item')
+                ->with('depositContract', $depositContract->first())
                 ->with('mainSchedule', $mainSchedule->get())
-                ->with('memfeeSchedule', $memfeeSchedule->get())
                 ->with('qrCodeText', $qrCodeText);
         }
         else
@@ -56,10 +48,10 @@ class ShareholderLoanController extends Controller
 
     public function update($id)
     {
-        $loanContract = LoanContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
-        if ($loanContract->count() > 0)
+        $depositContract = DepositContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        if ($depositContract->count() > 0)
         {
-            if (ExtApiUtils::updateContractLoan($id))
+            if (ExtApiUtils::updateContractDeposit($id))
                 return $this->item($id);
             else
                 return redirect()->back()->withErrors(['error_msg' =>
@@ -71,16 +63,16 @@ class ShareholderLoanController extends Controller
 
     public function search (Request $request)
     {
-        $loanContracts = LoanContract::where('shareholder_id', auth()->user()->id)->whereNull('deleted_at')
+        $depositContracts = DepositContract::where('shareholder_id', auth()->user()->id)->whereNull('deleted_at')
             ->when(request('dateFromFilter'), function($query) {
             return $query->where('date_start','>=', request('dateFromFilter'));
         })->when(request('dateToFilter'), function($query) {
             return $query->where('date_start','<=', request('dateToFilter'));
         })->when(request('isOpen') == 'true', function($query) {
-            return $query->where('full_debt', '>', 0);
+            return $query->where('is_open', 1);
         })->orderBy('date_start', 'desc');
 
-        $recordsTotal = $loanContracts->count();
+        $recordsTotal = $depositContracts->count();
 
         $start = 0;
         if ($request->query('start'))
@@ -90,7 +82,7 @@ class ShareholderLoanController extends Controller
         if ($request->query('length'))
             $length =  $request->query('length');
 
-        $data = array('data' => $loanContracts
+        $data = array('data' => $depositContracts
             ->skip($start)
             ->take($length)
             ->get(),

@@ -35,7 +35,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{route('client.deposits')}}">
                     <i class="mdi mdi-piggy-bank"></i>
                     <span> Сбережения </span>
                     <span class="badge badge-primary float-right">{{$deposits_badge}}</span>

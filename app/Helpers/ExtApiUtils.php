@@ -159,7 +159,8 @@ class ExtApiUtils
                     "actual_debt" => $jsonData["actual_debt"],
                     "full_debt" => $jsonData["full_debt"],
                     "mem_fee" => $jsonData["mem_fee"],
-                    "date_calculate" => Carbon::now()->format('Y-m-d'),
+                    "date_calculate" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_calculate"])
+                        ->setTime(0, 0,0,0)->format('Y-m-d'),
                 );
 
                 $data = array(
@@ -262,10 +263,16 @@ class ExtApiUtils
         }
     }
 
+    public static function updateContractDeposit($agreement_id)
+    {
+        $success = true;
+
+        return $success;
+    }
+
     public static function generateQrCodeText($purpose, $fio)
     {
         $text = "";
-        //$fio = "иванов иван";
         $fioSplited = explode(" ", trim($fio));
         $lastName = $fioSplited[0];
         $firstName = $fioSplited[1];

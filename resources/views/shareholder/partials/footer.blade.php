@@ -1,9 +1,12 @@
 <!-- Footer Start -->
-<footer class="footer">
+<footer class="footer w-100">
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-12">
-                2017 - 2020 &copy; Simple theme by <a href="">Coderthemes</a>
+            <div class="col-12 col-md-6">
+               <b>КПКГ "Партнёр"</b> - Copyright © 2017 - {{\Carbon\Carbon::now()->format('Y')}}
+            </div>
+            <div class="col-12 col-md-6">
+                Личный кабинет пайщика
             </div>
         </div>
     </div>

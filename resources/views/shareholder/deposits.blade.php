@@ -1,5 +1,5 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title') Договора займа @endsection
+@section('page-title') Договора сбережений @endsection
 @section('page-content')
 
     <div class="row d-flex pb-4">
@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-12 col-md-auto text-center text-md-right">
-                <label for="isOpen" >Только с остатком</label>
+                <label for="isOpen" >Только открытые</label>
                 <div class="checkbox checkbox-primary">
                     <input id="isOpen" name="isOpen" type="checkbox" unchecked>
                     <label for="isOpen"></label>
@@ -63,7 +63,6 @@
                     <th>Номер договора</th>
                     <th>Дата договора</th>
                     <th>Сумма</th>
-                    <th>Остаток</th>
                     <th>Договор открыт</th>
                     <th>id</th>
                     <th></th>
@@ -82,36 +81,36 @@
                 buttons: [
                     {
                         extend : "pdf",
-                        title: "Договора займа",
+                        title: "Договора сбережений",
                         pageSize: 'A4',
                         orientation: 'portret',
                         className: "d-none",
                         customize : function(doc){
                             doc.pageMargins = [20,20,20,20];
                             doc.styles.tableHeader.alignment = 'left';
-                            doc.content[1].table.widths = ["*","*", "*", "*","*", "*", "*"];
+                            doc.content[1].table.widths = ["*","*", "*", "*","*", "*"];
                         },
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 4, 5],
+                            columns: [ 0, 1, 2, 3, 4],
                             orthogonal: "myExport"
                         }
                     },
                     {
                         extend : "print",
-                        title: "Договора займа",
+                        title: "Договора сбережений",
                         className: "d-none",
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 4, 5],
+                            columns: [ 0, 1, 2, 3, 4],
                             orthogonal: "myExport"
                         }
                     },
                     {
                         extend : "excel",
                         sheetName: 'Лист',
-                        title: "Договора займа",
+                        title: "Договора сбережений",
                         className: "d-none",
                         exportOptions: {
-                            columns: [ 0, 1, 2, 3, 4, 5],
+                            columns: [ 0, 1, 2, 3, 4],
                             orthogonal: "myExport"
                         }
 
@@ -126,7 +125,7 @@
                 "processing" : true,
                 "scrollX": true,
                 "ajax": {
-                    "url" : "{{route('client.loans.data')}}",
+                    "url" : "{{route('client.deposits.data')}}",
                     "timeout" : 10000,
                     "retries" : 3,
                     "retryInterval" : 1000,
@@ -145,7 +144,7 @@
                     },
                     { "data": "agreement",
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html("<a href='{{route('client.loans')}}/" + oData.id + "'>"+oData.agreement+"</a>");
+                            $(nTd).html("<a href='{{route('client.deposits')}}/" + oData.id + "'>"+oData.agreement+"</a>");
                         }
                     },
                     { "data": "date_start",
@@ -153,7 +152,6 @@
                         render: function (data, type, row) { return data ? moment(data).format('DD-MM-YYYY') : ''; }
                     },
                     { "data": "amount" },
-                    { "data": "full_debt" },
                     {
                         "data": "is_open",
                         render: function ( data, type, row ) {
@@ -179,7 +177,7 @@
                     {
                         "data": null,
                         "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
-                            $(nTd).html("<a class='btn btn-icon btn-teal px-2 py-1' href='{{route('client.loans')}}/" + oData.id + "'><i class='ti-search'></i></a>");
+                            $(nTd).html("<a class='btn btn-icon btn-teal px-2 py-1' href='{{route('client.deposits')}}/" + oData.id + "'><i class='ti-search'></i></a>");
                         }
                     }
                 ],

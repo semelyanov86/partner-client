@@ -1,5 +1,5 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title')Договор займа №{{ $loanContract->agreement}} от {{ \Carbon\Carbon::parse($loanContract->date_start)->format('d-m-Y')}}г.@endsection
+@section('page-title')Договор сбережений №{{ $depositContract->agreement}} от {{ \Carbon\Carbon::parse($depositContract->date_start)->format('d-m-Y')}}г.@endsection
 @section('page-content')
     <div id="item-content">
         @if($errors->has('error_msg'))
@@ -11,17 +11,17 @@
                </div>
            </div>
         @endif
-        @if( $loanContract->is_open == "1")
+        @if( $depositContract->is_open == "1")
             <div class="row pb-1">
                 <div class="col-12 col-md-auto">
-                    @if( $loanContract->date_calculate)
-                        <p><em>Данные актуальны на {{\Carbon\Carbon::parse($loanContract->date_calculate)->format('d-m-Y')}}г. Если данные не актуальны, нажмите "Обновить". </em></p>
+                    @if( $depositContract->date_calculate)
+                        <p><em>Данные актуальны на {{\Carbon\Carbon::parse($depositContract->date_calculate)->format('d-m-Y')}}г. Если данные не актуальны, нажмите "Обновить". </em></p>
                     @else
                         <p><em>Данные не актуальны, нажмите "Обновить". </em></p>
                     @endif
                 </div>
                 <div class="col-12 col-md-auto ml-md-auto non-print">
-                    <form action="{{route('client.loans')}}/{{$loanContract->id}}" method="POST">
+                    <form action="{{route('client.deposits')}}/{{$depositContract->id}}" method="POST">
                         @csrf
                         <button type="submit" class="btn btn-outline-secondary w-100"><i class="mdi mdi-refresh"></i> Обновить</button>
                     </form>
@@ -31,12 +31,12 @@
        <div class="row">
            <div class="col-6 col-md-3">
                <p>
-                    <b> Сумма займа: </b>
+                    <b> Сумма сбережений: </b>
                </p>
            </div>
            <div class="col-6 col-md-4">
                <p>
-                   {{$loanContract->amount }} р.
+                   {{$depositContract->amount }} р.
                </p>
            </div>
        </div>
@@ -44,12 +44,12 @@
         <div class="row">
             <div class="col-6 col-md-3">
                 <p>
-                    <b>Срок займа: </b>
+                    <b>Срок сбережений: </b>
                 </p>
             </div>
             <div class="col-6 col-md-4">
                 <p>
-                   с {{ \Carbon\Carbon::parse($loanContract->date_start)->format('d-m-Y')}} по {{ \Carbon\Carbon::parse($loanContract->date_end)->format('d-m-Y')}}
+                   с {{ \Carbon\Carbon::parse($depositContract->date_start)->format('d-m-Y')}} по {{ \Carbon\Carbon::parse($depositContract->date_end)->format('d-m-Y')}}
                 </p>
             </div>
         </div>
@@ -62,55 +62,17 @@
             </div>
             <div class="col-6 col-md-4">
                 <p>
-                    {{$loanContract->percent }}%
+                    {{$depositContract->percent }}% годовых
                 </p>
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-6 col-md-3">
-                <p>
-                    <b>Процент неустойки: </b>
-                </p>
-            </div>
-            <div class="col-6 col-md-4">
-                <p>
-                    {{$loanContract->mem_fee}}%
-                </p>
-            </div>
-        </div>
-
-        @if( $loanContract->is_open == "1")
-            <hr>
-            <div class="row">
-                <div class="col-6 col-md-3">
-                    <p>
-                        <b>Сумма к уплате по графику: </b>
-                    </p>
-                </div>
-                <div class="col-6 col-md-4">
-                    <p>
-                        {{$loanContract->actual_debt}} р.
-                    </p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-6 col-md-3">
-                    <p>
-                        <b>Общий остаток по договору: </b>
-                    </p>
-                </div>
-                <div class="col-6 col-md-4">
-                    <p>
-                        {{$loanContract->full_debt}} р.
-                    </p>
-                </div>
-            </div>
+        @if( $depositContract->is_open == "1")
             <hr>
             <div class="col-12 col-lg-auto non-print">
                 <div class="btn-group w-100" role="group">
-                    <button class="btn btn-outline-secondary"><i class="mdi mdi-currency-rub"></i> Оплатить онлайн</button>
-                    <button class="btn btn-primary mr-1" data-toggle="modal" data-target="#qrPaymentModal"><i class="fas fa-qrcode"></i> Оплатить по QR-коду</button>
+                    <button class="btn btn-outline-secondary"><i class="mdi mdi-currency-rub"></i> Пополнить онлайн</button>
+                    <button class="btn btn-primary mr-1" data-toggle="modal" data-target="#qrPaymentModal"><i class="fas fa-qrcode"></i> Пополнить по QR-коду</button>
                 </div>
             </div>
         @endif
@@ -122,9 +84,8 @@
                 <table class="table table-sm table-striped table-bordered table-hover w-100" id="main-schedule-table">
                     <thead class="table">
                         <tr>
-                            <th colspan="6" class="text-center">По плану</th>
-                            <th colspan="4" class="text-center">По графику</th>
-                            <th colspan="4" class="text-center">Неустойка расчетная</th>
+                            <th colspan="7" class="text-center">По графику</th>
+                            <th colspan="3" class="text-center">По факту</th>
                         </tr>
                         <tr>
                             <th>Дата</th>
@@ -132,71 +93,32 @@
                             <th>Период</th>
                             <th>Кол-во дней</th>
                             <th>Проценты</th>
-                            <th>Займ</th>
+                            <th>НДФЛ</th>
+                            <th>Проценты к выплате</th>
                             <th>Дата</th>
-                            <th>Проценты</th>
-                            <th>Сумма займа</th>
-                            <th>Неустойка</th>
-                            <th>Сумма долга</th>
-                            <th>Период неустойки</th>
-                            <th>Кол-во дней</th>
-                            <th>Сумма неустойки</th>
+                            <th>Компенсация</th>
+                            <th>Сумма довклада</th>
                         </tr>
                     </thead>
                     <tbody>
                     @foreach($mainSchedule as $line)
                         <tr>
                             <td nowrap>{{$line['date_plan'] ? \Carbon\Carbon::parse($line['date_plan'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['main_amt_debt_plan']}}</td>
+                            <td nowrap>{{$line['main_amt_debt']}}</td>
                             <td nowrap>{{$line['period']}}</td>
                             <td nowrap>{{$line['days']}}</td>
                             <td nowrap>{{$line['percent_amt_plan']}}</td>
-                            <td nowrap>{{$line['main_amt_plan']}}</td>
+                            <td nowrap>{{$line['ndfl_amt']}}</td>
+                            <td nowrap>{{$line['percent_available']}}</td>
                             <td nowrap>{{$line['date_fact'] ? \Carbon\Carbon::parse($line['date_fact'])->format('d-m-Y') : ""}}</td>
                             <td nowrap>{{$line['percent_amt_fact']}}</td>
                             <td nowrap>{{$line['main_amt_fact']}}</td>
-                            <td nowrap>{{$line['fee_amt_fact']}}</td>
-                            <td nowrap>{{$line['main_amt_debt_fact']}}</td>
-                            <td nowrap>{{$line['fee_period']}}</td>
-                            <td nowrap>{{$line['fee_days']}}</td>
-                            <td nowrap>{{$line['fee_amt_plan']}}</td>
                         </tr>
                     @endforeach
                     </tbody>
                 </table>
             </div>
         </div>
-        <br>
-        <h5>График погашения членских взносов</h5>
-        <div class="row" >
-            <div class="col-12 table-responsive">
-                <table class="table table-sm table-striped table-bordered table-hover w-100" id="memfee-schedule-table">
-                    <thead class="table">
-                        <tr>
-                            <th colspan="2" class="text-center">По графику</th>
-                            <th colspan="2" class="text-center">По плану</th>
-                        </tr>
-                        <tr>
-                            <th>Дата </th>
-                            <th>Сумма чл.взноса</th>
-                            <th>Дата</th>
-                            <th>Сумма чл. взноса</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @foreach($memfeeSchedule as $line)
-                        <tr>
-                            <td nowrap>{{$line['date_plan'] ? \Carbon\Carbon::parse($line['date_plan'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['mem_fee_plan']}}</td>
-                            <td nowrap>{{$line['date_fact'] ? \Carbon\Carbon::parse($line['date_fact'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['mem_fee_fact']}}</td>
-                        </tr>
-                    @endforeach
-                    </tbody>
-                </table>
-            </div>
-        </div>
-
     </div>
 
     <div class="row d-flex pb-5">
@@ -204,13 +126,13 @@
         </div>
         <div class="col-12 col-md-auto pt-1 ml-md-auto non-print">
             <div class="btn-group w-100" role="group">
-                <a class="btn btn-outline-secondary" href="{{route('client.loans')}}"><i class="ti-back-left"></i> Назад</a>
+                <a class="btn btn-outline-secondary" href="{{route('client.deposits')}}"><i class="ti-back-left"></i> Назад</a>
                 <button class="btn btn-primary mr-1 print-page"><i class="ti-printer"></i> Печать</button>
             </div>
         </div>
     </div>
 
-    @if( $loanContract->is_open == "1")
+    @if( $depositContract->is_open == "1")
         <!-- Modal QR -->
         <div class="modal fade" id="qrPaymentModal" tabindex="-1" role="dialog" aria-labelledby="qrPaymentModalTitle" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered" role="document">
@@ -225,7 +147,7 @@
                         <div class="form-group" id="qr-payment-amount-block">
                             <label for="qr-payment-amount">Введите сумму</label>
                             <div class="input-group mt-3">
-                                <input type="number" id="qr-payment-amount" name="qr-payment-amount" class="form-control" min="0" max="{{$loanContract->full_debt}}" value="{{$loanContract->actual_debt}}" placeholder="Введите сумму">
+                                <input type="number" id="qr-payment-amount" name="qr-payment-amount" class="form-control" min="0" value="0" placeholder="Введите сумму">
                                 <span class="input-group-append">
                                     <button type="button" class="btn btn-primary" id="qr-payment-generate"><i class="mdi mdi-qrcode-plus"></i>  Сгенерировать</button>
                                 </span>
@@ -257,7 +179,7 @@
 @section('custom-scripts')
         <script>
             $(document).ready(function() {
-                @if( $loanContract->is_open == "1")
+                @if( $depositContract->is_open == "1")
                     var qrCodeText = '{!!$qrCodeText!!}';
                     $('#qr-payment-generate').on ('click', function () {
                         $.ajax({
@@ -283,7 +205,7 @@
                         {
                             let a = document.createElement("a");
                             a.href = $('#qr-code img').attr('src');
-                            a.download = "qr-code_{{$loanContract->agreement}}_{{$loanContract->date_calculate}}.png";
+                            a.download = "qr-code_{{$depositContract->agreement}}_{{$depositContract->date_calculate}}.png";
                             a.click();
                         }
                     });

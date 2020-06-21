@@ -54,6 +54,12 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     Route::POST('/loans/{id}', 'ShareholderLoanController@update')->name('loans.item.update');
     Route::GET('/loansData', 'ShareholderLoanController@search')->name('loans.data');
 
+    //Contract Deposit
+    Route::get('/deposits', 'ShareholderDepositController@index')->name('deposits');
+    Route::get('/deposits/{id}', 'ShareholderDepositController@item')->name('deposits.item');
+    Route::POST('/deposits/{id}', 'ShareholderDepositController@update')->name('deposits.item.update');
+    Route::GET('/depositsData', 'ShareholderDepositController@search')->name('deposits.data');
+
     //qr-code
     Route::get('/qr-code', function () { abort(404);})->name('qr');
     Route::get('/qr-code&text={text}', 'ShareholderController@qrCode');
