@@ -270,6 +270,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '66',
+                'title' => 'place_create',
+            ],
+            [
+                'id'    => '67',
+                'title' => 'place_edit',
+            ],
+            [
+                'id'    => '68',
+                'title' => 'place_show',
+            ],
+            [
+                'id'    => '69',
+                'title' => 'place_delete',
+            ],
+            [
+                'id'    => '70',
+                'title' => 'place_access',
+            ],
+            [
+                'id'    => '71',
                 'title' => 'profile_password_edit',
             ],
         ];

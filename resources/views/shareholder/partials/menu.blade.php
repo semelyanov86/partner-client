@@ -43,7 +43,7 @@
             </li>
 
             <li>
-                <a href="#">
+                <a href="{{route('client.feedback')}}">
                     <i class="far fa-envelope"></i>
                     <span> Оставить отзыв </span>
                 </a>

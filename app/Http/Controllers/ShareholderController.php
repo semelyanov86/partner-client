@@ -32,6 +32,11 @@ class ShareholderController extends Controller
         return view('shareholder.home', ['posts' => $posts]);
     }
 
+    public function thanks()
+    {
+        return view('shareholder.thanks');
+    }
+
     public function qrCode($text)
     {
         $qrcode = new Generator;

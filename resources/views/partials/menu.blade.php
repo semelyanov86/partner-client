@@ -221,6 +221,18 @@
                         </ul>
                     </li>
                 @endcan
+                @can('place_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.places.index") }}" class="nav-link {{ request()->is('admin/places') || request()->is('admin/places/*') ? 'active' : '' }}">
+                            <i class="fa-fw nav-icon fas fa-map-marker-alt">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.place.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @if(file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php')))
                     @can('profile_password_edit')
                         <li class="nav-item">

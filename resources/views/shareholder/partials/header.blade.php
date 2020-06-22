@@ -6,7 +6,7 @@
                                 <span id="user-fio"> {{ Auth::user()->fio }}</span>
                             </div>
                             <div class="text-right">
-                                <span id="user-phone">{{ Auth::user()->phone }}</span>
+                                <span id="user-phone" class="masked-phone">{{ Auth::user()->phone }}</span>
                             </div>
                         </div>
                     </li>

@@ -262,6 +262,12 @@ return [
     'you_have_no_messages'                 => 'У вас нет сообщений',
     'content'                              => 'Контент',
     'no_alerts'                            => 'Нет оповещений',
+    'test_answers'                         => 'Test Answers',
+    'test_results'                         => 'Test Results',
+    'question_options'                     => 'Question Options',
+    'tests'                                => 'Tests',
+    'lessons'                              => 'Lessons',
+    'courses'                              => 'Courses',
     'calendar'                             => 'Календарь',
     'messenger'                            => 'Мессенджер',
 ];

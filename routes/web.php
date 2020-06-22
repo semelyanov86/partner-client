@@ -60,6 +60,13 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     Route::POST('/deposits/{id}', 'ShareholderDepositController@update')->name('deposits.item.update');
     Route::GET('/depositsData', 'ShareholderDepositController@search')->name('deposits.data');
 
+    //feedback
+    Route::get('/feedback', 'ShareholderFeedbackController@index')->name('feedback');
+    Route::post('/feedback', 'ShareholderFeedbackController@send')->name('feedback.submit');
+
+    Route::get('/thanks', 'ShareholderController@thanks')->name('thanks');
+
+
     //qr-code
     Route::get('/qr-code', function () { abort(404);})->name('qr');
     Route::get('/qr-code&text={text}', 'ShareholderController@qrCode');
@@ -120,6 +127,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::post('posts/media', 'PostsController@storeMedia')->name('posts.storeMedia');
     Route::post('posts/ckmedia', 'PostsController@storeCKEditorImages')->name('posts.storeCKEditorImages');
     Route::resource('posts', 'PostsController');
+
+    // Places
+    Route::delete('places/destroy', 'PlacesController@massDestroy')->name('places.massDestroy');
+    Route::resource('places', 'PlacesController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password
