@@ -40,4 +40,7 @@ Route::group(['prefix' => 'v1', 'as' => 'api.', 'namespace' => 'Api\V1\Admin', '
 
     // Places
     Route::apiResource('places', 'PlacesApiController');
+
+    // Request Fields
+    Route::apiResource('request-fields', 'RequestFieldsApiController');
 });

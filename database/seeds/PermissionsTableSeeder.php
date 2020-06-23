@@ -290,6 +290,26 @@ class PermissionsTableSeeder extends Seeder
             ],
             [
                 'id'    => '71',
+                'title' => 'request_field_create',
+            ],
+            [
+                'id'    => '72',
+                'title' => 'request_field_edit',
+            ],
+            [
+                'id'    => '73',
+                'title' => 'request_field_show',
+            ],
+            [
+                'id'    => '74',
+                'title' => 'request_field_delete',
+            ],
+            [
+                'id'    => '75',
+                'title' => 'request_field_access',
+            ],
+            [
+                'id'    => '76',
                 'title' => 'profile_password_edit',
             ],
         ];

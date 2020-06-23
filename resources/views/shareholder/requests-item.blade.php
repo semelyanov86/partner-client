@@ -1,5 +1,5 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title')Заявка № {{ $loanRequest->first()->request_no}}@endsection
+@section('page-title')Заявка № {{ $loanRequest->request_no}}@endsection
 @section('page-content')
     <div id="item-content">
        <div class="row">
@@ -10,7 +10,7 @@
            </div>
            <div class="col-6 col-md-4">
                <p>
-                   {{ \Carbon\Carbon::parse($loanRequest->first()->request_date)->format('d-m-Y')}}
+                   {{ \Carbon\Carbon::parse($loanRequest->request_date)->format('d-m-Y')}}
                </p>
            </div>
        </div>
@@ -23,7 +23,7 @@
             </div>
             <div class="col-6 col-md-4">
                 <p>
-                   {{$loanRequest->first()->amount }} р.
+                   {{$loanRequest->amount }} р.
                 </p>
             </div>
         </div>
@@ -36,10 +36,28 @@
             </div>
             <div class="col-6 col-md-4">
                 <p>
-                    {{$loanRequest->first()->status }}
+                    {{$loanRequest->status }}
                 </p>
             </div>
         </div>
+
+
+        @if($loanRequest->data)
+            @foreach(json_decode($loanRequest->data, true) as $field)
+                <div class="row">
+                    <div class="col-6 col-md-3">
+                        <p>
+                            <b>{{$field['title']}}: </b>
+                        </p>
+                    </div>
+                    <div class="col-6 col-md-4">
+                        <p>
+                            {{$field['value']}}
+                        </p>
+                    </div>
+                </div>
+            @endforeach
+        @endif
     </div>
 
     <div class="row d-flex pb-5">

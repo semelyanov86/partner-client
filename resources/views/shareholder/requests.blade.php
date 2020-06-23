@@ -3,7 +3,7 @@
 @section('page-content')
     <div class="row d-flex pb-4">
         <div class="col-12 col-md-auto pt-1">
-            <a class="btn btn-primary w-100" href=""><i class="ti-pencil-alt"></i> Новая заявка</a>
+            <a class="btn btn-primary w-100 {{ Auth::user()->allow_request == false ? ' disabled ': ''}}" href="{{route('client.requests.create')}}"><i class="ti-pencil-alt"></i> Новая заявка</a>
         </div>
 
         <div class="col-12 col-md-auto pt-1 ml-md-auto">
@@ -61,6 +61,7 @@
                     <th>Сумма</th>
                     <th>Статус</th>
                     <th>id</th>
+                    <th></th>
                 </thead>
             </table>
         </div>
@@ -83,7 +84,10 @@
                         customize : function(doc){
                             doc.pageMargins = [20,20,20,20];
                             doc.styles.tableHeader.alignment = 'left';
-                            doc.content[1].table.widths = ["*","*", "*", "*","*", "*"];
+                            doc.content[1].table.widths = ["*","*", "*", "*","*"];
+                        },
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4],
                         }
                     },
                     {
@@ -98,7 +102,10 @@
                         extend : "excel",
                         sheetName: 'Лист',
                         title: "Заявки",
-                        className: "d-none"
+                        className: "d-none",
+                        exportOptions: {
+                            columns: [ 0, 1, 2, 3, 4]
+                        }
                     }
                 ],
                 "lengthChange": true,
@@ -140,6 +147,12 @@
                     {
                         "data": "id",
                         "visible" : false
+                    },
+                    {
+                        "data": null,
+                        "fnCreatedCell": function (nTd, sData, oData, iRow, iCol) {
+                            $(nTd).html("<a class='btn btn-icon btn-teal px-2 py-1' href='{{route('client.requests')}}/" + oData.id + "'><i class='ti-search'></i></a>");
+                        }
                     }
                 ],
                 "language": {

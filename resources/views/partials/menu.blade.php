@@ -171,7 +171,7 @@
                     </li>
                 @endcan
                 @can('loan_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/loan-contracts*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-main-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-memfee-schedules*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/loan-contracts*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-main-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-memfee-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/request-fields*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-money-bill-alt">
 
@@ -214,6 +214,18 @@
                                         </i>
                                         <p>
                                             {{ trans('cruds.loanMemfeeSchedule.title') }}
+                                        </p>
+                                    </a>
+                                </li>
+                            @endcan
+                            @can('request_field_access')
+                                <li class="nav-item">
+                                    <a href="{{ route("admin.request-fields.index") }}" class="nav-link {{ request()->is('admin/request-fields') || request()->is('admin/request-fields/*') ? 'active' : '' }}">
+                                        <i class="fa-fw nav-icon fas fa-cogs">
+
+                                        </i>
+                                        <p>
+                                            {{ trans('cruds.requestField.title') }}
                                         </p>
                                     </a>
                                 </li>

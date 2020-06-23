@@ -12,6 +12,7 @@
 @endsection
 
 @section('scripts')
+    <script src="{{asset('/js/client/bootstrap-filestyle.min.js')}}"></script>
     <script src="{{asset('/js/client/metisMenu.js')}}"></script>
     <script src="{{asset('/js/client/jquery.slimscroll.js')}}"></script>
     <script src="{{asset('/js/client/app.js')}}"></script>

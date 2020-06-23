@@ -44,6 +44,8 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofact
     Route::get('/requests', 'ShareholderRequestsController@index')->name('requests');
     Route::get('/requests/{id}', 'ShareholderRequestsController@item')->name('requests.item');
     Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
+    Route::GET('/requestsCreate', 'ShareholderRequestsController@new')->name('requests.create');
+    Route::POST('/requestsCreate', 'ShareholderRequestsController@create')->name('requests.create.submit');
 
     //Credit calc
     Route::get('/creditcalc', 'ShareholderCreditCalcController@index')->name('creditcalc');
@@ -131,6 +133,10 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Places
     Route::delete('places/destroy', 'PlacesController@massDestroy')->name('places.massDestroy');
     Route::resource('places', 'PlacesController');
+
+    // Request Fields
+    Route::delete('request-fields/destroy', 'RequestFieldsController@massDestroy')->name('request-fields.massDestroy');
+    Route::resource('request-fields', 'RequestFieldsController');
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password
