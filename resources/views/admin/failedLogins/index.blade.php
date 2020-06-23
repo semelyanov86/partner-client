@@ -3,7 +3,7 @@
 @can('failed_login_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.failed-logins.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.failed-logins.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.failedLogin.title_singular') }}
             </a>
         </div>
@@ -15,77 +15,30 @@
     </div>
 
     <div class="card-body">
-        <div class="table-responsive">
-            <table class=" table table-bordered table-striped table-hover datatable datatable-FailedLogin">
-                <thead>
-                    <tr>
-                        <th width="10">
+        <table class=" table table-bordered table-striped table-hover ajaxTable datatable datatable-FailedLogin">
+            <thead>
+                <tr>
+                    <th width="10">
 
-                        </th>
-                        <th>
-                            {{ trans('cruds.failedLogin.fields.id') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.failedLogin.fields.ip_address') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.failedLogin.fields.phone') }}
-                        </th>
-                        <th>
-                            {{ trans('cruds.failedLogin.fields.sms') }}
-                        </th>
-                        <th>
-                            &nbsp;
-                        </th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($failedLogins as $key => $failedLogin)
-                        <tr data-entry-id="{{ $failedLogin->id }}">
-                            <td>
-
-                            </td>
-                            <td>
-                                {{ $failedLogin->id ?? '' }}
-                            </td>
-                            <td>
-                                {{ $failedLogin->ip_address ?? '' }}
-                            </td>
-                            <td>
-                                {{ $failedLogin->phone ?? '' }}
-                            </td>
-                            <td>
-                                <span style="display:none">{{ $failedLogin->sms ?? '' }}</span>
-                                <input type="checkbox" disabled="disabled" {{ $failedLogin->sms ? 'checked' : '' }}>
-                            </td>
-                            <td>
-                                @can('failed_login_show')
-                                    <a class="btn btn-xs btn-primary" href="{{ route('admin.failed-logins.show', $failedLogin->id) }}">
-                                        {{ trans('global.view') }}
-                                    </a>
-                                @endcan
-
-                                @can('failed_login_edit')
-                                    <a class="btn btn-xs btn-info" href="{{ route('admin.failed-logins.edit', $failedLogin->id) }}">
-                                        {{ trans('global.edit') }}
-                                    </a>
-                                @endcan
-
-                                @can('failed_login_delete')
-                                    <form action="{{ route('admin.failed-logins.destroy', $failedLogin->id) }}" method="POST" onsubmit="return confirm('{{ trans('global.areYouSure') }}');" style="display: inline-block;">
-                                        <input type="hidden" name="_method" value="DELETE">
-                                        <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                                        <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
-                                    </form>
-                                @endcan
-
-                            </td>
-
-                        </tr>
-                    @endforeach
-                </tbody>
-            </table>
-        </div>
+                    </th>
+                    <th>
+                        {{ trans('cruds.failedLogin.fields.id') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.failedLogin.fields.ip_address') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.failedLogin.fields.phone') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.failedLogin.fields.sms') }}
+                    </th>
+                    <th>
+                        &nbsp;
+                    </th>
+                </tr>
+            </thead>
+        </table>
     </div>
 </div>
 
@@ -98,14 +51,14 @@
     $(function () {
   let dtButtons = $.extend(true, [], $.fn.dataTable.defaults.buttons)
 @can('failed_login_delete')
-  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}'
+  let deleteButtonTrans = '{{ trans('global.datatables.delete') }}';
   let deleteButton = {
     text: deleteButtonTrans,
     url: "{{ route('admin.failed-logins.massDestroy') }}",
     className: 'btn-danger',
     action: function (e, dt, node, config) {
-      var ids = $.map(dt.rows({ selected: true }).nodes(), function (entry) {
-          return $(entry).data('entry-id')
+      var ids = $.map(dt.rows({ selected: true }).data(), function (entry) {
+          return entry.id
       });
 
       if (ids.length === 0) {
@@ -127,16 +80,32 @@
   dtButtons.push(deleteButton)
 @endcan
 
-  $.extend(true, $.fn.dataTable.defaults, {
+  let dtOverrideGlobals = {
+    buttons: dtButtons,
+    processing: true,
+    serverSide: true,
+    retrieve: true,
+    aaSorting: [],
+    ajax: "{{ route('admin.failed-logins.index') }}",
+    columns: [
+      { data: 'placeholder', name: 'placeholder' },
+{ data: 'id', name: 'id' },
+{ data: 'ip_address', name: 'ip_address' },
+{ data: 'phone', name: 'phone' },
+{ data: 'sms', name: 'sms' },
+{ data: 'actions', name: '{{ trans('global.actions') }}' }
+    ],
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
+  };
+  let table = $('.datatable-FailedLogin').DataTable(dtOverrideGlobals);
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
   });
-  $('.datatable-FailedLogin:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
-})
+  
+});
 
 </script>
 @endsection

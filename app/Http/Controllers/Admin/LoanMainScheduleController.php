@@ -108,7 +108,6 @@ class LoanMainScheduleController extends Controller
         $loanMainSchedule = LoanMainSchedule::create($request->all());
 
         return redirect()->route('admin.loan-main-schedules.index');
-
     }
 
     public function edit(LoanMainSchedule $loanMainSchedule)
@@ -129,7 +128,6 @@ class LoanMainScheduleController extends Controller
         $loanMainSchedule->update($request->all());
 
         return redirect()->route('admin.loan-main-schedules.index');
-
     }
 
     public function show(LoanMainSchedule $loanMainSchedule)
@@ -148,7 +146,6 @@ class LoanMainScheduleController extends Controller
         $loanMainSchedule->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyLoanMainScheduleRequest $request)
@@ -156,7 +153,5 @@ class LoanMainScheduleController extends Controller
         LoanMainSchedule::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

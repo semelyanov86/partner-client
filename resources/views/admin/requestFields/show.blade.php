@@ -41,6 +41,14 @@
                     </tr>
                     <tr>
                         <th>
+                            {{ trans('cruds.requestField.fields.type') }}
+                        </th>
+                        <td>
+                            {{ App\RequestField::TYPE_SELECT[$requestField->type] ?? '' }}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
                             {{ trans('cruds.requestField.fields.title') }}
                         </th>
                         <td>
@@ -61,14 +69,6 @@
                         </th>
                         <td>
                             <input type="checkbox" disabled="disabled" {{ $requestField->required ? 'checked' : '' }}>
-                        </td>
-                    </tr>
-                    <tr>
-                        <th>
-                            {{ trans('cruds.requestField.fields.type') }}
-                        </th>
-                        <td>
-                            {{ App\RequestField::TYPE_SELECT[$requestField->type] ?? '' }}
                         </td>
                     </tr>
                 </tbody>

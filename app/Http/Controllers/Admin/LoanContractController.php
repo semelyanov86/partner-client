@@ -93,7 +93,6 @@ class LoanContractController extends Controller
         $loanContract = LoanContract::create($request->all());
 
         return redirect()->route('admin.loan-contracts.index');
-
     }
 
     public function edit(LoanContract $loanContract)
@@ -112,7 +111,6 @@ class LoanContractController extends Controller
         $loanContract->update($request->all());
 
         return redirect()->route('admin.loan-contracts.index');
-
     }
 
     public function show(LoanContract $loanContract)
@@ -131,7 +129,6 @@ class LoanContractController extends Controller
         $loanContract->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyLoanContractRequest $request)
@@ -139,7 +136,5 @@ class LoanContractController extends Controller
         LoanContract::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
-
 }

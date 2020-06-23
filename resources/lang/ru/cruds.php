@@ -66,8 +66,8 @@ return [
         ],
     ],
     'failedLogin'        => [
-        'title'          => 'Failed Login',
-        'title_singular' => 'Failed Login',
+        'title'          => 'Аудит входа',
+        'title_singular' => 'Аудит входа',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -86,8 +86,8 @@ return [
         ],
     ],
     'auditLog'           => [
-        'title'          => 'Audit Logs',
-        'title_singular' => 'Audit Log',
+        'title'          => 'Логи',
+        'title_singular' => 'Логи',
         'fields'         => [
             'id'                  => 'ID',
             'id_helper'           => '',
@@ -110,8 +110,8 @@ return [
         ],
     ],
     'shareholder'        => [
-        'title'          => 'Shareholders',
-        'title_singular' => 'Shareholder',
+        'title'          => 'Пайщики',
+        'title_singular' => 'Пайщики',
         'fields'         => [
             'id'                     => 'ID',
             'id_helper'              => '',
@@ -140,8 +140,8 @@ return [
         ],
     ],
     'loanRequest'        => [
-        'title'          => 'Loan Request',
-        'title_singular' => 'Loan Request',
+        'title'          => 'Заявки на займ',
+        'title_singular' => 'Заявки на займ',
         'fields'         => [
             'id'                  => 'ID',
             'id_helper'           => '',
@@ -164,8 +164,8 @@ return [
         ],
     ],
     'depositContract'    => [
-        'title'          => 'Deposit Contract',
-        'title_singular' => 'Deposit Contract',
+        'title'          => 'Договора сбережений',
+        'title_singular' => 'Договор сбережений',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',
@@ -192,8 +192,8 @@ return [
         ],
     ],
     'depositSchedule'    => [
-        'title'          => 'Deposit Schedule',
-        'title_singular' => 'Deposit Schedule',
+        'title'          => 'Графики сбережений',
+        'title_singular' => 'График сбережений',
         'fields'         => [
             'id'                       => 'ID',
             'id_helper'                => '',
@@ -226,16 +226,16 @@ return [
         ],
     ],
     'deposit'            => [
-        'title'          => 'Deposits',
-        'title_singular' => 'Deposit',
+        'title'          => 'Сбережения',
+        'title_singular' => 'Сбережение',
     ],
     'loan'               => [
-        'title'          => 'Loans',
-        'title_singular' => 'Loan',
+        'title'          => 'Займы',
+        'title_singular' => 'Займ',
     ],
     'loanContract'       => [
-        'title'          => 'Loan Contract',
-        'title_singular' => 'Loan Contract',
+        'title'          => 'Договора займа',
+        'title_singular' => 'Договор займа',
         'fields'         => [
             'id'                    => 'ID',
             'id_helper'             => '',
@@ -270,8 +270,8 @@ return [
         ],
     ],
     'loanMainSchedule'   => [
-        'title'          => 'Loan Main Schedule',
-        'title_singular' => 'Loan Main Schedule',
+        'title'          => 'Осн. график займа',
+        'title_singular' => 'Осн. график займа',
         'fields'         => [
             'id'                        => 'ID',
             'id_helper'                 => '',
@@ -312,8 +312,8 @@ return [
         ],
     ],
     'loanMemfeeSchedule' => [
-        'title'          => 'Loan Memfee Schedule',
-        'title_singular' => 'Loan Memfee Schedule',
+        'title'          => 'График ЧВ',
+        'title_singular' => 'График ЧВ',
         'fields'         => [
             'id'                  => 'ID',
             'id_helper'           => '',
@@ -336,8 +336,8 @@ return [
         ],
     ],
     'post'               => [
-        'title'          => 'Posts',
-        'title_singular' => 'Post',
+        'title'          => 'Новости',
+        'title_singular' => 'Новость',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -356,8 +356,8 @@ return [
         ],
     ],
     'place'              => [
-        'title'          => 'Places',
-        'title_singular' => 'Place',
+        'title'          => 'Населенные пункты',
+        'title_singular' => 'Населенный пункт',
         'fields'         => [
             'id'                => 'ID',
             'id_helper'         => '',
@@ -372,8 +372,8 @@ return [
         ],
     ],
     'requestField'       => [
-        'title'          => 'Request Fields',
-        'title_singular' => 'Request Field',
+        'title'          => 'Поля заявки на займ',
+        'title_singular' => 'Поле заявки на займ',
         'fields'         => [
             'id'                 => 'ID',
             'id_helper'          => '',
@@ -396,5 +396,9 @@ return [
             'type'               => 'Type',
             'type_helper'        => '',
         ],
+    ],
+    'tool'               => [
+        'title'          => 'Инструменты',
+        'title_singular' => 'Инструмент',
     ],
 ];

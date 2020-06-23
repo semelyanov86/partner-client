@@ -10,16 +10,55 @@ use App\Http\Requests\UpdateFailedLoginRequest;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class FailedLoginController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('failed_login_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $failedLogins = FailedLogin::all();
+        if ($request->ajax()) {
+            $query = FailedLogin::query()->select(sprintf('%s.*', (new FailedLogin)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.failedLogins.index', compact('failedLogins'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'failed_login_show';
+                $editGate      = 'failed_login_edit';
+                $deleteGate    = 'failed_login_delete';
+                $crudRoutePart = 'failed-logins';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('ip_address', function ($row) {
+                return $row->ip_address ? $row->ip_address : "";
+            });
+            $table->editColumn('phone', function ($row) {
+                return $row->phone ? $row->phone : "";
+            });
+            $table->editColumn('sms', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->sms ? 'checked' : null) . '>';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'sms']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.failedLogins.index');
     }
 
     public function create()

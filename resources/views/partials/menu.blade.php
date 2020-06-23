@@ -131,6 +131,18 @@
                         </a>
                     </li>
                 @endcan
+                @can('request_field_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.request-fields.index") }}" class="nav-link {{ request()->is('admin/request-fields') || request()->is('admin/request-fields/*') ? 'active' : '' }}">
+                            <i class="fa-fw nav-icon fas fa-cogs">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.requestField.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
                 @can('deposit_access')
                     <li class="nav-item has-treeview {{ request()->is('admin/deposit-contracts*') ? 'menu-open' : '' }} {{ request()->is('admin/deposit-schedules*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
@@ -171,7 +183,7 @@
                     </li>
                 @endcan
                 @can('loan_access')
-                    <li class="nav-item has-treeview {{ request()->is('admin/loan-contracts*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-main-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-memfee-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/request-fields*') ? 'menu-open' : '' }}">
+                    <li class="nav-item has-treeview {{ request()->is('admin/loan-contracts*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-main-schedules*') ? 'menu-open' : '' }} {{ request()->is('admin/loan-memfee-schedules*') ? 'menu-open' : '' }}">
                         <a class="nav-link nav-dropdown-toggle" href="#">
                             <i class="fa-fw nav-icon fas fa-money-bill-alt">
 
@@ -218,18 +230,6 @@
                                     </a>
                                 </li>
                             @endcan
-                            @can('request_field_access')
-                                <li class="nav-item">
-                                    <a href="{{ route("admin.request-fields.index") }}" class="nav-link {{ request()->is('admin/request-fields') || request()->is('admin/request-fields/*') ? 'active' : '' }}">
-                                        <i class="fa-fw nav-icon fas fa-cogs">
-
-                                        </i>
-                                        <p>
-                                            {{ trans('cruds.requestField.title') }}
-                                        </p>
-                                    </a>
-                                </li>
-                            @endcan
                         </ul>
                     </li>
                 @endcan
@@ -241,6 +241,18 @@
                             </i>
                             <p>
                                 {{ trans('cruds.place.title') }}
+                            </p>
+                        </a>
+                    </li>
+                @endcan
+                @can('tool_access')
+                    <li class="nav-item">
+                        <a href="{{ route("admin.tools.index") }}" class="nav-link {{ request()->is('admin/tools') || request()->is('admin/tools/*') ? 'active' : '' }}">
+                            <i class="fa-fw nav-icon fas fa-cogs">
+
+                            </i>
+                            <p>
+                                {{ trans('cruds.tool.title') }}
                             </p>
                         </a>
                     </li>

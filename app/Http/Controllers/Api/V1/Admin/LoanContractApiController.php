@@ -18,7 +18,6 @@ class LoanContractApiController extends Controller
         abort_if(Gate::denies('loan_contract_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanContractResource(LoanContract::with(['shareholder'])->get());
-
     }
 
     public function store(StoreLoanContractRequest $request)
@@ -28,7 +27,6 @@ class LoanContractApiController extends Controller
         return (new LoanContractResource($loanContract))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(LoanContract $loanContract)
@@ -36,7 +34,6 @@ class LoanContractApiController extends Controller
         abort_if(Gate::denies('loan_contract_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanContractResource($loanContract->load(['shareholder']));
-
     }
 
     public function update(UpdateLoanContractRequest $request, LoanContract $loanContract)
@@ -46,7 +43,6 @@ class LoanContractApiController extends Controller
         return (new LoanContractResource($loanContract))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(LoanContract $loanContract)
@@ -56,6 +52,5 @@ class LoanContractApiController extends Controller
         $loanContract->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

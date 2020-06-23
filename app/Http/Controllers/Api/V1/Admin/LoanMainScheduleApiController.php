@@ -18,7 +18,6 @@ class LoanMainScheduleApiController extends Controller
         abort_if(Gate::denies('loan_main_schedule_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanMainScheduleResource(LoanMainSchedule::with(['shareholder', 'loan'])->get());
-
     }
 
     public function store(StoreLoanMainScheduleRequest $request)
@@ -28,7 +27,6 @@ class LoanMainScheduleApiController extends Controller
         return (new LoanMainScheduleResource($loanMainSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(LoanMainSchedule $loanMainSchedule)
@@ -36,7 +34,6 @@ class LoanMainScheduleApiController extends Controller
         abort_if(Gate::denies('loan_main_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanMainScheduleResource($loanMainSchedule->load(['shareholder', 'loan']));
-
     }
 
     public function update(UpdateLoanMainScheduleRequest $request, LoanMainSchedule $loanMainSchedule)
@@ -46,7 +43,6 @@ class LoanMainScheduleApiController extends Controller
         return (new LoanMainScheduleResource($loanMainSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(LoanMainSchedule $loanMainSchedule)
@@ -56,6 +52,5 @@ class LoanMainScheduleApiController extends Controller
         $loanMainSchedule->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

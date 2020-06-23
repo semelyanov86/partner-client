@@ -10,16 +10,49 @@ use App\Place;
 use Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PlacesController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('place_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $places = Place::all();
+        if ($request->ajax()) {
+            $query = Place::query()->select(sprintf('%s.*', (new Place)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.places.index', compact('places'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'place_show';
+                $editGate      = 'place_edit';
+                $deleteGate    = 'place_delete';
+                $crudRoutePart = 'places';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('name', function ($row) {
+                return $row->name ? $row->name : "";
+            });
+
+            $table->rawColumns(['actions', 'placeholder']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.places.index');
     }
 
     public function create()

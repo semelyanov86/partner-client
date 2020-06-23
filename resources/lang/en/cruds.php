@@ -397,4 +397,8 @@ return [
             'type_helper'        => '',
         ],
     ],
+    'tool'               => [
+        'title'          => 'Tools',
+        'title_singular' => 'Tool',
+    ],
 ];

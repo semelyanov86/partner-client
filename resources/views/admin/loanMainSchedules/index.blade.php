@@ -3,7 +3,7 @@
 @can('loan_main_schedule_create')
     <div style="margin-bottom: 10px;" class="row">
         <div class="col-lg-12">
-            <a class="btn btn-success" href="{{ route("admin.loan-main-schedules.create") }}">
+            <a class="btn btn-success" href="{{ route('admin.loan-main-schedules.create') }}">
                 {{ trans('global.add') }} {{ trans('cruds.loanMainSchedule.title_singular') }}
             </a>
         </div>
@@ -139,14 +139,16 @@
 { data: 'fee_fact', name: 'fee_fact' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
-    pageLength: 100,
+    pageLength: 50,
   };
-  $('.datatable-LoanMainSchedule').DataTable(dtOverrideGlobals);
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
+  let table = $('.datatable-LoanMainSchedule').DataTable(dtOverrideGlobals);
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
+  });
+  
 });
 
 </script>

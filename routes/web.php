@@ -137,6 +137,9 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     // Request Fields
     Route::delete('request-fields/destroy', 'RequestFieldsController@massDestroy')->name('request-fields.massDestroy');
     Route::resource('request-fields', 'RequestFieldsController');
+
+    // Tools
+    Route::resource('tools', 'ToolsController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password

@@ -2,7 +2,7 @@
     @can('deposit_contract_create')
         <div style="margin-bottom: 10px;" class="row">
             <div class="col-lg-12">
-                <a class="btn btn-success" href="{{ route("admin.deposit-contracts.create") }}">
+                <a class="btn btn-success" href="{{ route('admin.deposit-contracts.create') }}">
                     {{ trans('global.add') }} {{ trans('cruds.depositContract.title_singular') }}
                 </a>
             </div>
@@ -148,14 +148,16 @@
 @endcan
 
   $.extend(true, $.fn.dataTable.defaults, {
+    orderCellsTop: true,
     order: [[ 1, 'desc' ]],
     pageLength: 100,
   });
-  $('.datatable-shareholderDepositContracts:not(.ajaxTable)').DataTable({ buttons: dtButtons })
-    $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
-        $($.fn.dataTable.tables(true)).DataTable()
-            .columns.adjust();
-    });
+  let table = $('.datatable-shareholderDepositContracts:not(.ajaxTable)').DataTable({ buttons: dtButtons })
+  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+      $($.fn.dataTable.tables(true)).DataTable()
+          .columns.adjust();
+  });
+  
 })
 
 </script>

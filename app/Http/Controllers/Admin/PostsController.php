@@ -12,18 +12,54 @@ use Gate;
 use Illuminate\Http\Request;
 use Spatie\MediaLibrary\Models\Media;
 use Symfony\Component\HttpFoundation\Response;
+use Yajra\DataTables\Facades\DataTables;
 
 class PostsController extends Controller
 {
     use MediaUploadingTrait;
 
-    public function index()
+    public function index(Request $request)
     {
         abort_if(Gate::denies('post_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $posts = Post::all();
+        if ($request->ajax()) {
+            $query = Post::query()->select(sprintf('%s.*', (new Post)->table));
+            $table = Datatables::of($query);
 
-        return view('admin.posts.index', compact('posts'));
+            $table->addColumn('placeholder', '&nbsp;');
+            $table->addColumn('actions', '&nbsp;');
+
+            $table->editColumn('actions', function ($row) {
+                $viewGate      = 'post_show';
+                $editGate      = 'post_edit';
+                $deleteGate    = 'post_delete';
+                $crudRoutePart = 'posts';
+
+                return view('partials.datatablesActions', compact(
+                    'viewGate',
+                    'editGate',
+                    'deleteGate',
+                    'crudRoutePart',
+                    'row'
+                ));
+            });
+
+            $table->editColumn('id', function ($row) {
+                return $row->id ? $row->id : "";
+            });
+            $table->editColumn('title', function ($row) {
+                return $row->title ? $row->title : "";
+            });
+            $table->editColumn('active', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->active ? 'checked' : null) . '>';
+            });
+
+            $table->rawColumns(['actions', 'placeholder', 'active']);
+
+            return $table->make(true);
+        }
+
+        return view('admin.posts.index');
     }
 
     public function create()

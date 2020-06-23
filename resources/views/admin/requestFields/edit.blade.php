@@ -27,6 +27,19 @@
                 <span class="help-block">{{ trans('cruds.requestField.fields.key_helper') }}</span>
             </div>
             <div class="form-group">
+                <label class="required">{{ trans('cruds.requestField.fields.type') }}</label>
+                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
+                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
+                    @foreach(App\RequestField::TYPE_SELECT as $key => $label)
+                        <option value="{{ $key }}" {{ old('type', $requestField->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
+                    @endforeach
+                </select>
+                @if($errors->has('type'))
+                    <span class="text-danger">{{ $errors->first('type') }}</span>
+                @endif
+                <span class="help-block">{{ trans('cruds.requestField.fields.type_helper') }}</span>
+            </div>
+            <div class="form-group">
                 <label class="required" for="title">{{ trans('cruds.requestField.fields.title') }}</label>
                 <input class="form-control {{ $errors->has('title') ? 'is-invalid' : '' }}" type="text" name="title" id="title" value="{{ old('title', $requestField->title) }}" required>
                 @if($errors->has('title'))
@@ -52,19 +65,6 @@
                     <span class="text-danger">{{ $errors->first('required') }}</span>
                 @endif
                 <span class="help-block">{{ trans('cruds.requestField.fields.required_helper') }}</span>
-            </div>
-            <div class="form-group">
-                <label class="required">{{ trans('cruds.requestField.fields.type') }}</label>
-                <select class="form-control {{ $errors->has('type') ? 'is-invalid' : '' }}" name="type" id="type" required>
-                    <option value disabled {{ old('type', null) === null ? 'selected' : '' }}>{{ trans('global.pleaseSelect') }}</option>
-                    @foreach(App\RequestField::TYPE_SELECT as $key => $label)
-                        <option value="{{ $key }}" {{ old('type', $requestField->type) === (string) $key ? 'selected' : '' }}>{{ $label }}</option>
-                    @endforeach
-                </select>
-                @if($errors->has('type'))
-                    <span class="text-danger">{{ $errors->first('type') }}</span>
-                @endif
-                <span class="help-block">{{ trans('cruds.requestField.fields.type_helper') }}</span>
             </div>
             <div class="form-group">
                 <button class="btn btn-danger" type="submit">

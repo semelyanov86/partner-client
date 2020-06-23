@@ -18,7 +18,6 @@ class LoanMemfeeScheduleApiController extends Controller
         abort_if(Gate::denies('loan_memfee_schedule_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanMemfeeScheduleResource(LoanMemfeeSchedule::with(['shareholder', 'loan'])->get());
-
     }
 
     public function store(StoreLoanMemfeeScheduleRequest $request)
@@ -28,7 +27,6 @@ class LoanMemfeeScheduleApiController extends Controller
         return (new LoanMemfeeScheduleResource($loanMemfeeSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(LoanMemfeeSchedule $loanMemfeeSchedule)
@@ -36,7 +34,6 @@ class LoanMemfeeScheduleApiController extends Controller
         abort_if(Gate::denies('loan_memfee_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new LoanMemfeeScheduleResource($loanMemfeeSchedule->load(['shareholder', 'loan']));
-
     }
 
     public function update(UpdateLoanMemfeeScheduleRequest $request, LoanMemfeeSchedule $loanMemfeeSchedule)
@@ -46,7 +43,6 @@ class LoanMemfeeScheduleApiController extends Controller
         return (new LoanMemfeeScheduleResource($loanMemfeeSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(LoanMemfeeSchedule $loanMemfeeSchedule)
@@ -56,6 +52,5 @@ class LoanMemfeeScheduleApiController extends Controller
         $loanMemfeeSchedule->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }
