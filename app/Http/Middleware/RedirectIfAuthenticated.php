@@ -22,24 +22,24 @@ class RedirectIfAuthenticated
             case 'shareholder':
                 if (Auth::guard($guard)->check()) {
 
-                    $shareholder = auth()->user();
-
-                    if(auth()->check() && $shareholder->code)
-                    {
-
-                        if(!$shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now()))
-                        {
-                            $shareholder->resetTwoFactorCode();
-                            auth()->logout();
-                            return redirect()->route('client.login')
-                                ->withMessage('Срок действия СМС кода истек. Пожалуйста, войдите еще раз.'.$shareholder->code_expires_at );
-                        }
-
-                        if(!$request->is('*client/verify*'))
-                        {
-                            return redirect()->route('client.verify');
-                        }
-                    }
+//                    $shareholder = auth()->user();
+//
+//                    if(auth()->check() && $shareholder->code)
+//                    {
+//
+//                        if(!$shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now()))
+//                        {
+//                            $shareholder->resetTwoFactorCode();
+//                            auth()->logout();
+//                            return redirect()->route('client.login')
+//                                ->withMessage('Срок действия СМС кода истек. Пожалуйста, войдите еще раз.'.$shareholder->code_expires_at );
+//                        }
+//
+//                        if(!$request->is('*client/verify*'))
+//                        {
+//                            return redirect()->route('client.verify');
+//                        }
+//                    }
 
                     return redirect()->route('client.home');
                 }

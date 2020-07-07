@@ -13,10 +13,13 @@ Route::get('/home', function () {
 Auth::routes();
 
 //clients - shareholders
-Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['twofactor', 'failtoban'] ], function () {
+Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtoban'] ], function () {
     //Register
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
+    Route::get('/register/verify', 'Auth\ShareholderRegisterController@showVerificationForm')->name('register.verify');
+    Route::post('/register/verify', 'Auth\ShareholderRegisterController@verifyRegistration')->name('register.verify.submit');
+    Route::POST('/register/resend', 'Auth\ShareholderRegisterController@resend')->name('register.verify.resend');
 
     //Login
     Route::get('/login', 'Auth\ShareholderLoginController@showLoginForm')->name('login');
@@ -140,6 +143,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
 
     // Tools
     Route::resource('tools', 'ToolsController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+
+    Route::GET('tools/maintenance/up', 'ToolsController@maintenanceUp')->name('tools.maintenance.up');
+    Route::GET('tools/maintenance/down', 'ToolsController@maintenanceDown')->name('tools.maintenance.down');
+    Route::GET('tools/maintenance/clearCache', 'ToolsController@clearcache')->name('tools.maintenance.clearCache');
+
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
 // Change password

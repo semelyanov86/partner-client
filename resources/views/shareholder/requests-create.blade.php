@@ -1,6 +1,13 @@
 @extends('shareholder.layouts.main_app')
 @section('page-title') Новая заявка @endsection
 @section('page-content')
+    <div class="row">
+        <div class="col-12">
+            <p class="alert alert-danger w-100">
+               Раздел находится в разработке!!! Отправка заявок не возможна!!!
+            </p>
+        </div>
+    </div>
     <div class="card m-auto w-100" >
         <div class="card-header">
             <h4 class="text-center">

@@ -123,7 +123,7 @@
                     <thead class="table">
                         <tr>
                             <th colspan="6" class="text-center">По плану</th>
-                            <th colspan="4" class="text-center">По графику</th>
+                            <th colspan="4" class="text-center">По факту</th>
                             <th colspan="4" class="text-center">Неустойка расчетная</th>
                         </tr>
                         <tr>
@@ -147,19 +147,19 @@
                     @foreach($mainSchedule as $line)
                         <tr>
                             <td nowrap>{{$line['date_plan'] ? \Carbon\Carbon::parse($line['date_plan'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['main_amt_debt_plan']}}</td>
+                            <td nowrap>{{ $line['main_amt_debt_plan'] == 0 ? '' : $line['main_amt_debt_plan'] }}</td>
                             <td nowrap>{{$line['period']}}</td>
-                            <td nowrap>{{$line['days']}}</td>
-                            <td nowrap>{{$line['percent_amt_plan']}}</td>
-                            <td nowrap>{{$line['main_amt_plan']}}</td>
+                            <td nowrap>{{$line['days'] == 0 ? '' :  $line['days']}}</td>
+                            <td nowrap>{{$line['percent_amt_plan'] == 0 ? '' : $line['percent_amt_plan']}}</td>
+                            <td nowrap>{{$line['main_amt_plan'] == 0 ? '' : $line['main_amt_plan']}}</td>
                             <td nowrap>{{$line['date_fact'] ? \Carbon\Carbon::parse($line['date_fact'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['percent_amt_fact']}}</td>
-                            <td nowrap>{{$line['main_amt_fact']}}</td>
-                            <td nowrap>{{$line['fee_amt_fact']}}</td>
-                            <td nowrap>{{$line['main_amt_debt_fact']}}</td>
+                            <td nowrap>{{$line['percent_amt_fact'] == 0 ? '' : $line['percent_amt_fact']}}</td>
+                            <td nowrap>{{$line['main_amt_fact'] == 0 ? '' : $line['main_amt_fact']}}</td>
+                            <td nowrap>{{$line['fee_amt_fact'] == 0 ? '' :  $line['fee_amt_fact'] }}</td>
+                            <td nowrap>{{$line['main_amt_debt_fact'] == 0 ? '' : $line['main_amt_debt_fact']}}</td>
                             <td nowrap>{{$line['fee_period']}}</td>
-                            <td nowrap>{{$line['fee_days']}}</td>
-                            <td nowrap>{{$line['fee_amt_plan']}}</td>
+                            <td nowrap>{{$line['fee_days'] == 0 ? '' : $line['fee_days']}}</td>
+                            <td nowrap>{{$line['fee_plan'] == 0 ? '' : $line['fee_plan']}}</td>
                         </tr>
                     @endforeach
                     </tbody>
@@ -173,8 +173,8 @@
                 <table class="table table-sm table-striped table-bordered table-hover w-100" id="memfee-schedule-table">
                     <thead class="table">
                         <tr>
-                            <th colspan="2" class="text-center">По графику</th>
                             <th colspan="2" class="text-center">По плану</th>
+                            <th colspan="2" class="text-center">По факту</th>
                         </tr>
                         <tr>
                             <th>Дата </th>
@@ -187,9 +187,9 @@
                     @foreach($memfeeSchedule as $line)
                         <tr>
                             <td nowrap>{{$line['date_plan'] ? \Carbon\Carbon::parse($line['date_plan'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['mem_fee_plan']}}</td>
+                            <td nowrap>{{$line['mem_fee_plan'] == 0 ? '' : $line['mem_fee_plan'] }}</td>
                             <td nowrap>{{$line['date_fact'] ? \Carbon\Carbon::parse($line['date_fact'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['mem_fee_fact']}}</td>
+                            <td nowrap>{{$line['mem_fee_fact'] == 0 ? '' : $line['mem_fee_fact']}}</td>
                         </tr>
                     @endforeach
                     </tbody>

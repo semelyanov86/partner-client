@@ -34,13 +34,12 @@ class ShareholderLoanController extends Controller
         {
             $mainSchedule = LoanMainSchedule::where('loan_id', $id)
                 ->whereNull('deleted_at')
-                ->orderByRaw('ISNULL(date_plan), date_plan', 'ASC')
-                ->orderByRaw('ISNULL(date_fact), date_fact', 'ASC');
+                ->orderByRaw('no', 'ASC');
+
 
             $memfeeSchedule = LoanMemfeeSchedule::where('loan_id', $id)
                 ->whereNull('deleted_at')
-                ->orderByRaw('ISNULL(date_plan), date_plan', 'ASC')
-                ->orderByRaw('ISNULL(date_fact), date_fact', 'ASC');
+                ->orderByRaw('no', 'ASC');
 
             $qrCodeText = ExtApiUtils::generateQrCodeText("Договор займа №".$loanContract->first()->agreement, auth()->user()->fio);
 

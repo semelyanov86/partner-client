@@ -32,8 +32,7 @@ class ShareholderDepositController extends Controller
         {
             $mainSchedule = DepositSchedule::where('deposit_id', $id)
                 ->whereNull('deleted_at')
-                ->orderByRaw('ISNULL(date_plan), date_plan', 'ASC')
-                ->orderByRaw('ISNULL(date_fact), date_fact', 'ASC');
+                ->orderByRaw('no', 'ASC');
 
             $qrCodeText = ExtApiUtils::generateQrCodeText("Договор сбережений №".$depositContract->first()->agreement, auth()->user()->fio);
 

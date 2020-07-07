@@ -3,10 +3,12 @@
 namespace App\Http\Middleware;
 
 use App\Helpers\ExtApiUtils;
+use App\Helpers\Utils;
 use App\Shareholder;
 use Closure;
 use App\Helpers\FailedLoginUtils;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Log;
 
 class FailToBan
 {
@@ -29,10 +31,10 @@ class FailToBan
         //block if phone does not exist in 1c
         if ($request->isMethod("POST")
             && ($request->is("*client/login*") || $request->is("*client/register*")
-                || $request->is("*client/forgot*") || $request->is("*client/reset*") ) )
+                || $request->is("*client/forgot*") || $request->is("*client/reset*")
+                || $request->is("*client/register/verify*")) )
         {
-            $phone = $phone = str_replace('+7', '', $request->phone);
-            $phone = preg_replace('/[^0-9]/', '', $phone);
+            $phone = Utils::getFormatedPhone($request->phone);
 
             if (ExtApiUtils::getShareholderByPhone($phone) == false)
             {
@@ -55,8 +57,7 @@ class FailToBan
             }
             elseif ($request->phone)
             {
-                $phone = str_replace('+7', '', $request->phone);
-                $phone = preg_replace('/[^0-9]/', '', $phone);
+                $phone = Utils::getFormatedPhone($request->phone);
             }
 
             if (!FailedLoginUtils::canResendSMS($phone))

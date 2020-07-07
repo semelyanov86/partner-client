@@ -59,20 +59,27 @@ class ShareholderFeedbackController extends Controller
             'email' => $request->input('email'),
             );
 
-        Mail::send('shareholder.mail.feedback', $data, function ($message) use ($request) {
-            $message->from(env('MAIL_FROM_ADDRESS', 'app@mail.com'), 'Client portal');
+        try {
+            Mail::send('shareholder.mail.feedback', $data, function ($message) use ($request) {
+                $message->from(env('MAIL_FROM_ADDRESS', 'app@mail.com'), 'Client portal');
 
-            if ($request['image-upload'])
-            {
-                $message->attach($request['image-upload']->getRealPath(), array(
-                        'as' => 'image-upload.' . $request['image-upload']->getClientOriginalExtension(),
-                        'mime' => $request['image-upload']->getMimeType())
-                );
-            }
+                if ($request['image-upload'])
+                {
+                    $message->attach($request['image-upload']->getRealPath(), array(
+                            'as' => 'image-upload.' . $request['image-upload']->getClientOriginalExtension(),
+                            'mime' => $request['image-upload']->getMimeType())
+                    );
+                }
 
-            $message->to('morhant_91@mail.ru')->subject('Обратная связь');
+                $message->to(env('FEEDBACK_MAIL', 'admin@admin.ru'))->subject('Обратная связь');
 
-        });
+            });
+        }
+        catch (\Exception $exception) {
+            return redirect()->back()
+                ->withErrors(array('error_msg' => 'Не удалось отправить сообщение! Попробуйте позднее!'))
+                ->withInput($request->only('phone', 'comment', 'place', 'email'));
+        }
 
         return redirect()->route('client.thanks')->withMessage('Спасибо за ваш отзыв!');
     }

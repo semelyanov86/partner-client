@@ -42,6 +42,7 @@ class LoanMainSchedule extends Model
         'deleted_at',
         'fee_period',
         'fee_days',
+        'no',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

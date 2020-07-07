@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
+use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Shareholder;
 use Illuminate\Http\Request;
@@ -24,10 +25,9 @@ class ShareholderForgotPassController extends Controller
 
     public function reset(Request $request)
     {
-        $formatedPhone = str_replace('+7', '', $request->phone);
-        $formatedPhone = preg_replace('/[^0-9]/', '', $formatedPhone);
+        $phone = Utils::getFormatedPhone($request->phone);
 
-        $request['phone'] = $formatedPhone;
+        $request['phone'] = $phone;
 
         $validator = Validator::make($request->all(), [
             'phone' => 'required|min:10|max:10|exists:shareholders,phone',
@@ -35,16 +35,16 @@ class ShareholderForgotPassController extends Controller
 
         if ($validator->fails())
         {
-            FailedLoginUtils::addNewFailEvent($request->ip(), $formatedPhone, 0);
+            FailedLoginUtils::addNewFailEvent($request->ip(), $phone, 0);
             return redirect()->back()->withErrors(['error_msg' =>
                 'Указан несуществующий номер телефона'])
                 ->withInput($request->only('phone'));
         }
 
-        $shareholder = Shareholder::where("phone", $formatedPhone)->first();
+        $shareholder = Shareholder::where("phone", $phone)->first();
         $shareholder->generateTwoFactorCode();
 
-        SmsUtils::sendSMSCode($formatedPhone, $shareholder->code, $request->ip());
+        SmsUtils::sendSMSCode($phone, $shareholder->code, $request->ip());
 
         return redirect()->route('client.reset')->withInput($request->only('phone'));
     }

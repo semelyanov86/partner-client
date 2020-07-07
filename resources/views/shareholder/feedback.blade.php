@@ -14,7 +14,18 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                @if(count($errors) > 0)
+                @php
+                    $err_msg = 0;
+                @endphp
+                @if($errors->has('error_msg'))
+                    <p class="alert alert-danger">
+                        {{ $errors->first('error_msg') }}
+                    </p>
+                    @php
+                        $err_msg = 1;
+                    @endphp
+                @endif
+                @if(count($errors) > 0 + $err_msg)
                     <p class="alert alert-danger">
                         @if($errors->has('image-upload'))
                             {{$errors->first('image-upload')}};

@@ -84,7 +84,7 @@
                 <table class="table table-sm table-striped table-bordered table-hover w-100" id="main-schedule-table">
                     <thead class="table">
                         <tr>
-                            <th colspan="7" class="text-center">По графику</th>
+                            <th colspan="7" class="text-center">По плану</th>
                             <th colspan="3" class="text-center">По факту</th>
                         </tr>
                         <tr>
@@ -104,15 +104,15 @@
                     @foreach($mainSchedule as $line)
                         <tr>
                             <td nowrap>{{$line['date_plan'] ? \Carbon\Carbon::parse($line['date_plan'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['main_amt_debt']}}</td>
+                            <td nowrap>{{$line['main_amt_debt'] == 0 ? '' : $line['main_amt_debt']}}</td>
                             <td nowrap>{{$line['period']}}</td>
-                            <td nowrap>{{$line['days']}}</td>
-                            <td nowrap>{{$line['percent_amt_plan']}}</td>
-                            <td nowrap>{{$line['ndfl_amt']}}</td>
-                            <td nowrap>{{$line['percent_available']}}</td>
+                            <td nowrap>{{$line['days'] == 0 ? '' : $line['days']}}</td>
+                            <td nowrap>{{$line['percent_amt_plan'] == 0 ? '' : $line['percent_amt_plan']}}</td>
+                            <td nowrap>{{$line['ndfl_amt'] == 0 ? '' : $line['ndfl_amt'] }}</td>
+                            <td nowrap>{{$line['percent_available'] == 0 ? '' : $line['percent_available']}}</td>
                             <td nowrap>{{$line['date_fact'] ? \Carbon\Carbon::parse($line['date_fact'])->format('d-m-Y') : ""}}</td>
-                            <td nowrap>{{$line['percent_amt_fact']}}</td>
-                            <td nowrap>{{$line['main_amt_fact']}}</td>
+                            <td nowrap>{{$line['percent_amt_fact'] == 0 ? '' : $line['percent_amt_fact']}}</td>
+                            <td nowrap>{{$line['main_amt_fact'] == 0 ? '' : $line['main_amt_fact'] }}</td>
                         </tr>
                     @endforeach
                     </tbody>

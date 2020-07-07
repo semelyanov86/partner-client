@@ -31,6 +31,7 @@ class LoanMemfeeSchedule extends Model
         'updated_at',
         'deleted_at',
         'date_fact',
+        'no',
     ];
 
     protected function serializeDate(DateTimeInterface $date)

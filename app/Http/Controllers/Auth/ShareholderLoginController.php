@@ -45,14 +45,19 @@ class ShareholderLoginController extends Controller
                 ->withInput($request->only('phone'));
         }
 
-        if (Auth::guard('shareholder')->attempt(['phone'=> $phone, 'password' => $request->password]))
+        if (Auth::guard('shareholder')->attempt(['phone'=> $phone, 'password' => $request->password, 'is_active' => 1]))
         {
-            $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
-            $shareholder->generateTwoFactorCode();
+           $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
+//            $shareholder->generateTwoFactorCode();
+//            SmsUtils::sendSMSCode($phone, $shareholder->code, $request->ip());
 
-            SmsUtils::sendSMSCode($phone, $shareholder->code, $request->ip());
+            //update shareholder info
+            ExtApiUtils::updateShareholderInfo($shareholder->phone);
 
-            return redirect()->route('client.verify');
+            //update shareholder headers info
+            ExtApiUtils::updateShareholderHeadersInfo($shareholder->id);
+
+            return redirect()->route('client.home');
         }
 
         FailedLoginUtils::addNewFailEvent($request->ip(), $phone, 0);

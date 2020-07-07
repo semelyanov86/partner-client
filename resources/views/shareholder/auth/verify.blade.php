@@ -40,7 +40,7 @@
                                 </div>
                                 <div class="row d-flex">
                                     <div class="col-auto pb-2">
-                                        <button class="btn btn-primary btn-block " type="submit"> Проверить </button>
+                                        <button class="btn btn-primary btn-block "  type="submit"> Проверить </button>
                                     </div>
                                     <div class="col-auto ml-auto">
                                         <a class="btn btn-danger btn-block"  href="javascript:;" onclick="document.getElementById('logout-form').submit();"> Выйти </a>

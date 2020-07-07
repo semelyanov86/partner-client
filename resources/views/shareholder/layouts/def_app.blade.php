@@ -7,7 +7,8 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>Клиентский портал</title>
+    <title>Личный кабинет</title>
+    <link rel="shortcut icon" href="{{ asset('/images/favicons.png') }}" type="image/x-icon">
     <link href="{{ asset('/css/client/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('/css/client/icons.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('/css/client/app.min.css') }}"rel="stylesheet" type="text/css" />

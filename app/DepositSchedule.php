@@ -36,6 +36,9 @@ class DepositSchedule extends Model
         'created_at',
         'updated_at',
         'deleted_at',
+        'no',
+        'percent_amt_plan',
+        'percent_amt_fact',
     ];
 
     protected function serializeDate(DateTimeInterface $date)
