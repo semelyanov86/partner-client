@@ -26,9 +26,9 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
     Route::post('/login', 'Auth\ShareholderLoginController@login')->name('login.submit');
 
     //Verify
-    Route::get('/verify', 'Auth\ShareholderVerifyController@index')->name('verify');
-    Route::post('/verify', 'Auth\ShareholderVerifyController@verify')->name('verify.submit');
-    Route::POST('/resend', 'Auth\ShareholderVerifyController@resend')->name('resend');
+    //Route::get('/verify', 'Auth\ShareholderVerifyController@index')->name('verify');
+    //Route::post('/verify', 'Auth\ShareholderVerifyController@verify')->name('verify.submit');
+    //Route::POST('/resend', 'Auth\ShareholderVerifyController@resend')->name('resend');
 
     //Forgot-reset
     Route::GET('/forgot', 'Auth\ShareholderForgotPassController@index')->name('forgot');

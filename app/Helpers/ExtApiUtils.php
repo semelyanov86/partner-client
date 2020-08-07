@@ -163,8 +163,8 @@ class ExtApiUtils
                                 ->setTime(0, 0,0,0)->format('Y-m-d') : null,
                             "date_fact" =>  $line["date_fact"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_fact"])
                                 ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "mem_fee_plan" => $line["main_amt_debt_plan"],
-                            "mem_fee_fac"=> $line['period'],
+                            "mem_fee_plan" => $line["mem_fee_plan"],
+                            "mem_fee_fact"=> $line['mem_fee_fact'],
                             "no"=> $line['no'],
                         )
                     );
@@ -199,6 +199,7 @@ class ExtApiUtils
         }
         catch (\Exception $exception)
         {
+            Log::error($exception->getMessage());
             return null;
         }
 
