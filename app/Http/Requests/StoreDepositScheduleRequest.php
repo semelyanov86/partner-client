@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\DepositSchedule;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class StoreDepositScheduleRequest extends FormRequest

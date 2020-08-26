@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers\Auth;
 
-use App\Http\Requests\VerifyShareholderVerifyRequest;
 use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VerifyShareholderVerifyRequest;
 use App\Shareholder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -26,7 +26,6 @@ class ShareholderVerifyController extends Controller
 
     public function verify(VerifyShareholderVerifyRequest $request)
     {
-
         $shareholder = $request->user();
         if ($request->input('code') == $shareholder->code) {
             $shareholder->resetTwoFactorCode();

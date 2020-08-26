@@ -13,7 +13,6 @@ class LoanMemfeeSchedule extends Model
 
     protected $dates = [
 
-    
     'date_plan',
         'date_fact',
 

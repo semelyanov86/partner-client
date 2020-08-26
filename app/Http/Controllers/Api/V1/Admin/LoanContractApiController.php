@@ -7,8 +7,8 @@ use App\Http\Requests\StoreLoanContractRequest;
 use App\Http\Requests\UpdateLoanContractRequest;
 use App\Http\Resources\Admin\LoanContractResource;
 use App\LoanContract;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoanContractApiController extends Controller

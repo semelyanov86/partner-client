@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\MassDestroyFailedLoginRequest;
 use App\Http\Requests\StoreFailedLoginRequest;
 use App\Http\Requests\UpdateFailedLoginRequest;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 

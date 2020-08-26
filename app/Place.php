@@ -10,7 +10,6 @@ class Place extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [
         'name',
         'created_at',

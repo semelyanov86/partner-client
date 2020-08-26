@@ -7,7 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 
 class AuditLog extends Model
 {
-
     protected $fillable = [
         'description',
         'subject_id',

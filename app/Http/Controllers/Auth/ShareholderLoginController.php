@@ -8,9 +8,9 @@ use App\Helpers\SmsUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
 use App\Shareholder;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class ShareholderLoginController extends Controller

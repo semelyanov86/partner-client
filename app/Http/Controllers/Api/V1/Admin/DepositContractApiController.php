@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositContractRequest;
 use App\Http\Requests\UpdateDepositContractRequest;
 use App\Http\Resources\Admin\DepositContractResource;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepositContractApiController extends Controller

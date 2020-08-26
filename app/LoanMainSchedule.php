@@ -14,7 +14,6 @@ class LoanMainSchedule extends Model
 
     protected $dates = [
 
-    
     'date_plan',
         'date_fact',
 

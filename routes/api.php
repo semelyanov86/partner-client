@@ -1,6 +1,6 @@
 <?php
 
-Route::prefix('v1')->name('api.')->namespace('Api\V1\Admin')->middleware('auth:api')->group([ 'namespace' => 'Api\V1\Admin',], function () {
+Route::prefix('v1')->name('api.')->namespace('Api\V1\Admin')->middleware('auth:api')->group(['namespace' => 'Api\V1\Admin'], function () {
     // Permissions
     Route::apiResource('permissions', 'PermissionsApiController');
 

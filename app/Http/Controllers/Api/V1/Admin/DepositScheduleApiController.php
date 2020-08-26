@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositScheduleRequest;
 use App\Http\Requests\UpdateDepositScheduleRequest;
 use App\Http\Resources\Admin\DepositScheduleResource;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepositScheduleApiController extends Controller

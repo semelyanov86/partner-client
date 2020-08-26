@@ -14,7 +14,6 @@ class LoanRequest extends Model
 
     protected $dates = [
 
-    
     'request_date',
 
     ];

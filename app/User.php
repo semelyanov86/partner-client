@@ -5,12 +5,12 @@ namespace App;
 use App\Notifications\VerifyUserNotification;
 use Carbon\Carbon;
 use DateTimeInterface;
-use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 use Laravel\Passport\HasApiTokens;
 
@@ -26,7 +26,6 @@ class User extends Authenticatable
 
     protected $dates = [
 
-    
     'email_verified_at',
 
     ];

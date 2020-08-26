@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UpdatePasswordRequest extends FormRequest

@@ -14,7 +14,6 @@ class DepositContract extends Model
 
     protected $dates = [
 
-    
     'date_calculate',
         'date_start',
         'date_end',

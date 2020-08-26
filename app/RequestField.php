@@ -10,7 +10,6 @@ class RequestField extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [
         'no',
         'key',

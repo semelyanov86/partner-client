@@ -8,8 +8,8 @@ use App\Http\Requests\StoreLoanRequestRequest;
 use App\Http\Requests\UpdateLoanRequestRequest;
 use App\LoanRequest;
 use App\Shareholder;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 

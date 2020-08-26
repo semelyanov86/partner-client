@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\LoanMainSchedule;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class StoreLoanMainScheduleRequest extends FormRequest

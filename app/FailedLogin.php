@@ -10,7 +10,6 @@ class FailedLogin extends Model
 {
     use SoftDeletes;
 
-
     protected $fillable = [
         'ip_address',
         'phone',

@@ -13,7 +13,6 @@ class Post extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait;
 
-
     protected $fillable = [
         'title',
         'content',

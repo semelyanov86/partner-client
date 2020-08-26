@@ -16,7 +16,6 @@ class Shareholder extends Authenticatable
 
     protected $dates = [
 
-    
     'sms_sended_at',
         'code_expires_at',
 

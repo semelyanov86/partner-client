@@ -7,8 +7,8 @@ use App\Http\Requests\StoreRequestFieldRequest;
 use App\Http\Requests\UpdateRequestFieldRequest;
 use App\Http\Resources\Admin\RequestFieldResource;
 use App\RequestField;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequestFieldsApiController extends Controller
