@@ -51,6 +51,6 @@ class LoanMemfeeScheduleApiController extends Controller
 
         $loanMemfeeSchedule->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

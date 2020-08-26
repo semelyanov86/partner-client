@@ -103,7 +103,7 @@ class ShareholderRequestsController extends Controller
         if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator)
-                ->withInput($request->input());
+                ->withInput();
         }
 
         return redirect()->route('client.thanks')->withMessage('Ваша заявка успешно отправлена!');

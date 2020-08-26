@@ -51,6 +51,6 @@ class ShareholdersApiController extends Controller
 
         $shareholder->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

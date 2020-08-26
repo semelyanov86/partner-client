@@ -121,13 +121,13 @@ class LoanMemfeeScheduleController extends Controller
 
         $loanMemfeeSchedule->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyLoanMemfeeScheduleRequest $request)
     {
         LoanMemfeeSchedule::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

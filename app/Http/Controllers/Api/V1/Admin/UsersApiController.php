@@ -53,6 +53,6 @@ class UsersApiController extends Controller
 
         $user->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

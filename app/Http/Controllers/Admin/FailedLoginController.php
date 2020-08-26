@@ -102,13 +102,13 @@ class FailedLoginController extends Controller
 
         $failedLogin->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyFailedLoginRequest $request)
     {
         FailedLogin::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

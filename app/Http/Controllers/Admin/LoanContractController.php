@@ -128,13 +128,13 @@ class LoanContractController extends Controller
 
         $loanContract->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyLoanContractRequest $request)
     {
         LoanContract::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

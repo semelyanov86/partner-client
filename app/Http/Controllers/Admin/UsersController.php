@@ -74,13 +74,13 @@ class UsersController extends Controller
 
         $user->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
         User::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

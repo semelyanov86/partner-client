@@ -110,13 +110,13 @@ class ShareholdersController extends Controller
 
         $shareholder->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyShareholderRequest $request)
     {
         Shareholder::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

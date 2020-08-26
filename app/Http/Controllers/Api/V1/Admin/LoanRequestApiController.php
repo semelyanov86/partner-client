@@ -51,6 +51,6 @@ class LoanRequestApiController extends Controller
 
         $loanRequest->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

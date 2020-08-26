@@ -145,13 +145,13 @@ class LoanMainScheduleController extends Controller
 
         $loanMainSchedule->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyLoanMainScheduleRequest $request)
     {
         LoanMainSchedule::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

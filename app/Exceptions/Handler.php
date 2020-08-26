@@ -52,7 +52,7 @@ class Handler extends ExceptionHandler
     public function render($request, Throwable $exception)
     {
         if ($exception instanceof AuthenticationException) {
-            return redirect(route('client.login'));
+            return redirect()->route('client.login');
         }
 
         return parent::render($request, $exception);

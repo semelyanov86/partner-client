@@ -115,13 +115,13 @@ class LoanRequestController extends Controller
 
         $loanRequest->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyLoanRequestRequest $request)
     {
         LoanRequest::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }
