@@ -12,8 +12,6 @@ class LoanRequest extends Model
 {
     use SoftDeletes, Auditable;
 
-    public $table = 'loan_requests';
-
     protected $dates = [
         'request_date',
         'created_at',

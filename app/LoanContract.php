@@ -12,8 +12,6 @@ class LoanContract extends Model
 {
     use SoftDeletes, Auditable;
 
-    public $table = 'loan_contracts';
-
     protected $dates = [
         'date_calculate',
         'date_start',

@@ -17,8 +17,6 @@ use Laravel\Passport\HasApiTokens;
 class User extends Authenticatable
 {
     use SoftDeletes, Notifiable, HasApiTokens;
-
-    public $table = 'users';
     protected $guard = 'web';
 
     protected $hidden = [

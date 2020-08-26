@@ -12,8 +12,6 @@ class DepositSchedule extends Model
 {
     use SoftDeletes, Auditable;
 
-    public $table = 'deposit_schedules';
-
     protected $dates = [
         'date_plan',
         'date_fact',

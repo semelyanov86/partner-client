@@ -12,8 +12,6 @@ class LoanMainSchedule extends Model
 {
     use SoftDeletes, Auditable;
 
-    public $table = 'loan_main_schedules';
-
     protected $dates = [
         'date_plan',
         'date_fact',

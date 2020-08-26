@@ -13,8 +13,6 @@ class Post extends Model implements HasMedia
 {
     use SoftDeletes, HasMediaTrait;
 
-    public $table = 'posts';
-
     protected $dates = [
         'created_at',
         'updated_at',

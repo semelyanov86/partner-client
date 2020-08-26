@@ -10,8 +10,6 @@ class Place extends Model
 {
     use SoftDeletes;
 
-    public $table = 'places';
-
     protected $dates = [
         'created_at',
         'updated_at',

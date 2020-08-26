@@ -10,8 +10,6 @@ class RequestField extends Model
 {
     use SoftDeletes;
 
-    public $table = 'request_fields';
-
     protected $dates = [
         'created_at',
         'updated_at',

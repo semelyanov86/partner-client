@@ -10,8 +10,6 @@ class Permission extends Model
 {
     use SoftDeletes;
 
-    public $table = 'permissions';
-
     protected $dates = [
         'created_at',
         'updated_at',

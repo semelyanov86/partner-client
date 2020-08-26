@@ -12,8 +12,6 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 class Shareholder extends Authenticatable
 {
     use SoftDeletes, Auditable;
-
-    public $table = 'shareholders';
     protected $guarded = 'shareholder';
 
     protected $dates = [

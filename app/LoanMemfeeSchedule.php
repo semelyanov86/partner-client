@@ -11,8 +11,6 @@ class LoanMemfeeSchedule extends Model
 {
     use SoftDeletes;
 
-    public $table = 'loan_memfee_schedules';
-
     protected $dates = [
         'date_plan',
         'created_at',
