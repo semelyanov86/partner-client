@@ -20,15 +20,15 @@ class ShareholderLoanController extends Controller
      *
      * @return \Illuminate\Contracts\Support\Renderable
      */
-    public function index()
+    public function index(Request $request)
     {
-        //ExtApiUtils::updateAllContractLoan(auth()->user()->id, true);
+        //ExtApiUtils::updateAllContractLoan($request->user()->id, true);
         return view('shareholder.loans');
     }
 
-    public function item($id)
+    public function item(Request $request, $id)
     {
-        $loanContract = LoanContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        $loanContract = LoanContract::where('shareholder_id', $request->user()->id)->where('id', $id)->whereNull('deleted_at');
         if ($loanContract->count() > 0) {
             $mainSchedule = LoanMainSchedule::where('loan_id', $id)
                 ->whereNull('deleted_at')
@@ -38,7 +38,7 @@ class ShareholderLoanController extends Controller
                 ->whereNull('deleted_at')
                 ->orderByRaw('no', 'ASC');
 
-            $qrCodeText = ExtApiUtils::generateQrCodeText('Договор займа №'.$loanContract->first()->agreement, auth()->user()->fio);
+            $qrCodeText = ExtApiUtils::generateQrCodeText('Договор займа №'.$loanContract->first()->agreement, $request->user()->fio);
 
             return view('shareholder.loans-item')
                 ->with('loanContract', $loanContract->first())
@@ -50,9 +50,9 @@ class ShareholderLoanController extends Controller
         }
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $loanContract = LoanContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        $loanContract = LoanContract::where('shareholder_id', $request->user()->id)->where('id', $id)->whereNull('deleted_at');
         if ($loanContract->count() > 0) {
             if (ExtApiUtils::updateContractLoan($id)) {
                 return $this->item($id);
@@ -66,7 +66,7 @@ class ShareholderLoanController extends Controller
 
     public function search(Request $request)
     {
-        $loanContracts = LoanContract::where('shareholder_id', auth()->user()->id)->whereNull('deleted_at')
+        $loanContracts = LoanContract::where('shareholder_id', $request->user()->id)->whereNull('deleted_at')
             ->when(request('dateFromFilter'), function ($query) {
                 return $query->where('date_start', '>=', request('dateFromFilter'));
             })->when(request('dateToFilter'), function ($query) {

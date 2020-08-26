@@ -47,8 +47,8 @@ class FailToBan
                 || $request->is('*client/forgot*'))) {
             $phone = '';
 
-            if (Auth::check()) {
-                $shareholder = Auth::user();
+            if ($request->user()) {
+                $shareholder = $request->user();
                 $phone = $shareholder->phone;
             } elseif ($request->phone) {
                 $phone = Utils::getFormatedPhone($request->phone);
@@ -60,8 +60,8 @@ class FailToBan
             }
 
             if (FailedLoginUtils::getRemainSMSCount($phone) <= 0) {
-                if (Auth::check()) {
-                    $shareholder = Auth::user();
+                if ($request->user()) {
+                    $shareholder = $request->user();
                     $shareholder->resetTwoFactorCode();
                     auth()->logout();
                 }

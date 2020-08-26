@@ -22,9 +22,9 @@ class RedirectIfAuthenticated
             case 'shareholder':
                 if (Auth::guard($guard)->check()) {
 
-//                    $shareholder = auth()->user();
+//                    $shareholder = $request->user();
 //
-//                    if(auth()->check() && $shareholder->code)
+//                    if($request->user() && $shareholder->code)
 //                    {
 //
 //                        if(!$shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now()))

@@ -21,9 +21,9 @@ class ShareholderRequestsController extends Controller
         return view('shareholder.requests');
     }
 
-    public function item($id)
+    public function item(Request $request, $id)
     {
-        $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)
+        $loanRequest = LoanRequest::where('shareholder_id', $request->user()->id)
             ->whereNull('deleted_at')->where('id', $id);
         if ($loanRequest->count() > 0) {
             return view('shareholder.requests-item')->with('loanRequest', $loanRequest->first());
@@ -34,7 +34,7 @@ class ShareholderRequestsController extends Controller
 
     public function search(Request $request)
     {
-        $loanRequests = LoanRequest::where('shareholder_id', auth()->user()->id)
+        $loanRequests = LoanRequest::where('shareholder_id', $request->user()->id)
         ->whereNull('deleted_at')->when(request('dateFromFilter'), function ($query) {
             return $query->where('request_date', '>=', request('dateFromFilter'));
         })->when(request('dateToFilter'), function ($query) {
@@ -51,9 +51,9 @@ class ShareholderRequestsController extends Controller
         return response()->json($data);
     }
 
-    public function new()
+    public function new(Request $request)
     {
-        if (auth()->user()->allow_request == false) {
+        if ($request->user()->allow_request == false) {
             abort(404);
         }
 

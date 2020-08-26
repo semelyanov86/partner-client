@@ -27,7 +27,7 @@ class ShareholderVerifyController extends Controller
     public function verify(VerifyShareholderVerifyRequest $request)
     {
 
-        $shareholder = Auth::user();
+        $shareholder = $request->user();
         if ($request->input('code') == $shareholder->code) {
             $shareholder->resetTwoFactorCode();
 
@@ -48,7 +48,7 @@ class ShareholderVerifyController extends Controller
 
     public function resend(Request $request)
     {
-        $shareholder = Auth::user();
+        $shareholder = $request->user();
         $shareholder->generateTwoFactorCode();
 
         SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());

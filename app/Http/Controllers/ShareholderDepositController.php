@@ -24,15 +24,15 @@ class ShareholderDepositController extends Controller
         return view('shareholder.deposits');
     }
 
-    public function item($id)
+    public function item(Request $request, $id)
     {
-        $depositContract = DepositContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        $depositContract = DepositContract::where('shareholder_id', $request->user()->id)->where('id', $id)->whereNull('deleted_at');
         if ($depositContract->count() > 0) {
             $mainSchedule = DepositSchedule::where('deposit_id', $id)
                 ->whereNull('deleted_at')
                 ->orderByRaw('no', 'ASC');
 
-            $qrCodeText = ExtApiUtils::generateQrCodeText('Договор сбережений №'.$depositContract->first()->agreement, auth()->user()->fio);
+            $qrCodeText = ExtApiUtils::generateQrCodeText('Договор сбережений №'.$depositContract->first()->agreement, $request->user()->fio);
 
             return view('shareholder.deposits-item')
                 ->with('depositContract', $depositContract->first())
@@ -43,9 +43,9 @@ class ShareholderDepositController extends Controller
         }
     }
 
-    public function update($id)
+    public function update(Request $request, $id)
     {
-        $depositContract = DepositContract::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        $depositContract = DepositContract::where('shareholder_id', $request->user()->id)->where('id', $id)->whereNull('deleted_at');
         if ($depositContract->count() > 0) {
             if (ExtApiUtils::updateContractDeposit($id)) {
                 return $this->item($id);
@@ -59,7 +59,7 @@ class ShareholderDepositController extends Controller
 
     public function search(Request $request)
     {
-        $depositContracts = DepositContract::where('shareholder_id', auth()->user()->id)->whereNull('deleted_at')
+        $depositContracts = DepositContract::where('shareholder_id', $request->user()->id)->whereNull('deleted_at')
             ->when(request('dateFromFilter'), function ($query) {
                 return $query->where('date_start', '>=', request('dateFromFilter'));
             })->when(request('dateToFilter'), function ($query) {
