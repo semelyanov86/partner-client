@@ -8,8 +8,8 @@ use App\Http\Requests\StoreLoanRequestRequest;
 use App\Http\Requests\UpdateLoanRequestRequest;
 use App\LoanRequest;
 use App\Shareholder;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,9 +27,9 @@ class LoanRequestController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'loan_request_show';
-                $editGate      = 'loan_request_edit';
-                $deleteGate    = 'loan_request_delete';
+                $viewGate = 'loan_request_show';
+                $editGate = 'loan_request_edit';
+                $deleteGate = 'loan_request_delete';
                 $crudRoutePart = 'loan-requests';
 
                 return view('partials.datatablesActions', compact(
@@ -42,20 +42,20 @@ class LoanRequestController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->addColumn('shareholder_fio', function ($row) {
                 return $row->shareholder ? $row->shareholder->fio : '';
             });
 
             $table->editColumn('request_no', function ($row) {
-                return $row->request_no ? $row->request_no : "";
+                return $row->request_no ? $row->request_no : '';
             });
             $table->editColumn('amount', function ($row) {
-                return $row->amount ? $row->amount : "";
+                return $row->amount ? $row->amount : '';
             });
             $table->editColumn('status', function ($row) {
-                return $row->status ? $row->status : "";
+                return $row->status ? $row->status : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'shareholder']);
@@ -115,13 +115,13 @@ class LoanRequestController extends Controller
 
         $loanRequest->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyLoanRequestRequest $request)
     {
         LoanRequest::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

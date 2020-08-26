@@ -7,8 +7,8 @@ use App\Http\Requests\MassDestroyPlaceRequest;
 use App\Http\Requests\StorePlaceRequest;
 use App\Http\Requests\UpdatePlaceRequest;
 use App\Place;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -26,9 +26,9 @@ class PlacesController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'place_show';
-                $editGate      = 'place_edit';
-                $deleteGate    = 'place_delete';
+                $viewGate = 'place_show';
+                $editGate = 'place_edit';
+                $deleteGate = 'place_delete';
                 $crudRoutePart = 'places';
 
                 return view('partials.datatablesActions', compact(
@@ -41,10 +41,10 @@ class PlacesController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : "";
+                return $row->name ? $row->name : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);
@@ -96,13 +96,13 @@ class PlacesController extends Controller
 
         $place->delete();
 
-        return back();
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyPlaceRequest $request)
     {
         Place::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

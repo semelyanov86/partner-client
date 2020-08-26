@@ -12,9 +12,9 @@
         <div class="card-body login-card-body">
             <p class="login-box-msg">{{ trans('global.register') }}</p>
             <form method="POST" action="{{ route('register') }}">
-                {{ csrf_field() }}
+                @csrf
                 <div>
-                    {{ csrf_field() }}
+                    @csrf
                     <div class="form-group">
                         <input type="text" name="name" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" required autofocus placeholder="{{ trans('global.user_name') }}" value="{{ old('name', null) }}">
                         @if($errors->has('name'))

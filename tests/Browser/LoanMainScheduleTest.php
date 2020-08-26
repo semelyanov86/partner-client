@@ -16,6 +16,5 @@ class LoanMainScheduleTest extends DuskTestCase
             $browser->visit(route('admin.loanmainschedule.index'));
             $browser->assertRouteIs('admin.loanmainschedule.index');
         });
-
     }
 }

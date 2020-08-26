@@ -7,8 +7,8 @@ use App\Http\Requests\StoreLoanContractRequest;
 use App\Http\Requests\UpdateLoanContractRequest;
 use App\Http\Resources\Admin\LoanContractResource;
 use App\LoanContract;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoanContractApiController extends Controller
@@ -51,6 +51,6 @@ class LoanContractApiController extends Controller
 
         $loanContract->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

@@ -2,21 +2,13 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \DateTimeInterface;
 
 class FailedLogin extends Model
 {
     use SoftDeletes;
-
-    public $table = 'failed_logins';
-
-    protected $dates = [
-        'created_at',
-        'updated_at',
-        'deleted_at',
-    ];
 
     protected $fillable = [
         'ip_address',
@@ -31,6 +23,4 @@ class FailedLogin extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
-
-
 }

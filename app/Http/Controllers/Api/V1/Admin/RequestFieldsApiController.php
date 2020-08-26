@@ -7,8 +7,8 @@ use App\Http\Requests\StoreRequestFieldRequest;
 use App\Http\Requests\UpdateRequestFieldRequest;
 use App\Http\Resources\Admin\RequestFieldResource;
 use App\RequestField;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class RequestFieldsApiController extends Controller
@@ -51,6 +51,6 @@ class RequestFieldsApiController extends Controller
 
         $requestField->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

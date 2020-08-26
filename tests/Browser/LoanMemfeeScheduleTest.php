@@ -16,6 +16,5 @@ class LoanMemfeeScheduleTest extends DuskTestCase
             $browser->visit(route('admin.loanmemfeeschedule.index'));
             $browser->assertRouteIs('admin.loanmemfeeschedule.index');
         });
-
     }
 }

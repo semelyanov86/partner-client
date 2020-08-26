@@ -25,5 +25,4 @@ class AddNoFieldToSchedules extends Migration
             $table->integer('no')->default(0);
         });
     }
-
 }

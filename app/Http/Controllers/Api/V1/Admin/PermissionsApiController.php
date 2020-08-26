@@ -7,8 +7,8 @@ use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Http\Resources\Admin\PermissionResource;
 use App\Permission;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsApiController extends Controller
@@ -18,7 +18,6 @@ class PermissionsApiController extends Controller
         abort_if(Gate::denies('permission_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PermissionResource(Permission::all());
-
     }
 
     public function store(StorePermissionRequest $request)
@@ -28,7 +27,6 @@ class PermissionsApiController extends Controller
         return (new PermissionResource($permission))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(Permission $permission)
@@ -36,7 +34,6 @@ class PermissionsApiController extends Controller
         abort_if(Gate::denies('permission_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new PermissionResource($permission);
-
     }
 
     public function update(UpdatePermissionRequest $request, Permission $permission)
@@ -46,7 +43,6 @@ class PermissionsApiController extends Controller
         return (new PermissionResource($permission))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(Permission $permission)
@@ -55,7 +51,6 @@ class PermissionsApiController extends Controller
 
         $permission->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

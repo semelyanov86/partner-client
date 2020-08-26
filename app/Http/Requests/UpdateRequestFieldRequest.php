@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\RequestField;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class UpdateRequestFieldRequest extends FormRequest
@@ -27,7 +27,7 @@ class UpdateRequestFieldRequest extends FormRequest
             ],
             'key'   => [
                 'required',
-                'unique:request_fields,key,' . request()->route('request_field')->id,
+                'unique:request_fields,key,'.request()->route('request_field')->id,
             ],
             'title' => [
                 'required',

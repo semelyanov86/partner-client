@@ -4,21 +4,18 @@ namespace App;
 
 use App\Traits\Auditable;
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \DateTimeInterface;
 
 class LoanRequest extends Model
 {
     use SoftDeletes, Auditable;
 
-    public $table = 'loan_requests';
-
     protected $dates = [
-        'request_date',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
+    'request_date',
+
     ];
 
     protected $fillable = [

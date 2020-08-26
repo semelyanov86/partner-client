@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\LoanRequest;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyLoanRequestRequest extends FormRequest
@@ -19,8 +19,13 @@ class MassDestroyLoanRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:loan_requests,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:loan_requests,id',
+            ],
         ];
     }
 }

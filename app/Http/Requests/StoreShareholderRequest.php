@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Shareholder;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class StoreShareholderRequest extends FormRequest
@@ -28,7 +28,7 @@ class StoreShareholderRequest extends FormRequest
                 'required',
             ],
             'sms_sended_at'   => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:'.config('panel.date_format').' '.config('panel.time_format'),
                 'nullable',
             ],
             'fio'             => [
@@ -37,7 +37,7 @@ class StoreShareholderRequest extends FormRequest
                 'required',
             ],
             'code_expires_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:'.config('panel.date_format').' '.config('panel.time_format'),
                 'nullable',
             ],
         ];

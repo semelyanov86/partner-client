@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\DepositContract;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyDepositContractRequest extends FormRequest
@@ -14,15 +14,18 @@ class MassDestroyDepositContractRequest extends FormRequest
         abort_if(Gate::denies('deposit_contract_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:deposit_contracts,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:deposit_contracts,id',
+            ],
         ];
-
     }
 }

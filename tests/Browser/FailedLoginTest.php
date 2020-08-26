@@ -16,6 +16,5 @@ class FailedLoginTest extends DuskTestCase
             $browser->visit(route('admin.failedlogin.index'));
             $browser->assertRouteIs('admin.failedlogin.index');
         });
-
     }
 }

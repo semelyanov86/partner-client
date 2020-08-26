@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Place;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyPlaceRequest extends FormRequest
@@ -19,8 +19,13 @@ class MassDestroyPlaceRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:places,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:places,id',
+            ],
         ];
     }
 }

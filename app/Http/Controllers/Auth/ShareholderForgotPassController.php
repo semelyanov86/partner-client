@@ -33,15 +33,14 @@ class ShareholderForgotPassController extends Controller
             'phone' => 'required|min:10|max:10|exists:shareholders,phone',
         ]);
 
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             FailedLoginUtils::addNewFailEvent($request->ip(), $phone, 0);
-            return redirect()->back()->withErrors(['error_msg' =>
-                'Указан несуществующий номер телефона'])
+
+            return redirect()->back()->withErrors(['error_msg' => 'Указан несуществующий номер телефона'])
                 ->withInput($request->only('phone'));
         }
 
-        $shareholder = Shareholder::where("phone", $phone)->first();
+        $shareholder = Shareholder::where('phone', $phone)->first();
         $shareholder->generateTwoFactorCode();
 
         SmsUtils::sendSMSCode($phone, $shareholder->code, $request->ip());

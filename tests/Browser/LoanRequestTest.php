@@ -16,6 +16,5 @@ class LoanRequestTest extends DuskTestCase
             $browser->visit(route('admin.loanrequest.index'));
             $browser->assertRouteIs('admin.loanrequest.index');
         });
-
     }
 }

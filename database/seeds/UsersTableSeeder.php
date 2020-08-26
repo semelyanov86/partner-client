@@ -18,6 +18,5 @@ class UsersTableSeeder extends Seeder
         ];
 
         User::insert($users);
-
     }
 }

@@ -2,12 +2,11 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;use \DateTimeInterface;
+use DateTimeInterface;
+use Illuminate\Database\Eloquent\Model;
 
 class AuditLog extends Model
 {
-    public $table = 'audit_logs';
-
     protected $fillable = [
         'description',
         'subject_id',
@@ -24,6 +23,5 @@ class AuditLog extends Model
     protected function serializeDate(DateTimeInterface $date)
     {
         return $date->format('Y-m-d H:i:s');
-
     }
 }

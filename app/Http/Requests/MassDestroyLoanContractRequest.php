@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\LoanContract;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyLoanContractRequest extends FormRequest
@@ -14,15 +14,18 @@ class MassDestroyLoanContractRequest extends FormRequest
         abort_if(Gate::denies('loan_contract_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:loan_contracts,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:loan_contracts,id',
+            ],
         ];
-
     }
 }

@@ -7,6 +7,7 @@ use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
 use App\Helpers\Utils;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\VerifyShareholderVerifyRequest;
 use App\Shareholder;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -23,15 +24,10 @@ class ShareholderVerifyController extends Controller
         return view('shareholder.auth.verify');
     }
 
-    public function verify(Request $request)
+    public function verify(VerifyShareholderVerifyRequest $request)
     {
-        $request->validate([
-            'code' => 'integer|required',
-        ]);
-
-        $shareholder = Auth::user();
-        if($request->input('code') == $shareholder->code)
-        {
+        $shareholder = $request->user();
+        if ($request->input('code') == $shareholder->code) {
             $shareholder->resetTwoFactorCode();
 
             //update shareholder info
@@ -44,18 +40,18 @@ class ShareholderVerifyController extends Controller
         }
 
         FailedLoginUtils::addNewFailEvent($request->ip(), $shareholder->phone, 0);
+
         return redirect()->back()
-            ->withErrors(['code' =>
-                'Введен неверный код']);
+            ->withErrors(['code' => 'Введен неверный код']);
     }
 
     public function resend(Request $request)
     {
-        $shareholder = Auth::user();
+        $shareholder = $request->user();
         $shareholder->generateTwoFactorCode();
 
         SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());
-        return redirect()->back()->withMessage("СМС отправлен повторно");
-    }
 
+        return redirect()->back()->withMessage('СМС отправлен повторно');
+    }
 }

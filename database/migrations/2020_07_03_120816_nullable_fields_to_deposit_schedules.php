@@ -14,10 +14,9 @@ class NullableFieldsToDepositSchedules extends Migration
     public function up()
     {
         Schema::table('deposit_schedules', function (Blueprint $table) {
-            $table->date('date_plan')->nullable()->default(null)->change();;
-            $table->float('main_amt_debt', 15, 2)->nullable()->default(null)->change();;
-            $table->string('main_amt_fact')->nullable()->default(null)->change();;
+            $table->date('date_plan')->nullable()->default(null)->change();
+            $table->float('main_amt_debt', 15, 2)->nullable()->default(null)->change();
+            $table->string('main_amt_fact')->nullable()->default(null)->change();
         });
     }
-
 }

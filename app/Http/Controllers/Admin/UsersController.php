@@ -8,8 +8,8 @@ use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\UpdateUserRequest;
 use App\Role;
 use App\User;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class UsersController extends Controller
@@ -38,7 +38,6 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function edit(User $user)
@@ -58,7 +57,6 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function show(User $user)
@@ -76,15 +74,13 @@ class UsersController extends Controller
 
         $user->delete();
 
-        return back();
-
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
     {
         User::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

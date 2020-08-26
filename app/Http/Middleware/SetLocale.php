@@ -9,7 +9,7 @@ class SetLocale
     public function handle($request, Closure $next)
     {
         if (request('change_language')) {
-            session()->put('language', request('change_language'));
+            $request->session()->put('language', request('change_language'));
             $language = request('change_language');
         } elseif (session('language')) {
             $language = session('language');
@@ -22,7 +22,5 @@ class SetLocale
         }
 
         return $next($request);
-
     }
-
 }

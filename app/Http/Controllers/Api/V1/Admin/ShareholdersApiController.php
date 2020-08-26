@@ -7,8 +7,8 @@ use App\Http\Requests\StoreShareholderRequest;
 use App\Http\Requests\UpdateShareholderRequest;
 use App\Http\Resources\Admin\ShareholderResource;
 use App\Shareholder;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class ShareholdersApiController extends Controller
@@ -51,6 +51,6 @@ class ShareholdersApiController extends Controller
 
         $shareholder->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

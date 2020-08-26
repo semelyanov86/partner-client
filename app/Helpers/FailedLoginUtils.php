@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Helpers;
-
 
 use App\FailedLogin;
 
@@ -19,25 +17,25 @@ class FailedLoginUtils
 
     public static function getRemainSMSCount($phone)
     {
-        return env('FAILED_SMS_FOR_BAN', 3)
+        return config('settings.failed_sms_for_ban')
             -
             FailedLogin::where('phone', $phone)
                 ->where('sms', 1)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subMinutes(config('settings.ban_time_minutes')))
+                ->where('created_at', '<=', now())
                 ->count();
     }
 
     public static function getRemainFailCount($ip)
     {
-        return env('FAILED_COUNTS_FOR_BAN', 3)
+        return config('settings.failed_counts_for_ban')
             -
             FailedLogin::where('ip_address', $ip)
                 ->where('sms', 0)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subMinutes(config('settings.ban_time_minutes')))
+                ->where('created_at', '<=', now())
                 ->count();
     }
 
@@ -46,10 +44,8 @@ class FailedLoginUtils
         return FailedLogin::where('phone', $phone)
                 ->where('sms', 1)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subSeconds(env('SMS_RESEND_DELAY_SECONDS', 30)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subSeconds(config('settings.sms_resend_delay_seconds')))
+                ->where('created_at', '<=', now())
                 ->count() == 0;
     }
-
-
 }

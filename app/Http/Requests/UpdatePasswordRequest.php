@@ -2,9 +2,9 @@
 
 namespace App\Http\Requests;
 
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Validation\Rule;
 
 class UpdatePasswordRequest extends FormRequest
@@ -29,7 +29,7 @@ class UpdatePasswordRequest extends FormRequest
     public function rules()
     {
         return [
-            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,' . auth()->id()],
+            'email'    => ['required', 'string', 'email', 'max:255', 'unique:users,email,'.auth()->id()],
             'password' => ['required', 'string', 'min:8', 'confirmed'],
         ];
     }

@@ -16,6 +16,5 @@ class LoanContractTest extends DuskTestCase
             $browser->visit(route('admin.loancontract.index'));
             $browser->assertRouteIs('admin.loancontract.index');
         });
-
     }
 }

@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\LoanRequest;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class StoreLoanRequestRequest extends FormRequest
@@ -34,7 +34,7 @@ class StoreLoanRequestRequest extends FormRequest
             ],
             'request_date' => [
                 'required',
-                'date_format:' . config('panel.date_format'),
+                'date_format:'.config('panel.date_format'),
             ],
         ];
     }

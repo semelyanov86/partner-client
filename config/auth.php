@@ -79,7 +79,7 @@ return [
         'shareholders' => [
             'driver' => 'eloquent',
             'model'  => App\Shareholder::class,
-        ]
+        ],
 
         // 'users' => [
         //     'driver' => 'database',

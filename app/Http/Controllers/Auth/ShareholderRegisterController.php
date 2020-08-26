@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
 use App\Helpers\Utils;
@@ -15,7 +16,6 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Validator;
-use App\Helpers\ExtApiUtils;
 use Illuminate\Support\Str;
 
 class ShareholderRegisterController extends Controller
@@ -58,24 +58,26 @@ class ShareholderRegisterController extends Controller
      */
     protected function validator(array $data)
     {
-        $messages = array(
+        $messages = [
             'phone.exists' => 'Номер телефона не найден в базе',
             'password.min' => 'Пароль слишком короткий',
             'password.same' => 'Пароли должны совпадать',
-        );
+        ];
+
         return Validator::make($data, [
             'phone' => ['required', 'string', 'min:10', 'max:10', 'exists:shareholders,phone'],
-            'password' => ['required', 'string', 'min:6', 'required_with:password-confirm', 'same:password-confirm' ],
+            'password' => ['required', 'string', 'min:6', 'required_with:password-confirm', 'same:password-confirm'],
         ], $messages);
     }
 
     protected function phoneValidator(array $data)
     {
-        $messages = array(
+        $messages = [
             'phone.required' => 'Введите номер телефона',
             'phone.min' => 'Номер телефона слишком короткий',
             'phone.max' => 'Номер телефона слишком длинный',
-        );
+        ];
+
         return Validator::make($data, [
             'phone' => ['required', 'string', 'min:10', 'max:10'],
         ], $messages);
@@ -116,22 +118,20 @@ class ShareholderRegisterController extends Controller
 
         $this->phoneValidator($request->all())->validate();
 
-        $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
+        $shareholder = Shareholder::where('phone', $phone)->whereNull('deleted_at')->first();
 
-        if(!$shareholder)
-        {
+        if (! $shareholder) {
             event(new Registered($user = $this->create($request->all())));
-        }
-        else {
-            if ($shareholder->is_active == true)
-            {
-                Log::error("user active, login");
+        } else {
+            if ($shareholder->is_active == true) {
+                Log::error('user active, login');
+
                 return redirect()->route('client.login')
                     ->withMessage('Вы уже зарегистрированы');
             }
         }
 
-        $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
+        $shareholder = Shareholder::where('phone', $phone)->whereNull('deleted_at')->first();
         $shareholder->generateTwoFactorCode();
         SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());
 
@@ -149,8 +149,7 @@ class ShareholderRegisterController extends Controller
 
         //validate fields
         $validator = $this->validator($request->all());
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return redirect()->back()
             ->withErrors($validator->errors())
             ->withInput($request->only('phone', 'password', 'password-confirm'));
@@ -159,12 +158,11 @@ class ShareholderRegisterController extends Controller
         //validate password
         $password = $request->password;
         $lowercase = preg_match('@[a-z]@', $password);
-        $number    = preg_match('@[0-9]@', $password);
-        $cyrilicLow  = preg_match('@[а-я]@', $password);
+        $number = preg_match('@[0-9]@', $password);
+        $cyrilicLow = preg_match('@[а-я]@', $password);
         $cyrilicUp = preg_match('@[А-Я]@', $password);
 
-        if (!$lowercase || !$number || $cyrilicLow || $cyrilicUp)
-        {
+        if (! $lowercase || ! $number || $cyrilicLow || $cyrilicUp) {
             return redirect()->back()
                 ->withErrors(['password' => 'Пароль не должен содержать кириллицу. Пароль должен содержать быть как буквы, так и числа.'])
                 ->withInput($request->only('phone', 'password', 'password-confirm'));
@@ -172,18 +170,16 @@ class ShareholderRegisterController extends Controller
 
         //validate code
         $code = $request->input('code');
-        $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
-        if($shareholder->code)
-        {
-            if(!$shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now()))
-            {
+        $shareholder = Shareholder::where('phone', $phone)->whereNull('deleted_at')->first();
+        if ($shareholder->code) {
+            if (! $shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now())) {
                 $shareholder->resetTwoFactorCode();
+
                 return redirect()->route('client.register')
                     ->withMessage('Срок действия СМС кода истек. Пожалуйста, попробуйте еще раз.');
             }
 
-            if($shareholder->code != $code)
-            {
+            if ($shareholder->code != $code) {
                 return redirect()->back()
                     ->withErrors(['code' => 'Введен неверный код'])
                     ->withInput($request->only('phone', 'password', 'password-confirm'));
@@ -209,20 +205,18 @@ class ShareholderRegisterController extends Controller
         ]);
 
         $validator = $this->phoneValidator($request->all());
-        if ($validator->fails())
-        {
+        if ($validator->fails()) {
             return redirect()->back()
                 ->withErrors($validator->errors())
                 ->withInput($request->only('phone', 'password', 'password-confirm'));
         }
 
-        $shareholder = Shareholder::where("phone", $phone)->whereNull('deleted_at')->first();
+        $shareholder = Shareholder::where('phone', $phone)->whereNull('deleted_at')->first();
 
         $shareholder->generateTwoFactorCode();
         SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());
 
-        return redirect()->back()->withMessage("СМС отправлен повторно")
+        return redirect()->back()->withMessage('СМС отправлен повторно')
             ->withInput($request->only('phone', 'password', 'password-confirm'));
     }
-
 }

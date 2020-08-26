@@ -9,8 +9,8 @@ use App\Http\Requests\MassDestroyDepositScheduleRequest;
 use App\Http\Requests\StoreDepositScheduleRequest;
 use App\Http\Requests\UpdateDepositScheduleRequest;
 use App\Shareholder;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -28,9 +28,9 @@ class DepositScheduleController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'deposit_schedule_show';
-                $editGate      = 'deposit_schedule_edit';
-                $deleteGate    = 'deposit_schedule_delete';
+                $viewGate = 'deposit_schedule_show';
+                $editGate = 'deposit_schedule_edit';
+                $deleteGate = 'deposit_schedule_delete';
                 $crudRoutePart = 'deposit-schedules';
 
                 return view('partials.datatablesActions', compact(
@@ -43,7 +43,7 @@ class DepositScheduleController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->addColumn('deposit_agreement', function ($row) {
                 return $row->deposit ? $row->deposit->agreement : '';
@@ -54,19 +54,19 @@ class DepositScheduleController extends Controller
             });
 
             $table->editColumn('days', function ($row) {
-                return $row->days ? $row->days : "";
+                return $row->days ? $row->days : '';
             });
             $table->editColumn('main_amt_debt', function ($row) {
-                return $row->main_amt_debt ? $row->main_amt_debt : "";
+                return $row->main_amt_debt ? $row->main_amt_debt : '';
             });
             $table->editColumn('main_amt_fact', function ($row) {
-                return $row->main_amt_fact ? $row->main_amt_fact : "";
+                return $row->main_amt_fact ? $row->main_amt_fact : '';
             });
             $table->editColumn('ndfl_amt', function ($row) {
-                return $row->ndfl_amt ? $row->ndfl_amt : "";
+                return $row->ndfl_amt ? $row->ndfl_amt : '';
             });
             $table->editColumn('percent_available', function ($row) {
-                return $row->percent_available ? $row->percent_available : "";
+                return $row->percent_available ? $row->percent_available : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'deposit', 'shareholder']);
@@ -93,7 +93,6 @@ class DepositScheduleController extends Controller
         $depositSchedule = DepositSchedule::create($request->all());
 
         return redirect()->route('admin.deposit-schedules.index');
-
     }
 
     public function edit(DepositSchedule $depositSchedule)
@@ -114,7 +113,6 @@ class DepositScheduleController extends Controller
         $depositSchedule->update($request->all());
 
         return redirect()->route('admin.deposit-schedules.index');
-
     }
 
     public function show(DepositSchedule $depositSchedule)
@@ -132,16 +130,13 @@ class DepositScheduleController extends Controller
 
         $depositSchedule->delete();
 
-        return back();
-
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyDepositScheduleRequest $request)
     {
         DepositSchedule::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
-
 }

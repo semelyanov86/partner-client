@@ -7,8 +7,8 @@ use App\Http\Requests\StoreLoanMemfeeScheduleRequest;
 use App\Http\Requests\UpdateLoanMemfeeScheduleRequest;
 use App\Http\Resources\Admin\LoanMemfeeScheduleResource;
 use App\LoanMemfeeSchedule;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoanMemfeeScheduleApiController extends Controller
@@ -51,6 +51,6 @@ class LoanMemfeeScheduleApiController extends Controller
 
         $loanMemfeeSchedule->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

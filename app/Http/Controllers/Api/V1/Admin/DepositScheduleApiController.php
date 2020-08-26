@@ -7,8 +7,8 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositScheduleRequest;
 use App\Http\Requests\UpdateDepositScheduleRequest;
 use App\Http\Resources\Admin\DepositScheduleResource;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class DepositScheduleApiController extends Controller
@@ -18,7 +18,6 @@ class DepositScheduleApiController extends Controller
         abort_if(Gate::denies('deposit_schedule_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new DepositScheduleResource(DepositSchedule::with(['deposit', 'shareholder'])->get());
-
     }
 
     public function store(StoreDepositScheduleRequest $request)
@@ -28,7 +27,6 @@ class DepositScheduleApiController extends Controller
         return (new DepositScheduleResource($depositSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(DepositSchedule $depositSchedule)
@@ -36,7 +34,6 @@ class DepositScheduleApiController extends Controller
         abort_if(Gate::denies('deposit_schedule_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new DepositScheduleResource($depositSchedule->load(['deposit', 'shareholder']));
-
     }
 
     public function update(UpdateDepositScheduleRequest $request, DepositSchedule $depositSchedule)
@@ -46,7 +43,6 @@ class DepositScheduleApiController extends Controller
         return (new DepositScheduleResource($depositSchedule))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(DepositSchedule $depositSchedule)
@@ -55,7 +51,6 @@ class DepositScheduleApiController extends Controller
 
         $depositSchedule->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

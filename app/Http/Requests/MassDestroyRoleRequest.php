@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Role;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyRoleRequest extends FormRequest
@@ -14,15 +14,18 @@ class MassDestroyRoleRequest extends FormRequest
         abort_if(Gate::denies('role_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:roles,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:roles,id',
+            ],
         ];
-
     }
 }

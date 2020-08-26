@@ -7,8 +7,8 @@ use App\Http\Requests\StoreLoanMainScheduleRequest;
 use App\Http\Requests\UpdateLoanMainScheduleRequest;
 use App\Http\Resources\Admin\LoanMainScheduleResource;
 use App\LoanMainSchedule;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoanMainScheduleApiController extends Controller
@@ -51,6 +51,6 @@ class LoanMainScheduleApiController extends Controller
 
         $loanMainSchedule->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

@@ -20,6 +20,5 @@ class CreateShareholdersTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 }

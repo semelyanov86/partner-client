@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\Shareholder;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyShareholderRequest extends FormRequest
@@ -19,8 +19,13 @@ class MassDestroyShareholderRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:shareholders,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:shareholders,id',
+            ],
         ];
     }
 }

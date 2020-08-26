@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Helpers;
-
 
 use App\DepositContract;
 use App\DepositSchedule;
@@ -17,297 +15,273 @@ use Illuminate\Support\Facades\Log;
 
 class ExtApiUtils
 {
-    CONST dateFormat = "d.m.Y";
+    const dateFormat = 'd.m.Y';
 
     public static function getShareholderByPhone($phone)
     {
-        $apiURL = env("API_1C_URL", "")."getbyphone/".$phone;
+        $apiURL = config('settings.api_1c_url').'getbyphone/'.$phone;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
-            if ($response->status() == 200)
-            {
+            if ($response->status() == 200) {
                 $jsonData = $response->json();
 
-                $data = array("fio" => $jsonData['fio'],
-                    "doc" => $jsonData['doc'],
-                    "allow_request" => $jsonData['AllowRequest'] == "true" ? 1 : 0 );
+                $data = ['fio' => $jsonData['fio'],
+                    'doc' => $jsonData['doc'],
+                    'allow_request' => $jsonData['AllowRequest'] == 'true' ? 1 : 0, ];
 
                 return $data;
-            }
-            else
+            } else {
                 return null;
-        }
-        catch (\Exception $exception) {
+            }
+        } catch (\Exception $exception) {
             return null;
         }
-
     }
 
     public static function getShareholderHeadersInfoByDoc($doc)
     {
-        $docSplited = explode(" ", trim($doc));
+        $docSplited = explode(' ', trim($doc));
         $ser = $docSplited[0];
         $num = $docSplited[1];
 
-        $apiURL = env("API_1C_URL", "")."getheaders?ser=".$ser."&num=".$num;
+        $apiURL = config('settings.api_1c_url').'getheaders?ser='.$ser.'&num='.$num;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
-            if ($response->status() == 200)
-            {
+            if ($response->status() == 200) {
                 $jsonData = $response->json();
-                $loans = array();
-                foreach ($jsonData["loans"] as $loan)
-                {
+                $loans = [];
+                foreach ($jsonData['loans'] as $loan) {
                     array_push($loans,
-                        array(
-                            "agreement" => $loan["agreement"],
-                            "date_start" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $loan["date_start"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d'),
-                            "date_end" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $loan["date_end"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d'),
-                            "amount" => $loan["amount"],
-                            "percent" => $loan["percent"],
-                            "is_open"=> $loan['IsOpen'] == "true" ? 1 : 0,
-                            "is_judgment"=> $loan['isJudgment'] == "true" ? 1 : 0,
-                        )
+                        [
+                            'agreement' => $loan['agreement'],
+                            'date_start' => Carbon::createFromFormat(self::dateFormat, $loan['date_start'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                            'date_end' => Carbon::createFromFormat(self::dateFormat, $loan['date_end'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                            'amount' => $loan['amount'],
+                            'percent' => $loan['percent'],
+                            'is_open'=> $loan['IsOpen'] == 'true' ? 1 : 0,
+                            'is_judgment'=> $loan['isJudgment'] == 'true' ? 1 : 0,
+                        ]
                     );
-
                 }
 
-                $deposits = array();
-                foreach ($jsonData["deposits"] as $deposit)
-                {
+                $deposits = [];
+                foreach ($jsonData['deposits'] as $deposit) {
                     array_push($deposits,
-                        array(
-                            "agreement" => $deposit["agreement"],
-                            "date_start" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $deposit["date_start"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d'),
-                            "date_end" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $deposit["date_end"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d'),
-                            "percent" => $deposit["percent"],
-                            "amount" => $deposit["amount"],
-                            "is_open"=> $deposit['IsOpen'] == "true" ? 1 : 0,
-                        )
+                        [
+                            'agreement' => $deposit['agreement'],
+                            'date_start' => Carbon::createFromFormat(self::dateFormat, $deposit['date_start'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                            'date_end' => Carbon::createFromFormat(self::dateFormat, $deposit['date_end'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                            'percent' => $deposit['percent'],
+                            'amount' => $deposit['amount'],
+                            'is_open'=> $deposit['IsOpen'] == 'true' ? 1 : 0,
+                        ]
                     );
                 }
 
-                $requests = array();
-                foreach ($jsonData["requests"] as $request)
-                {
+                $requests = [];
+                foreach ($jsonData['requests'] as $request) {
                     array_push($requests,
-                        array(
-                            "request_no" => $request["requestno"],
-                            "request_date" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $request["request_date"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d'),
-                            "amount" => $request["amount"],
-                            "status"=> $request['status'],
-                        )
+                        [
+                            'request_no' => $request['requestno'],
+                            'request_date' => Carbon::createFromFormat(self::dateFormat, $request['request_date'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                            'amount' => $request['amount'],
+                            'status'=> $request['status'],
+                        ]
                     );
                 }
 
-                $data = array("loans" => $loans, "deposits" => $deposits, "requests" => $requests);
+                $data = ['loans' => $loans, 'deposits' => $deposits, 'requests' => $requests];
 
                 return $data;
-            }
-            else
+            } else {
                 return null;
-        }
-        catch (\Exception $exception) {
+            }
+        } catch (\Exception $exception) {
             return null;
         }
     }
 
     public static function getContractLoanInfoByAgreement($agreement)
     {
-        $apiURL = env("API_1C_URL", "")."graphic/".$agreement;
+        $apiURL = config('settings.api_1c_url').'graphic/'.$agreement;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
-            if ($response->status() == 200)
-            {
+            if ($response->status() == 200) {
                 $jsonData = $response->json();
 
-                $mainSchedule = array();
-                foreach ($jsonData["schedule"] as $line)
-                {
+                $mainSchedule = [];
+                foreach ($jsonData['schedule'] as $line) {
                     array_push($mainSchedule,
-                        array(
-                            "date_plan" => $line["date_plan"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_plan"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "date_fact" =>  $line["date_fact"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_fact"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "main_amt_debt_plan" => $line["main_amt_debt_plan"],
-                            "period"=> $line['period'],
-                            "days"=> $line['days'],
-                            "percent_amt_plan"=> $line['percent_amt_plan'],
-                            "main_amt_plan"=> $line['main_amt_plan'],
-                            "percent_amt_fact"=> $line['percent_amt_fact'],
-                            "main_amt_fact"=> $line['main_amt_fact'],
-                            "fee_amt_fact"=> $line['fee_amt_fact'],
-                            "main_amt_debt_fact"=> $line['main_amt_debt_fact'],
-                            "fee_period"=> $line['fee_period'],
-                            "fee_days"=> $line['fee_days'],
-                            "fee_plan"=> $line['fee_amt_plan'],
-                            "no"=> $line['no'],
-                        )
+                        [
+                            'date_plan' => $line['date_plan'] ? Carbon::createFromFormat(self::dateFormat, $line['date_plan'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'date_fact' =>  $line['date_fact'] ? Carbon::createFromFormat(self::dateFormat, $line['date_fact'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'main_amt_debt_plan' => $line['main_amt_debt_plan'],
+                            'period'=> $line['period'],
+                            'days'=> $line['days'],
+                            'percent_amt_plan'=> $line['percent_amt_plan'],
+                            'main_amt_plan'=> $line['main_amt_plan'],
+                            'percent_amt_fact'=> $line['percent_amt_fact'],
+                            'main_amt_fact'=> $line['main_amt_fact'],
+                            'fee_amt_fact'=> $line['fee_amt_fact'],
+                            'main_amt_debt_fact'=> $line['main_amt_debt_fact'],
+                            'fee_period'=> $line['fee_period'],
+                            'fee_days'=> $line['fee_days'],
+                            'fee_plan'=> $line['fee_amt_plan'],
+                            'no'=> $line['no'],
+                        ]
                     );
                 }
 
-                $memFeeSchedule = array();
-                foreach ($jsonData["mem_fee_schedule"] as $line)
-                {
+                $memFeeSchedule = [];
+                foreach ($jsonData['mem_fee_schedule'] as $line) {
                     array_push($memFeeSchedule,
-                        array(
-                            "date_plan" => $line["date_plan"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_plan"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "date_fact" =>  $line["date_fact"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_fact"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "mem_fee_plan" => $line["mem_fee_plan"],
-                            "mem_fee_fact"=> $line['mem_fee_fact'],
-                            "no"=> $line['no'],
-                        )
+                        [
+                            'date_plan' => $line['date_plan'] ? Carbon::createFromFormat(self::dateFormat, $line['date_plan'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'date_fact' =>  $line['date_fact'] ? Carbon::createFromFormat(self::dateFormat, $line['date_fact'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'mem_fee_plan' => $line['mem_fee_plan'],
+                            'mem_fee_fact'=> $line['mem_fee_fact'],
+                            'no'=> $line['no'],
+                        ]
                     );
                 }
 
+                $loanContract = [
+                    'date_start' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_start'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                    'date_end' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_end'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                    'percent' => $jsonData['percent'],
+                    'is_open'=> $jsonData['IsOpen'] == 'true' ? 1 : 0,
+                    'amount' => $jsonData['amount'],
+                    'actual_debt' => $jsonData['actual_debt'],
+                    'full_debt' => $jsonData['full_debt'],
+                    'mem_fee' => $jsonData['mem_fee'],
+                    'date_calculate' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_calculate'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                ];
 
-                $loanContract = array(
-                    "date_start" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_start"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                    "date_end" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_end"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                    "percent" => $jsonData["percent"],
-                    "is_open"=> $jsonData['IsOpen'] == "true" ? 1 : 0,
-                    "amount" => $jsonData["amount"],
-                    "actual_debt" => $jsonData["actual_debt"],
-                    "full_debt" => $jsonData["full_debt"],
-                    "mem_fee" => $jsonData["mem_fee"],
-                    "date_calculate" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_calculate"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                );
-
-                $data = array(
-                    "loanContract" => $loanContract,
-                    "mainSchedule" => $mainSchedule,
-                    "memFeeSchedule" => $memFeeSchedule,
-                );
+                $data = [
+                    'loanContract' => $loanContract,
+                    'mainSchedule' => $mainSchedule,
+                    'memFeeSchedule' => $memFeeSchedule,
+                ];
 
                 return $data;
-            }
-            else
+            } else {
                 return null;
-        }
-        catch (\Exception $exception)
-        {
+            }
+        } catch (\Exception $exception) {
             Log::error($exception->getMessage());
+
             return null;
         }
-
     }
 
     public static function getContractDepositInfoByAgreement($agreement)
     {
-        $apiURL = env("API_1C_URL", "")."graphic/".$agreement;
+        $apiURL = config('settings.api_1c_url').'graphic/'.$agreement;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
-            if ($response->status() == 200)
-            {
+            if ($response->status() == 200) {
                 $jsonData = $response->json();
 
-                $schedule = array();
-                foreach ($jsonData["schedule"] as $line)
-                {
+                $schedule = [];
+                foreach ($jsonData['schedule'] as $line) {
                     array_push($schedule,
-                        array(
-                            "date_plan" => $line["date_plan"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_plan"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "date_fact" =>  $line["date_fact"] ? Carbon::createFromFormat(ExtApiUtils::dateFormat, $line["date_fact"])
-                                ->setTime(0, 0,0,0)->format('Y-m-d') : null,
-                            "main_amt_debt" => $line["main_amt_debt"],
-                            "period"=> $line['period'],
-                            "days"=> $line['days'],
-                            "percent_amt_plan"=> $line['percent_amt_plan'],
-                            "ndfl_amt"=> $line['ndfl_amt'],
-                            "percent_available"=> $line['percent_available'],
-                            "percent_amt_fact"=> $line['percent_amt_fact'],
-                            "main_amt_fact"=> $line['main_amt_fact'],
-                            "no"=> $line['no'],
-                        )
+                        [
+                            'date_plan' => $line['date_plan'] ? Carbon::createFromFormat(self::dateFormat, $line['date_plan'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'date_fact' =>  $line['date_fact'] ? Carbon::createFromFormat(self::dateFormat, $line['date_fact'])
+                                ->setTime(0, 0, 0, 0)->format('Y-m-d') : null,
+                            'main_amt_debt' => $line['main_amt_debt'],
+                            'period'=> $line['period'],
+                            'days'=> $line['days'],
+                            'percent_amt_plan'=> $line['percent_amt_plan'],
+                            'ndfl_amt'=> $line['ndfl_amt'],
+                            'percent_available'=> $line['percent_available'],
+                            'percent_amt_fact'=> $line['percent_amt_fact'],
+                            'main_amt_fact'=> $line['main_amt_fact'],
+                            'no'=> $line['no'],
+                        ]
                     );
                 }
 
-                $depositContract = array(
-                    "date_start" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_start"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                    "date_end" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_end"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                    "percent" => $jsonData["percent"],
-                    "is_open"=> $jsonData['IsOpen'] == "true" ? 1 : 0,
-                    "amount" => $jsonData["amount"],
-                    "date_calculate" => Carbon::createFromFormat(ExtApiUtils::dateFormat, $jsonData["date_calculate"])
-                        ->setTime(0, 0,0,0)->format('Y-m-d'),
-                );
+                $depositContract = [
+                    'date_start' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_start'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                    'date_end' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_end'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                    'percent' => $jsonData['percent'],
+                    'is_open'=> $jsonData['IsOpen'] == 'true' ? 1 : 0,
+                    'amount' => $jsonData['amount'],
+                    'date_calculate' => Carbon::createFromFormat(self::dateFormat, $jsonData['date_calculate'])
+                        ->setTime(0, 0, 0, 0)->format('Y-m-d'),
+                ];
 
-                $data = array(
-                    "depositContract" => $depositContract,
-                    "schedule" => $schedule,
-                );
+                $data = [
+                    'depositContract' => $depositContract,
+                    'schedule' => $schedule,
+                ];
 
                 return $data;
-            }
-            else
+            } else {
                 return null;
-        }
-        catch (\Exception $exception)
-        {
+            }
+        } catch (\Exception $exception) {
             return null;
         }
-
     }
 
     public static function updateShareholderInfo($phone)
     {
-        $shareholderData =  ExtApiUtils::getShareholderByPhone($phone);
-        if ($shareholderData)
+        $shareholderData = self::getShareholderByPhone($phone);
+        if ($shareholderData) {
             Shareholder::where('phone', $phone)->whereNull('deleted_at')->update($shareholderData);
+        }
     }
 
     public static function updateShareholderHeadersInfo($shareholder_id)
     {
         $shareholder = Shareholder::find($shareholder_id);
 
-        $data = ExtApiUtils::getShareholderHeadersInfoByDoc($shareholder->doc);
+        $data = self::getShareholderHeadersInfoByDoc($shareholder->doc);
 
-        if ($data)
-        {
-            foreach ($data['loans'] as $loan)
-            {
-                if ($loan["is_open"] == 0)
-                {
-                    $loan["full_debt"] = null;
-                    $loan["actual_debt"] = null;
+        if ($data) {
+            foreach ($data['loans'] as $loan) {
+                if ($loan['is_open'] == 0) {
+                    $loan['full_debt'] = null;
+                    $loan['actual_debt'] = null;
                 }
                 $loanContract = LoanContract::updateOrCreate(
-                    ["shareholder_id" => $shareholder_id, "agreement" => $loan["agreement"], "deleted_at" => null],
+                    ['shareholder_id' => $shareholder_id, 'agreement' => $loan['agreement'], 'deleted_at' => null],
                     $loan
                 );
             }
 
-            foreach ($data['deposits'] as $deposit)
-            {
+            foreach ($data['deposits'] as $deposit) {
                 $depositContract = DepositContract::updateOrCreate(
-                    ["shareholder_id" => $shareholder_id, "agreement" => $deposit["agreement"], "deleted_at" => null],
+                    ['shareholder_id' => $shareholder_id, 'agreement' => $deposit['agreement'], 'deleted_at' => null],
                     $deposit
                 );
             }
 
-            foreach ($data['requests'] as $request)
-            {
+            foreach ($data['requests'] as $request) {
                 $depositContract = LoanRequest::updateOrCreate(
-                    ["shareholder_id" => $shareholder_id, "request_no" => $request["request_no"],
-                        "request_date" => $request["request_date"], "deleted_at" => null],
+                    ['shareholder_id' => $shareholder_id, 'request_no' => $request['request_no'],
+                        'request_date' => $request['request_date'], 'deleted_at' => null, ],
                     $request
                 );
             }
@@ -319,27 +293,23 @@ class ExtApiUtils
         $success = false;
         $loanContract = LoanContract::find($agreement_id);
         $isJudjment = $loanContract->is_judgment;
-        $data = ExtApiUtils::getContractLoanInfoByAgreement($loanContract->agreement);
-        if ($data)
-        {
+        $data = self::getContractLoanInfoByAgreement($loanContract->agreement);
+        if ($data) {
             $loanContract = LoanContract::updateOrCreate(
-                ["id" => $agreement_id,],
-                $data["loanContract"]
+                ['id' => $agreement_id],
+                $data['loanContract']
             );
 
-            if ($isJudjment == false)
-            {
-                LoanMainSchedule::where("loan_id", $loanContract->id)->forceDelete();
-                foreach ($data['mainSchedule'] as $line)
-                {
-                    $line = array_merge($line, array("shareholder_id" => $loanContract->shareholder_id, "loan_id" => $loanContract->id));
+            if ($isJudjment == false) {
+                LoanMainSchedule::where('loan_id', $loanContract->id)->forceDelete();
+                foreach ($data['mainSchedule'] as $line) {
+                    $line = array_merge($line, ['shareholder_id' => $loanContract->shareholder_id, 'loan_id' => $loanContract->id]);
                     $mainSchedule = LoanMainSchedule::create($line);
                 }
 
-                LoanMemfeeSchedule::where("loan_id", $loanContract->id)->forceDelete();
-                foreach ($data['memFeeSchedule'] as $line)
-                {
-                    $line = array_merge($line, array("shareholder_id" => $loanContract->shareholder_id, "loan_id" => $loanContract->id));
+                LoanMemfeeSchedule::where('loan_id', $loanContract->id)->forceDelete();
+                foreach ($data['memFeeSchedule'] as $line) {
+                    $line = array_merge($line, ['shareholder_id' => $loanContract->shareholder_id, 'loan_id' => $loanContract->id]);
                     $memFeeSchedule = LoanMemfeeSchedule::create($line);
                 }
             }
@@ -360,9 +330,8 @@ class ExtApiUtils
             })
             ->where('is_open', $onlyOpen)->get();
 
-        foreach ($loanContracts as $loan)
-        {
-            ExtApiUtils::updateContractLoan($loan->id);
+        foreach ($loanContracts as $loan) {
+            self::updateContractLoan($loan->id);
         }
     }
 
@@ -370,18 +339,16 @@ class ExtApiUtils
     {
         $success = false;
         $depositContract = DepositContract::find($agreement_id);
-        $data = ExtApiUtils::getContractDepositInfoByAgreement($depositContract->agreement);
-        if ($data)
-        {
+        $data = self::getContractDepositInfoByAgreement($depositContract->agreement);
+        if ($data) {
             $depositContract = DepositContract::updateOrCreate(
-                ["id" => $agreement_id,],
-                $data["depositContract"]
+                ['id' => $agreement_id],
+                $data['depositContract']
             );
 
-            DepositSchedule::where("deposit_id", $depositContract->id)->forceDelete();
-            foreach ($data['schedule'] as $line)
-            {
-                $line = array_merge($line, array("shareholder_id" => $depositContract->shareholder_id, "deposit_id" => $depositContract->id));
+            DepositSchedule::where('deposit_id', $depositContract->id)->forceDelete();
+            foreach ($data['schedule'] as $line) {
+                $line = array_merge($line, ['shareholder_id' => $depositContract->shareholder_id, 'deposit_id' => $depositContract->id]);
                 $schedule = DepositSchedule::create($line);
             }
 
@@ -401,25 +368,24 @@ class ExtApiUtils
             })
             ->where('is_open', $onlyOpen)->get();
 
-        foreach ($depositContracts as $deposit)
-        {
-            ExtApiUtils::updateContractLoan($deposit->id);
+        foreach ($depositContracts as $deposit) {
+            self::updateContractLoan($deposit->id);
         }
     }
 
     public static function generateQrCodeText($purpose, $fio)
     {
-        $text = "";
-        $fioSplited = explode(" ", trim($fio));
+        $text = '';
+        $fioSplited = explode(' ', trim($fio));
         $lastName = $fioSplited[0];
         $firstName = $fioSplited[1];
         $middleName = $fioSplited[2];
 
         $text = $text.'ST00012|Name=КПКГ ""Партнер""|PersonalAcc=40703810268210000210'
-            ."|BankName=УДМУРТСКОЕ ОТДЕЛЕНИЕ N8618 ПАО СБЕРБАНК|BIC=049401601"
-            ."|CorrespAcc=30101810400000000601|KPP=183801001|PayeeINN=1827018260"
-            ."|lastName=".$lastName."|FirstName=".$firstName."|MiddleName=".$middleName
-            ."|Purpose=".$purpose."|Sum=#PayAmt#";
+            .'|BankName=УДМУРТСКОЕ ОТДЕЛЕНИЕ N8618 ПАО СБЕРБАНК|BIC=049401601'
+            .'|CorrespAcc=30101810400000000601|KPP=183801001|PayeeINN=1827018260'
+            .'|lastName='.$lastName.'|FirstName='.$firstName.'|MiddleName='.$middleName
+            .'|Purpose='.$purpose.'|Sum=#PayAmt#';
 
         return $text;
     }

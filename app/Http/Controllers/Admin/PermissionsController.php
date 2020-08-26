@@ -7,8 +7,8 @@ use App\Http\Requests\MassDestroyPermissionRequest;
 use App\Http\Requests\StorePermissionRequest;
 use App\Http\Requests\UpdatePermissionRequest;
 use App\Permission;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class PermissionsController extends Controller
@@ -34,7 +34,6 @@ class PermissionsController extends Controller
         $permission = Permission::create($request->all());
 
         return redirect()->route('admin.permissions.index');
-
     }
 
     public function edit(Permission $permission)
@@ -49,7 +48,6 @@ class PermissionsController extends Controller
         $permission->update($request->all());
 
         return redirect()->route('admin.permissions.index');
-
     }
 
     public function show(Permission $permission)
@@ -65,15 +63,13 @@ class PermissionsController extends Controller
 
         $permission->delete();
 
-        return back();
-
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyPermissionRequest $request)
     {
         Permission::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

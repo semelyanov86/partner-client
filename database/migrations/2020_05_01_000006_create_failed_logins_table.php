@@ -15,6 +15,5 @@ class CreateFailedLoginsTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 }

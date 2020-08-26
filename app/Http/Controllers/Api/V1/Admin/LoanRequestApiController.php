@@ -7,8 +7,8 @@ use App\Http\Requests\StoreLoanRequestRequest;
 use App\Http\Requests\UpdateLoanRequestRequest;
 use App\Http\Resources\Admin\LoanRequestResource;
 use App\LoanRequest;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class LoanRequestApiController extends Controller
@@ -51,6 +51,6 @@ class LoanRequestApiController extends Controller
 
         $loanRequest->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
 }

@@ -8,8 +8,8 @@ use App\Http\Requests\MassDestroyDepositContractRequest;
 use App\Http\Requests\StoreDepositContractRequest;
 use App\Http\Requests\UpdateDepositContractRequest;
 use App\Shareholder;
-use Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
 
@@ -27,9 +27,9 @@ class DepositContractController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'deposit_contract_show';
-                $editGate      = 'deposit_contract_edit';
-                $deleteGate    = 'deposit_contract_delete';
+                $viewGate = 'deposit_contract_show';
+                $editGate = 'deposit_contract_edit';
+                $deleteGate = 'deposit_contract_delete';
                 $crudRoutePart = 'deposit-contracts';
 
                 return view('partials.datatablesActions', compact(
@@ -42,21 +42,21 @@ class DepositContractController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->addColumn('shareholder_fio', function ($row) {
                 return $row->shareholder ? $row->shareholder->fio : '';
             });
 
             $table->editColumn('agreement', function ($row) {
-                return $row->agreement ? $row->agreement : "";
+                return $row->agreement ? $row->agreement : '';
             });
 
             $table->editColumn('percent', function ($row) {
-                return $row->percent ? $row->percent : "";
+                return $row->percent ? $row->percent : '';
             });
             $table->editColumn('is_open', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->is_open ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->is_open ? 'checked' : null).'>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'shareholder', 'is_open']);
@@ -81,7 +81,6 @@ class DepositContractController extends Controller
         $depositContract = DepositContract::create($request->all());
 
         return redirect()->route('admin.deposit-contracts.index');
-
     }
 
     public function edit(DepositContract $depositContract)
@@ -100,7 +99,6 @@ class DepositContractController extends Controller
         $depositContract->update($request->all());
 
         return redirect()->route('admin.deposit-contracts.index');
-
     }
 
     public function show(DepositContract $depositContract)
@@ -118,16 +116,13 @@ class DepositContractController extends Controller
 
         $depositContract->delete();
 
-        return back();
-
+        return redirect()->back();
     }
 
     public function massDestroy(MassDestroyDepositContractRequest $request)
     {
         DepositContract::whereIn('id', request('ids'))->delete();
 
-        return response(null, Response::HTTP_NO_CONTENT);
-
+        return response()->noContent(Response::HTTP_NO_CONTENT);
     }
-
 }

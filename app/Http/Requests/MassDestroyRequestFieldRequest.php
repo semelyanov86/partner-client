@@ -3,8 +3,8 @@
 namespace App\Http\Requests;
 
 use App\RequestField;
-use Gate;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Gate;
 use Symfony\Component\HttpFoundation\Response;
 
 class MassDestroyRequestFieldRequest extends FormRequest
@@ -19,8 +19,13 @@ class MassDestroyRequestFieldRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:request_fields,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:request_fields,id',
+            ],
         ];
     }
 }

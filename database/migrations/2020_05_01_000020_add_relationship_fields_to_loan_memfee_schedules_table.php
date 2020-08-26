@@ -14,6 +14,5 @@ class AddRelationshipFieldsToLoanMemfeeSchedulesTable extends Migration
             $table->unsignedInteger('loan_id');
             $table->foreign('loan_id', 'loan_fk_1404544')->references('id')->on('loan_contracts');
         });
-
     }
 }
