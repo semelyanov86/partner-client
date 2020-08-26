@@ -73,6 +73,7 @@ class ExtApiUtils
                             "is_judgment"=> $loan['isJudgment'] == "true" ? 1 : 0,
                         )
                     );
+
                 }
 
                 $deposits = array();
@@ -283,6 +284,11 @@ class ExtApiUtils
         {
             foreach ($data['loans'] as $loan)
             {
+                if ($loan["is_open"] == 0)
+                {
+                    $loan["full_debt"] = null;
+                    $loan["actual_debt"] = null;
+                }
                 $loanContract = LoanContract::updateOrCreate(
                     ["shareholder_id" => $shareholder_id, "agreement" => $loan["agreement"], "deleted_at" => null],
                     $loan
