@@ -13,7 +13,7 @@ Route::get('/home', function () {
 Auth::routes();
 
 //clients - shareholders
-Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtoban']], function () {
+Route::prefix('client')->name('client.')->middleware('failtoban')->group(function () {
     //Register
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
@@ -79,7 +79,7 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
 });
 
 // Admin
-Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'middleware' => ['auth']], function () {
+Route::prefix('admin')->name('admin.')->namespace('Admin')->middleware('auth')->group(function () {
     Route::get('/', 'HomeController@index')->name('home');
     // Permissions
     Route::delete('permissions/destroy', 'PermissionsController@massDestroy')->name('permissions.massDestroy');
@@ -98,7 +98,7 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('failed-logins', 'FailedLoginController');
 
     // Audit Logs
-    Route::resource('audit-logs', 'AuditLogsController', ['except' => ['create', 'store', 'edit', 'update', 'destroy']]);
+    Route::resource('audit-logs', 'AuditLogsController')->except('create', 'store', 'edit', 'update', 'destroy');
 
     // Shareholders
     Route::delete('shareholders/destroy', 'ShareholdersController@massDestroy')->name('shareholders.massDestroy');
@@ -143,13 +143,13 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::resource('request-fields', 'RequestFieldsController');
 
     // Tools
-    Route::resource('tools', 'ToolsController', ['except' => ['create', 'store', 'edit', 'update', 'show', 'destroy']]);
+    Route::resource('tools', 'ToolsController')->except('create', 'store', 'edit', 'update', 'show', 'destroy');
 
     Route::GET('tools/maintenance/up', 'ToolsController@maintenanceUp')->name('tools.maintenance.up');
     Route::GET('tools/maintenance/down', 'ToolsController@maintenanceDown')->name('tools.maintenance.down');
     Route::GET('tools/maintenance/clearCache', 'ToolsController@clearcache')->name('tools.maintenance.clearCache');
 });
-Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
+Route::prefix('profile')->name('profile.')->namespace('Auth')->middleware('auth')->group(function () {
     // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {
         Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
