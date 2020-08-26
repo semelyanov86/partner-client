@@ -13,12 +13,12 @@ class DepositContract extends Model
     use SoftDeletes, Auditable;
 
     protected $dates = [
-        'date_calculate',
+
+    
+    'date_calculate',
         'date_start',
         'date_end',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
     ];
 
     protected $fillable = [

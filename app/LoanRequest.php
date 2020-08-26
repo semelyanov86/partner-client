@@ -13,10 +13,10 @@ class LoanRequest extends Model
     use SoftDeletes, Auditable;
 
     protected $dates = [
-        'request_date',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
+    
+    'request_date',
+
     ];
 
     protected $fillable = [

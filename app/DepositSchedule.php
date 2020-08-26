@@ -13,11 +13,11 @@ class DepositSchedule extends Model
     use SoftDeletes, Auditable;
 
     protected $dates = [
-        'date_plan',
+
+    
+    'date_plan',
         'date_fact',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
     ];
 
     protected $fillable = [

@@ -12,11 +12,11 @@ class LoanMemfeeSchedule extends Model
     use SoftDeletes;
 
     protected $dates = [
-        'date_plan',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
+    
+    'date_plan',
         'date_fact',
+
     ];
 
     protected $fillable = [

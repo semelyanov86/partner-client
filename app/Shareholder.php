@@ -15,11 +15,11 @@ class Shareholder extends Authenticatable
     protected $guarded = 'shareholder';
 
     protected $dates = [
-        'sms_sended_at',
-        'created_at',
-        'updated_at',
-        'deleted_at',
+
+    
+    'sms_sended_at',
         'code_expires_at',
+
     ];
 
     protected $fillable = [
