@@ -7,7 +7,7 @@ use App\Http\Requests\StoreLoanContractRequest;
 use App\Http\Requests\UpdateLoanContractRequest;
 use App\Http\Resources\Admin\LoanContractResource;
 use App\LoanContract;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

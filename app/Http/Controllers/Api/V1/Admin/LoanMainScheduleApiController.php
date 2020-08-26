@@ -7,7 +7,7 @@ use App\Http\Requests\StoreLoanMainScheduleRequest;
 use App\Http\Requests\UpdateLoanMainScheduleRequest;
 use App\Http\Resources\Admin\LoanMainScheduleResource;
 use App\LoanMainSchedule;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

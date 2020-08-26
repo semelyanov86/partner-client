@@ -7,7 +7,7 @@ use App\Http\Requests\StoreLoanMemfeeScheduleRequest;
 use App\Http\Requests\UpdateLoanMemfeeScheduleRequest;
 use App\Http\Resources\Admin\LoanMemfeeScheduleResource;
 use App\LoanMemfeeSchedule;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

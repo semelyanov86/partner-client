@@ -7,7 +7,7 @@ use App\Http\Requests\StoreShareholderRequest;
 use App\Http\Requests\UpdateShareholderRequest;
 use App\Http\Resources\Admin\ShareholderResource;
 use App\Shareholder;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

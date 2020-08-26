@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositContractRequest;
 use App\Http\Requests\UpdateDepositContractRequest;
 use App\Http\Resources\Admin\DepositContractResource;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

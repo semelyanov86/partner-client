@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\StoreDepositScheduleRequest;
 use App\Http\Requests\UpdateDepositScheduleRequest;
 use App\Http\Resources\Admin\DepositScheduleResource;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 

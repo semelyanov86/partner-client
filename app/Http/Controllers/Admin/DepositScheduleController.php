@@ -9,7 +9,7 @@ use App\Http\Requests\MassDestroyDepositScheduleRequest;
 use App\Http\Requests\StoreDepositScheduleRequest;
 use App\Http\Requests\UpdateDepositScheduleRequest;
 use App\Shareholder;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;

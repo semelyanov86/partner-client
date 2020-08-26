@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\AuditLog;
 use App\Http\Controllers\Controller;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;

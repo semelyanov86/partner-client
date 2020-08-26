@@ -5,7 +5,7 @@ namespace App;
 use App\Notifications\VerifyUserNotification;
 use Carbon\Carbon;
 use DateTimeInterface;
-use Hash;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Auth\Notifications\ResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\SoftDeletes;

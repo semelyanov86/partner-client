@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyPlaceRequest;
 use App\Http\Requests\StorePlaceRequest;
 use App\Http\Requests\UpdatePlaceRequest;
 use App\Place;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;

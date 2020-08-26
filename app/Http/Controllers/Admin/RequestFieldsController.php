@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyRequestFieldRequest;
 use App\Http\Requests\StoreRequestFieldRequest;
 use App\Http\Requests\UpdateRequestFieldRequest;
 use App\RequestField;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;

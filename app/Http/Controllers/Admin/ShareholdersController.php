@@ -7,7 +7,7 @@ use App\Http\Requests\MassDestroyShareholderRequest;
 use App\Http\Requests\StoreShareholderRequest;
 use App\Http\Requests\UpdateShareholderRequest;
 use App\Shareholder;
-use Gate;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Yajra\DataTables\Facades\DataTables;
