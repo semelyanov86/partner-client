@@ -1,6 +1,5 @@
 <?php
 
-
 namespace App\Helpers;
 
 class Utils
@@ -12,5 +11,4 @@ class Utils
 
         return $formatedPhone;
     }
-
 }

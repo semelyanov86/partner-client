@@ -13,7 +13,7 @@ Route::get('/home', function () {
 Auth::routes();
 
 //clients - shareholders
-Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtoban'] ], function () {
+Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtoban']], function () {
     //Register
     Route::get('/register', 'Auth\ShareholderRegisterController@showRegistrationForm')->name('register');
     Route::post('/register', 'Auth\ShareholderRegisterController@register')->name('register.submit');
@@ -71,9 +71,10 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
 
     Route::get('/thanks', 'ShareholderController@thanks')->name('thanks');
 
-
     //qr-code
-    Route::get('/qr-code', function () { abort(404);})->name('qr');
+    Route::get('/qr-code', function () {
+        abort(404);
+    })->name('qr');
     Route::get('/qr-code&text={text}', 'ShareholderController@qrCode');
 });
 
@@ -147,13 +148,11 @@ Route::group(['prefix' => 'admin', 'as' => 'admin.', 'namespace' => 'Admin', 'mi
     Route::GET('tools/maintenance/up', 'ToolsController@maintenanceUp')->name('tools.maintenance.up');
     Route::GET('tools/maintenance/down', 'ToolsController@maintenanceDown')->name('tools.maintenance.down');
     Route::GET('tools/maintenance/clearCache', 'ToolsController@clearcache')->name('tools.maintenance.clearCache');
-
 });
 Route::group(['prefix' => 'profile', 'as' => 'profile.', 'namespace' => 'Auth', 'middleware' => ['auth']], function () {
-// Change password
+    // Change password
     if (file_exists(app_path('Http/Controllers/Auth/ChangePasswordController.php'))) {
         Route::get('password', 'ChangePasswordController@edit')->name('password.edit');
         Route::post('password', 'ChangePasswordController@update')->name('password.update');
     }
-
 });

@@ -17,5 +17,4 @@ class CheckForMaintenanceMode extends Middleware
         '/home',
         '/logout',
     ];
-
 }

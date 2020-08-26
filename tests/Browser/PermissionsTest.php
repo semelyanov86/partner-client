@@ -16,6 +16,5 @@ class PermissionsTest extends DuskTestCase
             $browser->visit(route('admin.permissions.index'));
             $browser->assertRouteIs('admin.permissions.index');
         });
-
     }
 }

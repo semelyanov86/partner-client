@@ -12,6 +12,5 @@ class AddRelationshipFieldsToDepositContractsTable extends Migration
             $table->unsignedInteger('shareholder_id');
             $table->foreign('shareholder_id', 'shareholder_fk_1404464')->references('id')->on('shareholders');
         });
-
     }
 }

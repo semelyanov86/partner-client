@@ -27,7 +27,7 @@ class UpdateRequestFieldRequest extends FormRequest
             ],
             'key'   => [
                 'required',
-                'unique:request_fields,key,' . request()->route('request_field')->id,
+                'unique:request_fields,key,'.request()->route('request_field')->id,
             ],
             'title' => [
                 'required',

@@ -16,6 +16,5 @@ class UsersTest extends DuskTestCase
             $browser->visit(route('admin.users.index'));
             $browser->assertRouteIs('admin.users.index');
         });
-
     }
 }

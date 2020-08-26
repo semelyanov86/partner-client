@@ -14,7 +14,6 @@ class StoreLoanMemfeeScheduleRequest extends FormRequest
         abort_if(Gate::denies('loan_memfee_schedule_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -22,18 +21,17 @@ class StoreLoanMemfeeScheduleRequest extends FormRequest
         return [
             'shareholder_id' => [
                 'required',
-                'integer'],
+                'integer', ],
             'loan_id'        => [
                 'required',
-                'integer'],
+                'integer', ],
             'date_plan'      => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'mem_fee_plan'   => [
-                'required'],
+                'required', ],
             'mem_fee_fact'   => [
-                'required'],
+                'required', ],
         ];
-
     }
 }

@@ -27,9 +27,9 @@ class LoanContractController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'loan_contract_show';
-                $editGate      = 'loan_contract_edit';
-                $deleteGate    = 'loan_contract_delete';
+                $viewGate = 'loan_contract_show';
+                $editGate = 'loan_contract_edit';
+                $deleteGate = 'loan_contract_delete';
                 $crudRoutePart = 'loan-contracts';
 
                 return view('partials.datatablesActions', compact(
@@ -42,33 +42,33 @@ class LoanContractController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->addColumn('shareholder_fio', function ($row) {
                 return $row->shareholder ? $row->shareholder->fio : '';
             });
 
             $table->editColumn('agreement', function ($row) {
-                return $row->agreement ? $row->agreement : "";
+                return $row->agreement ? $row->agreement : '';
             });
 
             $table->editColumn('amount', function ($row) {
-                return $row->amount ? $row->amount : "";
+                return $row->amount ? $row->amount : '';
             });
             $table->editColumn('percent', function ($row) {
-                return $row->percent ? $row->percent : "";
+                return $row->percent ? $row->percent : '';
             });
             $table->editColumn('mem_fee', function ($row) {
-                return $row->mem_fee ? $row->mem_fee : "";
+                return $row->mem_fee ? $row->mem_fee : '';
             });
             $table->editColumn('actual_debt', function ($row) {
-                return $row->actual_debt ? $row->actual_debt : "";
+                return $row->actual_debt ? $row->actual_debt : '';
             });
             $table->editColumn('full_debt', function ($row) {
-                return $row->full_debt ? $row->full_debt : "";
+                return $row->full_debt ? $row->full_debt : '';
             });
             $table->editColumn('is_open', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->is_open ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->is_open ? 'checked' : null).'>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'shareholder', 'is_open']);

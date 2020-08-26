@@ -34,7 +34,7 @@ class UpdateLoanRequestRequest extends FormRequest
             ],
             'request_date' => [
                 'required',
-                'date_format:' . config('panel.date_format'),
+                'date_format:'.config('panel.date_format'),
             ],
         ];
     }

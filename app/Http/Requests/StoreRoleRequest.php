@@ -14,20 +14,18 @@ class StoreRoleRequest extends FormRequest
         abort_if(Gate::denies('role_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
     {
         return [
             'title'         => [
-                'required'],
+                'required', ],
             'permissions.*' => [
-                'integer'],
+                'integer', ],
             'permissions'   => [
                 'required',
-                'array'],
+                'array', ],
         ];
-
     }
 }

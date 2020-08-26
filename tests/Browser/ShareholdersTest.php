@@ -16,6 +16,5 @@ class ShareholdersTest extends DuskTestCase
             $browser->visit(route('admin.shareholders.index'));
             $browser->assertRouteIs('admin.shareholders.index');
         });
-
     }
 }

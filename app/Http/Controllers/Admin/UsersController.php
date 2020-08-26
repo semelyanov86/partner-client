@@ -38,7 +38,6 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function edit(User $user)
@@ -58,7 +57,6 @@ class UsersController extends Controller
         $user->roles()->sync($request->input('roles', []));
 
         return redirect()->route('admin.users.index');
-
     }
 
     public function show(User $user)
@@ -77,7 +75,6 @@ class UsersController extends Controller
         $user->delete();
 
         return back();
-
     }
 
     public function massDestroy(MassDestroyUserRequest $request)
@@ -85,6 +82,5 @@ class UsersController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

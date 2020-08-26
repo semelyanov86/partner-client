@@ -14,7 +14,6 @@ class StoreLoanContractRequest extends FormRequest
         abort_if(Gate::denies('loan_contract_create'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -22,29 +21,28 @@ class StoreLoanContractRequest extends FormRequest
         return [
             'shareholder_id' => [
                 'required',
-                'integer'],
+                'integer', ],
             'date_calculate' => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'agreement'      => [
                 'min:5',
                 'max:15',
-                'required'],
+                'required', ],
             'date_start'     => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'date_end'       => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'amount'         => [
-                'required'],
+                'required', ],
             'percent'        => [
                 'required',
                 'min:1',
-                'max:90'],
+                'max:90', ],
             'mem_fee'        => [
-                'required'],
+                'required', ],
         ];
-
     }
 }

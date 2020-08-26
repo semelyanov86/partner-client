@@ -26,9 +26,9 @@ class ShareholdersController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'shareholder_show';
-                $editGate      = 'shareholder_edit';
-                $deleteGate    = 'shareholder_delete';
+                $viewGate = 'shareholder_show';
+                $editGate = 'shareholder_edit';
+                $deleteGate = 'shareholder_delete';
                 $crudRoutePart = 'shareholders';
 
                 return view('partials.datatablesActions', compact(
@@ -41,22 +41,22 @@ class ShareholdersController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : "";
+                return $row->phone ? $row->phone : '';
             });
             $table->editColumn('password', function ($row) {
-                return $row->password ? $row->password : "";
+                return $row->password ? $row->password : '';
             });
             $table->editColumn('code', function ($row) {
-                return $row->code ? $row->code : "";
+                return $row->code ? $row->code : '';
             });
             $table->editColumn('fio', function ($row) {
-                return $row->fio ? $row->fio : "";
+                return $row->fio ? $row->fio : '';
             });
             $table->editColumn('allow_request', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->allow_request ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->allow_request ? 'checked' : null).'>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'allow_request']);

@@ -1,8 +1,6 @@
 <?php
 
-
 namespace App\Helpers;
-
 
 use App\FailedLogin;
 
@@ -24,8 +22,8 @@ class FailedLoginUtils
             FailedLogin::where('phone', $phone)
                 ->where('sms', 1)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
+                ->where('created_at', '<=', now())
                 ->count();
     }
 
@@ -36,8 +34,8 @@ class FailedLoginUtils
             FailedLogin::where('ip_address', $ip)
                 ->where('sms', 0)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subMinutes(env('BAN_TIME_MINUTES', 60)))
+                ->where('created_at', '<=', now())
                 ->count();
     }
 
@@ -46,10 +44,8 @@ class FailedLoginUtils
         return FailedLogin::where('phone', $phone)
                 ->where('sms', 1)
                 ->whereNull('deleted_at')
-                ->where('created_at', ">=", now()->subSeconds(env('SMS_RESEND_DELAY_SECONDS', 30)))
-                ->where('created_at', "<=", now())
+                ->where('created_at', '>=', now()->subSeconds(env('SMS_RESEND_DELAY_SECONDS', 30)))
+                ->where('created_at', '<=', now())
                 ->count() == 0;
     }
-
-
 }

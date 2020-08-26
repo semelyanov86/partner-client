@@ -14,7 +14,6 @@ class MassDestroyDepositScheduleRequest extends FormRequest
         abort_if(Gate::denies('deposit_schedule_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,6 +22,5 @@ class MassDestroyDepositScheduleRequest extends FormRequest
             'ids'   => 'required|array',
             'ids.*' => 'exists:deposit_schedules,id',
         ];
-
     }
 }

@@ -14,7 +14,6 @@ class MassDestroyLoanMainScheduleRequest extends FormRequest
         abort_if(Gate::denies('loan_main_schedule_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,6 +22,5 @@ class MassDestroyLoanMainScheduleRequest extends FormRequest
             'ids'   => 'required|array',
             'ids.*' => 'exists:loan_main_schedules,id',
         ];
-
     }
 }

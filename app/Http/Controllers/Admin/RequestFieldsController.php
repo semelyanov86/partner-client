@@ -26,9 +26,9 @@ class RequestFieldsController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'request_field_show';
-                $editGate      = 'request_field_edit';
-                $deleteGate    = 'request_field_delete';
+                $viewGate = 'request_field_show';
+                $editGate = 'request_field_edit';
+                $deleteGate = 'request_field_delete';
                 $crudRoutePart = 'request-fields';
 
                 return view('partials.datatablesActions', compact(
@@ -41,22 +41,22 @@ class RequestFieldsController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('no', function ($row) {
-                return $row->no ? $row->no : "";
+                return $row->no ? $row->no : '';
             });
             $table->editColumn('key', function ($row) {
-                return $row->key ? $row->key : "";
+                return $row->key ? $row->key : '';
             });
             $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : "";
+                return $row->title ? $row->title : '';
             });
             $table->editColumn('placeholder', function ($row) {
-                return $row->placeholder ? $row->placeholder : "";
+                return $row->placeholder ? $row->placeholder : '';
             });
             $table->editColumn('required', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->required ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->required ? 'checked' : null).'>';
             });
             $table->editColumn('type', function ($row) {
                 return $row->type ? RequestField::TYPE_SELECT[$row->type] : '';

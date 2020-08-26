@@ -2,9 +2,9 @@
 
 namespace App;
 
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
-use \DateTimeInterface;
 
 class FailedLogin extends Model
 {
@@ -31,6 +31,4 @@ class FailedLogin extends Model
     {
         return $date->format('Y-m-d H:i:s');
     }
-
-
 }

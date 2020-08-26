@@ -30,8 +30,7 @@ class ShareholderVerifyController extends Controller
         ]);
 
         $shareholder = Auth::user();
-        if($request->input('code') == $shareholder->code)
-        {
+        if ($request->input('code') == $shareholder->code) {
             $shareholder->resetTwoFactorCode();
 
             //update shareholder info
@@ -44,9 +43,9 @@ class ShareholderVerifyController extends Controller
         }
 
         FailedLoginUtils::addNewFailEvent($request->ip(), $shareholder->phone, 0);
+
         return redirect()->back()
-            ->withErrors(['code' =>
-                'Введен неверный код']);
+            ->withErrors(['code' => 'Введен неверный код']);
     }
 
     public function resend(Request $request)
@@ -55,7 +54,7 @@ class ShareholderVerifyController extends Controller
         $shareholder->generateTwoFactorCode();
 
         SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, $request->ip());
-        return redirect()->back()->withMessage("СМС отправлен повторно");
-    }
 
+        return redirect()->back()->withMessage('СМС отправлен повторно');
+    }
 }

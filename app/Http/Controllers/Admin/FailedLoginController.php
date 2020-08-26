@@ -26,9 +26,9 @@ class FailedLoginController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'failed_login_show';
-                $editGate      = 'failed_login_edit';
-                $deleteGate    = 'failed_login_delete';
+                $viewGate = 'failed_login_show';
+                $editGate = 'failed_login_edit';
+                $deleteGate = 'failed_login_delete';
                 $crudRoutePart = 'failed-logins';
 
                 return view('partials.datatablesActions', compact(
@@ -41,16 +41,16 @@ class FailedLoginController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('ip_address', function ($row) {
-                return $row->ip_address ? $row->ip_address : "";
+                return $row->ip_address ? $row->ip_address : '';
             });
             $table->editColumn('phone', function ($row) {
-                return $row->phone ? $row->phone : "";
+                return $row->phone ? $row->phone : '';
             });
             $table->editColumn('sms', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->sms ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->sms ? 'checked' : null).'>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'sms']);

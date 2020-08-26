@@ -30,9 +30,9 @@ class PostsController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'post_show';
-                $editGate      = 'post_edit';
-                $deleteGate    = 'post_delete';
+                $viewGate = 'post_show';
+                $editGate = 'post_edit';
+                $deleteGate = 'post_delete';
                 $crudRoutePart = 'posts';
 
                 return view('partials.datatablesActions', compact(
@@ -45,13 +45,13 @@ class PostsController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('title', function ($row) {
-                return $row->title ? $row->title : "";
+                return $row->title ? $row->title : '';
             });
             $table->editColumn('active', function ($row) {
-                return '<input type="checkbox" disabled ' . ($row->active ? 'checked' : null) . '>';
+                return '<input type="checkbox" disabled '.($row->active ? 'checked' : null).'>';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'active']);
@@ -121,10 +121,10 @@ class PostsController extends Controller
     {
         abort_if(Gate::denies('post_create') && Gate::denies('post_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
-        $model         = new Post();
-        $model->id     = $request->input('crud_id', 0);
+        $model = new Post();
+        $model->id = $request->input('crud_id', 0);
         $model->exists = true;
-        $media         = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
+        $media = $model->addMediaFromRequest('upload')->toMediaCollection('ck-media');
 
         return response()->json(['id' => $media->id, 'url' => $media->getUrl()], Response::HTTP_CREATED);
     }

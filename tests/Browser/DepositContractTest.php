@@ -16,6 +16,5 @@ class DepositContractTest extends DuskTestCase
             $browser->visit(route('admin.depositcontract.index'));
             $browser->assertRouteIs('admin.depositcontract.index');
         });
-
     }
 }

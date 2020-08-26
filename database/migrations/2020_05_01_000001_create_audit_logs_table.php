@@ -18,6 +18,5 @@ class CreateAuditLogsTable extends Migration
             $table->string('host', 45)->nullable();
             $table->timestamps();
         });
-
     }
 }

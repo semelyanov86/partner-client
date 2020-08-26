@@ -15,5 +15,4 @@ class ShareholderCreditCalcController extends Controller
     {
         return view('shareholder.creditcalc');
     }
-
 }

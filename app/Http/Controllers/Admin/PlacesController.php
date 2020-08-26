@@ -26,9 +26,9 @@ class PlacesController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'place_show';
-                $editGate      = 'place_edit';
-                $deleteGate    = 'place_delete';
+                $viewGate = 'place_show';
+                $editGate = 'place_edit';
+                $deleteGate = 'place_delete';
                 $crudRoutePart = 'places';
 
                 return view('partials.datatablesActions', compact(
@@ -41,10 +41,10 @@ class PlacesController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->editColumn('name', function ($row) {
-                return $row->name ? $row->name : "";
+                return $row->name ? $row->name : '';
             });
 
             $table->rawColumns(['actions', 'placeholder']);

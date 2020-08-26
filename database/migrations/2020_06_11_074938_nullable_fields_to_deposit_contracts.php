@@ -13,8 +13,7 @@ class NullableFieldsToDepositContracts extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('deposit_contracts', 'date_calculate'))
-        {
+        if (Schema::hasColumn('deposit_contracts', 'date_calculate')) {
             Schema::table('deposit_contracts', function (Blueprint $table) {
                 $table->dropColumn('date_calculate');
             });

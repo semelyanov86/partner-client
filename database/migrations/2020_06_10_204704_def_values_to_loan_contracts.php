@@ -13,8 +13,7 @@ class DefValuesToLoanContracts extends Migration
      */
     public function up()
     {
-        if (Schema::hasColumn('loan_contracts', 'date_calculate'))
-        {
+        if (Schema::hasColumn('loan_contracts', 'date_calculate')) {
             Schema::table('loan_contracts', function (Blueprint $table) {
                 $table->dropColumn('date_calculate');
             });

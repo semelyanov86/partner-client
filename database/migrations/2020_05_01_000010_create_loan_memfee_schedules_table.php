@@ -16,6 +16,5 @@ class CreateLoanMemfeeSchedulesTable extends Migration
             $table->timestamps();
             $table->softDeletes();
         });
-
     }
 }

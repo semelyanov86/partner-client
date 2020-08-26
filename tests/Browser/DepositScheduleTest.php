@@ -16,6 +16,5 @@ class DepositScheduleTest extends DuskTestCase
             $browser->visit(route('admin.depositschedule.index'));
             $browser->assertRouteIs('admin.depositschedule.index');
         });
-
     }
 }

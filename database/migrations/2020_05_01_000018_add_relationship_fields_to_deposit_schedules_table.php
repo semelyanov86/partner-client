@@ -14,6 +14,5 @@ class AddRelationshipFieldsToDepositSchedulesTable extends Migration
             $table->unsignedInteger('shareholder_id')->nullable();
             $table->foreign('shareholder_id', 'shareholder_fk_1404489')->references('id')->on('shareholders');
         });
-
     }
 }

@@ -28,9 +28,9 @@ class LoanMemfeeScheduleController extends Controller
             $table->addColumn('actions', '&nbsp;');
 
             $table->editColumn('actions', function ($row) {
-                $viewGate      = 'loan_memfee_schedule_show';
-                $editGate      = 'loan_memfee_schedule_edit';
-                $deleteGate    = 'loan_memfee_schedule_delete';
+                $viewGate = 'loan_memfee_schedule_show';
+                $editGate = 'loan_memfee_schedule_edit';
+                $deleteGate = 'loan_memfee_schedule_delete';
                 $crudRoutePart = 'loan-memfee-schedules';
 
                 return view('partials.datatablesActions', compact(
@@ -43,7 +43,7 @@ class LoanMemfeeScheduleController extends Controller
             });
 
             $table->editColumn('id', function ($row) {
-                return $row->id ? $row->id : "";
+                return $row->id ? $row->id : '';
             });
             $table->addColumn('shareholder_fio', function ($row) {
                 return $row->shareholder ? $row->shareholder->fio : '';
@@ -54,10 +54,10 @@ class LoanMemfeeScheduleController extends Controller
             });
 
             $table->editColumn('mem_fee_plan', function ($row) {
-                return $row->mem_fee_plan ? $row->mem_fee_plan : "";
+                return $row->mem_fee_plan ? $row->mem_fee_plan : '';
             });
             $table->editColumn('mem_fee_fact', function ($row) {
-                return $row->mem_fee_fact ? $row->mem_fee_fact : "";
+                return $row->mem_fee_fact ? $row->mem_fee_fact : '';
             });
 
             $table->rawColumns(['actions', 'placeholder', 'shareholder', 'loan']);

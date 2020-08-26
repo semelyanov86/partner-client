@@ -14,7 +14,6 @@ class MassDestroyPermissionRequest extends FormRequest
         abort_if(Gate::denies('permission_delete'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -23,6 +22,5 @@ class MassDestroyPermissionRequest extends FormRequest
             'ids'   => 'required|array',
             'ids.*' => 'exists:permissions,id',
         ];
-
     }
 }

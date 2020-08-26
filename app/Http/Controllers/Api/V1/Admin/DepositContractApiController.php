@@ -18,7 +18,6 @@ class DepositContractApiController extends Controller
         abort_if(Gate::denies('deposit_contract_access'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new DepositContractResource(DepositContract::with(['shareholder'])->get());
-
     }
 
     public function store(StoreDepositContractRequest $request)
@@ -28,7 +27,6 @@ class DepositContractApiController extends Controller
         return (new DepositContractResource($depositContract))
             ->response()
             ->setStatusCode(Response::HTTP_CREATED);
-
     }
 
     public function show(DepositContract $depositContract)
@@ -36,7 +34,6 @@ class DepositContractApiController extends Controller
         abort_if(Gate::denies('deposit_contract_show'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return new DepositContractResource($depositContract->load(['shareholder']));
-
     }
 
     public function update(UpdateDepositContractRequest $request, DepositContract $depositContract)
@@ -46,7 +43,6 @@ class DepositContractApiController extends Controller
         return (new DepositContractResource($depositContract))
             ->response()
             ->setStatusCode(Response::HTTP_ACCEPTED);
-
     }
 
     public function destroy(DepositContract $depositContract)
@@ -56,6 +52,5 @@ class DepositContractApiController extends Controller
         $depositContract->delete();
 
         return response(null, Response::HTTP_NO_CONTENT);
-
     }
 }

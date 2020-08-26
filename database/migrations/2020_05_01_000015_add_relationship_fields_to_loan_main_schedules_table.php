@@ -14,6 +14,5 @@ class AddRelationshipFieldsToLoanMainSchedulesTable extends Migration
             $table->unsignedInteger('loan_id');
             $table->foreign('loan_id', 'loan_fk_1404524')->references('id')->on('loan_contracts');
         });
-
     }
 }

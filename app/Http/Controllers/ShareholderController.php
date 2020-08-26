@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-
 use App\Helpers\ExtApiUtils;
 use App\Post;
 use App\Shareholder;
@@ -29,6 +28,7 @@ class ShareholderController extends Controller
     public function index()
     {
         $posts = Post::where('Active', 1)->whereNull('deleted_at')->orderBy('created_at')->paginate(3);
+
         return view('shareholder.home', ['posts' => $posts]);
     }
 
@@ -46,7 +46,7 @@ class ShareholderController extends Controller
             ->margin(1)
             ->size(224)->generate($text);
         $png = base64_encode($qrcode);
+
         return  response()->json($png);
     }
-
 }

@@ -12,6 +12,5 @@ class AddRelationshipFieldsToLoanRequestsTable extends Migration
             $table->unsignedInteger('shareholder_id')->nullable();
             $table->foreign('shareholder_id', 'shareholder_fk_1404456')->references('id')->on('shareholders');
         });
-
     }
 }

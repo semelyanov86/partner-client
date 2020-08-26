@@ -34,7 +34,7 @@ class UpdateShareholderRequest extends FormRequest
                 'max:2147483647',
             ],
             'sms_sended_at'   => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:'.config('panel.date_format').' '.config('panel.time_format'),
                 'nullable',
             ],
             'fio'             => [
@@ -43,7 +43,7 @@ class UpdateShareholderRequest extends FormRequest
                 'required',
             ],
             'code_expires_at' => [
-                'date_format:' . config('panel.date_format') . ' ' . config('panel.time_format'),
+                'date_format:'.config('panel.date_format').' '.config('panel.time_format'),
                 'nullable',
             ],
         ];

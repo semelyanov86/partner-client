@@ -14,7 +14,6 @@ class UpdateDepositContractRequest extends FormRequest
         abort_if(Gate::denies('deposit_contract_edit'), Response::HTTP_FORBIDDEN, '403 Forbidden');
 
         return true;
-
     }
 
     public function rules()
@@ -22,24 +21,23 @@ class UpdateDepositContractRequest extends FormRequest
         return [
             'shareholder_id' => [
                 'required',
-                'integer'],
+                'integer', ],
             'date_calculate' => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'agreement'      => [
                 'min:5',
                 'max:15',
-                'required'],
+                'required', ],
             'date_start'     => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'date_end'       => [
                 'required',
-                'date_format:' . config('panel.date_format')],
+                'date_format:'.config('panel.date_format'), ],
             'percent'        => [
                 'required',
-                'max:100'],
+                'max:100', ],
         ];
-
     }
 }
