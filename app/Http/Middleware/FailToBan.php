@@ -24,7 +24,7 @@ class FailToBan
         //block by ip
         if (FailedLoginUtils::getRemainFailCount($request->ip()) <= 0 && ! $request->is('*client/block*')) {
             return redirect()->route('client.block')
-                ->withMessage('Слишком много неправильных попыток. Для вас заблокирована возможность входа в течении '.env('BAN_TIME_MINUTES', 60).' мин.');
+                ->withMessage('Слишком много неправильных попыток. Для вас заблокирована возможность входа в течении '.config('settings.ban_time_minutes').' мин.');
         }
 
         //block if phone does not exist in 1c
@@ -56,7 +56,7 @@ class FailToBan
 
             if (! FailedLoginUtils::canResendSMS($phone)) {
                 return redirect()->back()
-                    ->withErrors(['error_msg' => 'СМС не может быть отправлена чаще чем 1 раз в '.env('SMS_RESEND_DELAY_SECONDS', 60).' секунд.  ']);
+                    ->withErrors(['error_msg' => 'СМС не может быть отправлена чаще чем 1 раз в '.config('settings.sms_resend_delay_seconds').' секунд.  ']);
             }
 
             if (FailedLoginUtils::getRemainSMSCount($phone) <= 0) {
@@ -67,7 +67,7 @@ class FailToBan
                 }
 
                 return redirect()->route('client.block')
-                    ->withMessage('Слишком много неправильных попыток. Для вас заблокирована возможность отправки СМС в течении '.env('BAN_TIME_MINUTES', 60).' мин.');
+                    ->withMessage('Слишком много неправильных попыток. Для вас заблокирована возможность отправки СМС в течении '.config('settings.ban_time_minutes').' мин.');
             }
         }
 

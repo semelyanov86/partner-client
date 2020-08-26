@@ -62,7 +62,7 @@ class ShareholderFeedbackController extends Controller
 
         try {
             Mail::send('shareholder.mail.feedback', $data, function ($message) use ($request) {
-                $message->from(env('MAIL_FROM_ADDRESS', 'app@mail.com'), 'Client portal');
+                $message->from(config('mail.from.address'), 'Client portal');
 
                 if ($request['image-upload']) {
                     $message->attach($request['image-upload']->getRealPath(), [
@@ -71,7 +71,7 @@ class ShareholderFeedbackController extends Controller
                     );
                 }
 
-                $message->to(env('FEEDBACK_MAIL', 'admin@admin.ru'))->subject('Обратная связь');
+                $message->to(config('settings.feedback_mail'))->subject('Обратная связь');
             });
         } catch (\Exception $exception) {
             return redirect()->back()

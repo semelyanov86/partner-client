@@ -19,7 +19,7 @@ class ExtApiUtils
 
     public static function getShareholderByPhone($phone)
     {
-        $apiURL = env('API_1C_URL', '').'getbyphone/'.$phone;
+        $apiURL = config('settings.api_1c_url').'getbyphone/'.$phone;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
@@ -45,7 +45,7 @@ class ExtApiUtils
         $ser = $docSplited[0];
         $num = $docSplited[1];
 
-        $apiURL = env('API_1C_URL', '').'getheaders?ser='.$ser.'&num='.$num;
+        $apiURL = config('settings.api_1c_url').'getheaders?ser='.$ser.'&num='.$num;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
@@ -110,7 +110,7 @@ class ExtApiUtils
 
     public static function getContractLoanInfoByAgreement($agreement)
     {
-        $apiURL = env('API_1C_URL', '').'graphic/'.$agreement;
+        $apiURL = config('settings.api_1c_url').'graphic/'.$agreement;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
@@ -191,7 +191,7 @@ class ExtApiUtils
 
     public static function getContractDepositInfoByAgreement($agreement)
     {
-        $apiURL = env('API_1C_URL', '').'graphic/'.$agreement;
+        $apiURL = config('settings.api_1c_url').'graphic/'.$agreement;
 
         try {
             $response = Http::timeout(30)->get($apiURL);

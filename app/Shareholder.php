@@ -89,7 +89,7 @@ class Shareholder extends Authenticatable
         $this->code = rand(100000, 999999);
         //tmp
         $this->code = 123123;
-        $this->code_expires_at = now()->addSeconds(env('SMS_EXPIRES_SECONDS', 60));
+        $this->code_expires_at = now()->addSeconds(config('settings.sms_expires_seconds'));
         $this->sms_sended_at = now();
         $this->save();
     }
