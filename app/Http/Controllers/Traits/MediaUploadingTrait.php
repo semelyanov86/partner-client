@@ -2,17 +2,15 @@
 
 namespace App\Http\Controllers\Traits;
 
+use App\Http\Requests\StoreMediaMediaUploadingTraitRequest;
 use Illuminate\Http\Request;
 
 trait MediaUploadingTrait
 {
-    public function storeMedia(Request $request)
+    public function storeMedia(StoreMediaMediaUploadingTraitRequest $request)
     {
         // Validates file size
         if (request()->has('size')) {
-            $this->validate(request(), [
-                'file' => 'max:'.request()->input('size') * 1024,
-            ]);
         }
 
         // If width or height is preset - we are validating it as an image

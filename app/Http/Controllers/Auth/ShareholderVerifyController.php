@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Http\Requests\VerifyShareholderVerifyRequest;
 use App\Helpers\ExtApiUtils;
 use App\Helpers\FailedLoginUtils;
 use App\Helpers\SmsUtils;
@@ -23,11 +24,8 @@ class ShareholderVerifyController extends Controller
         return view('shareholder.auth.verify');
     }
 
-    public function verify(Request $request)
+    public function verify(VerifyShareholderVerifyRequest $request)
     {
-        $request->validate([
-            'code' => 'integer|required',
-        ]);
 
         $shareholder = Auth::user();
         if ($request->input('code') == $shareholder->code) {
