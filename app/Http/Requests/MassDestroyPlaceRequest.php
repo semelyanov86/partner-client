@@ -19,8 +19,13 @@ class MassDestroyPlaceRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:places,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:places,id',
+            ],
         ];
     }
 }

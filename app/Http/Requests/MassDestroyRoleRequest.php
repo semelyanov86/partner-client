@@ -19,8 +19,13 @@ class MassDestroyRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:roles,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:roles,id',
+            ],
         ];
     }
 }

@@ -19,8 +19,13 @@ class MassDestroyLoanRequestRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:loan_requests,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:loan_requests,id',
+            ],
         ];
     }
 }

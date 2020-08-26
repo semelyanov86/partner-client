@@ -19,8 +19,13 @@ class MassDestroyDepositContractRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:deposit_contracts,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:deposit_contracts,id',
+            ],
         ];
     }
 }

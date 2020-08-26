@@ -19,8 +19,13 @@ class MassDestroyDepositScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:deposit_schedules,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:deposit_schedules,id',
+            ],
         ];
     }
 }

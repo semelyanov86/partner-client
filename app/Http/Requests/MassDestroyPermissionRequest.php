@@ -19,8 +19,13 @@ class MassDestroyPermissionRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:permissions,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:permissions,id',
+            ],
         ];
     }
 }

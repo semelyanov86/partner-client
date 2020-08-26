@@ -19,8 +19,13 @@ class MassDestroyRequestFieldRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:request_fields,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:request_fields,id',
+            ],
         ];
     }
 }

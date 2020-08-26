@@ -19,8 +19,13 @@ class MassDestroyLoanMainScheduleRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:loan_main_schedules,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:loan_main_schedules,id',
+            ],
         ];
     }
 }

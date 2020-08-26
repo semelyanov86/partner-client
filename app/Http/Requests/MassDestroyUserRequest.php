@@ -19,8 +19,13 @@ class MassDestroyUserRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:users,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:users,id',
+            ],
         ];
     }
 }

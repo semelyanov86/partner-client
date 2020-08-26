@@ -19,8 +19,13 @@ class MassDestroyFailedLoginRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:failed_logins,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:failed_logins,id',
+            ],
         ];
     }
 }

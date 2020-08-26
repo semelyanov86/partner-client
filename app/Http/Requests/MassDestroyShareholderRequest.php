@@ -19,8 +19,13 @@ class MassDestroyShareholderRequest extends FormRequest
     public function rules()
     {
         return [
-            'ids'   => 'required|array',
-            'ids.*' => 'exists:shareholders,id',
+            'ids'   => [
+                'required',
+                'array',
+            ],
+            'ids.*' => [
+                'exists:shareholders,id',
+            ],
         ];
     }
 }
