@@ -3,14 +3,21 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\ExtApiUtils;
+use App\Helpers\FailedLoginUtils;
+use App\Helpers\SmsUtils;
+use App\Helpers\Utils;
 use App\LoanRequest;
 use App\Place;
 use App\RequestField;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 
 class ShareholderRequestsController extends Controller
 {
+
     public function __construct()
     {
         $this->middleware('auth:shareholder');
@@ -69,7 +76,7 @@ class ShareholderRequestsController extends Controller
 
         $rules = array(
             'place' => ['required'],
-            'personal_date_accept' => ['required']
+            'personal_data_accept' => ['required']
         );
 
         $requestFields = RequestField::whereNull('deleted_at')->get();
@@ -107,6 +114,95 @@ class ShareholderRequestsController extends Controller
                 ->withErrors($validator)
                 ->withInput($request->input());
         }
-        return redirect()->route('client.thanks')->withMessage('Ваша заявка успешно отправлена!');
+
+        $response = ExtApiUtils::sendLoanRequest(RequestField::buildSendRequest($request->input()),  $request);
+
+        if ($response)
+        {
+            LoanRequest::saveRequestLoan($request->input(), $response, auth()->user()->id);
+        }
+        else
+            return redirect()->back()
+                ->withErrors(['error_msg' =>
+                    'Не удалось отправить заявку! Попробуйте позднее или свяжитесь с тех. поддержкой!'])
+                ->withInput($request->all());
+
+        return redirect()->route('client.thanks')->withMessage('Ваша заявка успешно отправлена! № заявки '.$response['request_no']." от ".$response['date']);
     }
+
+    public function update($id)
+    {
+        $loanRequest = LoanRequest::where('shareholder_id', auth()->user()->id)->where('id', $id)->whereNull('deleted_at');
+        if ($loanRequest->count() > 0)
+        {
+            if (ExtApiUtils::updateLoanRequest($id))
+                return $this->item($id);
+            else
+                return redirect()->back()->withErrors(['error_msg' =>
+                    'Не удалось обновить данные']);
+        }
+        else
+            abort(404);
+    }
+
+    public function getShareholderInfo()
+    {
+        return response()->json(ExtApiUtils::getShareholderForLoan(auth()->user()->phone));
+    }
+
+    public function sendSMS()
+    {
+        $shareholder = auth()->user();
+
+        if(!FailedLoginUtils::canResendSMS($shareholder->phone))
+            return response()->json(
+                [
+                    'success' => false,
+                    'msg' => 'СМС не может быть отправлена чаще чем 1 раз в '.env('SMS_RESEND_DELAY_SECONDS', 60)." секунд.  "
+                ]);
+
+        if (FailedLoginUtils::getRemainSMSCount($shareholder->phone) <= 0)
+        {
+            return response()->json(
+                [
+                    'success' => false,
+                    'msg' => "Слишком много неправильных попыток. Для вас заблокирована возможность отправки СМС в течении ".env("BAN_TIME_MINUTES",60)." мин."
+                ]);
+        }
+
+        $shareholder->resetTwoFactorCode();
+        $shareholder->generateTwoFactorCode();
+
+        if (!SmsUtils::sendSMSCode($shareholder->phone, $shareholder->code, ''))
+            return response()->json(
+                [
+                    'success' => false,
+                    'msg' => 'Ошибка при отправке СМС. Попробуйте позднее'
+                ]);
+
+        return response()->json(['success' => true, 'msg' => 'СМС отправлена']);
+    }
+
+    public function verifySMS(Request $request)
+    {
+        $code = request('code');
+        $shareholder = auth()->user();
+
+        if($shareholder->code)
+        {
+            if(!$shareholder->code_expires_at || $shareholder->code_expires_at->lessThan(now()))
+            {
+                $shareholder->resetTwoFactorCode();
+                return response()->json(['success' => false, 'msg' => 'Срок действия СМС кода истек. Пожалуйста, попробуйте еще раз.']);
+            }
+
+            if($shareholder->code != $code)
+            {
+                return response()->json(['success' => false, 'msg' => 'Введен неверный код']);
+            }
+        }
+
+        return response()->json(['success' => true, 'msg' => 'Согласие на обработку персональных данных подтверждено']);
+    }
+
 }

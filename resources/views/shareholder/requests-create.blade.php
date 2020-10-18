@@ -26,14 +26,23 @@
         </div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">
-                @if(count($errors) > 0)
+                @if($errors->has('error_msg'))
+                    <p class="alert alert-danger">
+                        {{ $errors->first('error_msg') }}
+                    </p>
+                @elseif(count($errors) > 0)
                     <p class="alert alert-danger">
                       Есть ошибки при заполнении!!!
                     </p>
                 @endif
-                <form action="{{route('client.requests.create.submit')}}" method="POST" enctype="multipart/form-data">
-                    @csrf
                     <div class="row">
+                        <div class="col-12 col-lg-6 py-3">
+                            <button class="btn btn-primary w-100" id="get-shareholer-info"><i class="ti-pencil-alt"></i> Заполнить реквизиты из базы</button>
+                        </div>
+                    </div>
+                    <form action="{{route('client.requests.create.submit')}}" method="POST" enctype="multipart/form-data" id="request-form">
+                    @csrf
+                    <div class="row" id="fields">
                         @foreach($fields as $field)
                             <div class="col-12 {{$field->type != 'textarea' ? ' col-lg-6' : ''}}">
                                 <div class="form-group">
@@ -46,28 +55,33 @@
 
                                     @switch($field->type)
                                         @case('string')
-                                        <input type="text" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                        <input type="text" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}"
+                                               placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('date')
-                                        <input type="date" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                        <input type="date" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}"
+                                               placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('number')
-                                        <input type="number" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                        <input type="number" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}"
+                                               placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('phone')
-                                        <input type="text" class="form-control masked-phone {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                        <input type="text" class="form-control masked-phone {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}"
+                                               @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('email')
-                                        <input type="email" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                        <input type="email" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}"
+                                               @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('boolean')
                                         <div class="checkbox {{$errors->has($field->key) ? ' checkbox-danger ' : 'checkbox-primary'}} ">
-                                            <input type="checkbox" id="{{$field->key}}" name="{{$field->key}}" {{ old($field->key, null) == 'on' ? ' checked ' : ' unchecked ' }} @if($field->required == 1) required @endif >
+                                            <input type="checkbox" id="{{$field->key}}" name="{{$field->key}}" {{ old($field->key, null) == 'on' ? ' checked ' : ' unchecked ' }} @if($field->required == 1) required @endif {{$field->read_only == true ? ' readonly ' : ''}}>
                                             <label for="{{$field->key}}">
                                                 {{$field->title}}
                                                 @if($field->required == 1)
@@ -78,16 +92,20 @@
                                         @break
 
                                         @case('file')
-                                        <input type="file" class=" {{$errors->has($field->key) ? ' border-danger ' : ''}} " id="{{$field->key}}" name="{{$field->key}}" @if($field->required == 1) required @endif>
+                                        <input type="file" class=" upload-file {{$errors->has($field->key) ? ' border-danger ' : ''}} " id="{{$field->key}}" name="{{$field->key}}" @if($field->required == 1) required @endif {{$field->read_only == true ? ' readonly ' : ''}}>
                                         @break
 
                                         @case('textarea')
-                                        <textarea class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}} " id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif>{{ old($field->key, null) }}</textarea>
+                                        <textarea class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}} " id="{{$field->key}}" name="{{$field->key}}"
+                                                  placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif {{$field->read_only == true ? ' readonly ' : ''}}>
+                                            {{ old($field->key, null) }}
+                                        </textarea>
 
                                         @break
 
                                         @default
-                                            <input type="text" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}" placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}">
+                                            <input type="text" class="form-control {{$errors->has($field->key) ? ' border-danger ' : ''}}" id="{{$field->key}}" name="{{$field->key}}"
+                                                   placeholder="{{$field->placeholder}}" @if($field->required == 1) required @endif value="{{ old($field->key, null) }}" {{$field->read_only == true ? ' readonly ' : ''}}>
                                     @endswitch
 
                                     @if($errors->has($field->key))
@@ -120,6 +138,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row invisible">
+                        <div class="col-12 col-lg-6">
+                            <input class="form-control" type="text" id="sms_code" name="sms_code" readonly>
+                        </div>
+                    </div>
 
                     <div class="row d-flex justify-content-around">
                         <div class="col-12 col-lg-10">
@@ -128,7 +151,7 @@
                                     Согласие
                                 </label>
                                 <div class="checkbox checkbox-primary">
-                                    <input type="checkbox" id="personal_data_accept" name="personal_date_accept" data-toggle="modal" data-target="#personalDataModal" required>
+                                    <input type="checkbox" id="personal_data_accept" name="personal_data_accept" required>
                                     <label for="personal_data_accept">
                                         Нажимая кнопку Отправить заявку, я даю свое согласие на обработку персональных данных, в соответствии с Федеральным законом "О персональных данных".
                                         <span class="text-danger"> *</span>
@@ -139,7 +162,7 @@
                     </div>
                     <div class="row">
                         <div class="col-12 text-center py-3">
-                            <button type="submit" class="btn btn-teal w">ОТПРАВИТЬ ЗАЯВКУ</button>
+                            <button type="submit" id="submit-btn" class="btn btn-teal">ОТПРАВИТЬ ЗАЯВКУ</button>
                         </div>
                     </div>
                 </form>
@@ -168,8 +191,7 @@
                     <p>Настоящее Согласие выдано мною на обработку следующих персональных данных:</p>
 
                     @foreach($fields as $field)
-                        @if($field->type == 'boolean' || $field->type == 'file')
-                        @else
+                        @if($field->personal_data == true)
                             <p>- {{$field->title}};</p>
                         @endif
                     @endforeach
@@ -191,29 +213,190 @@
                         11 Федерального закона №152-ФЗ «О персональных данных» от 26.06.2006 г.
                     </p>
                 </div>
-                <div class="modal-footer d-flex justify-content-center">
-                    <button type="button" class="btn btn-info pd-accept">ПРИНИМАЮ</button>
-                    <button type="button" class="btn btn-secondary pd-decline">НЕ ПРИНИМАЮ</button>
+                <div class="modal-footer d-block">
+                    <div class="row">
+                        <p>Для подтверждения нажмите "Отправить СМС" и введите код из СМС</p>
+                    </div>
+                    <div class="row" id="pd-status">
+                    </div>
+
+                    <div class="row d-flex justify-content-around">
+                        <div class="col-auto my-1">
+                            <button type="button" class="btn btn-teal pd-send-sms">ОТПРАВИТЬ СМС</button>
+                        </div>
+                       <div class="col-auto my-1">
+                           <button type="button" class="btn btn-secondary pd-decline">НЕ ПРИНИМАЮ</button>
+                       </div>
+                        <div class="col-auto my-1">
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="pd-sms-code" placeholder="код из СМС">
+                                <span class="input-group-append">
+                                <button type="button" class="btn btn-primary pd-accept">ПОДТВЕРДИТЬ</button>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                   </div>
                 </div>
+
             </div>
         </div>
     </div>
 @endsection
 @section('custom-scripts')
     <script>
+        function fillFields()
+        {
+            $('#get-shareholer-info').on('click', function () {
+                $.ajax({
+                    method: "GET",
+                    url: "{{route('client.infoForLoanRequest')}}"
+                })
+                .done(function(data) {
+                    $.each(data, function(key, value) {
+                        fillInput(key, value);
+                    });
+                });
+            });
+        }
+
+        function fillInput(key, value)
+        {
+            let field = $('#fields #' + key);
+            if (field.attr('type') === 'date')
+            {
+                let dateFormated = value.split('.')[2] + "-" +  value.split('.')[1] + "-" + value.split('.')[0];
+                value = dateFormated;
+                field.val(value);
+            }
+            else if (field.attr('type') === 'checkbox') {
+                field.prop('checked', value);
+            }
+            else if (field.hasClass('masked-phone'))
+            {
+                field.val(value);
+                field.mask("+7 (000) 000-0000");
+            }
+            else
+            {
+                field.val(value);
+            }
+        }
+
+        function sendSMS()
+        {
+            $('#pd-status').empty();
+            $.ajax({
+                method: "POST",
+                headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+                url: "{{route('client.requests.sendSMS')}}"
+            })
+                .done(function(data) {
+                   if (data['success'] === true)
+                   {
+                       $('#pd-status').append('<p class="alert alert-success w-100"> '+data["msg"]+'</p>');
+                   }
+                   else if (data['success'] === false)
+                   {
+                       $('#pd-status').append('<p class="alert alert-danger w-100">'+data["msg"]+'</p>');
+                   }
+
+                   if(data['success'] === null)
+                   {
+                       $('#pd-status').append('<p class="alert alert-danger w-100"> Ошибка при отправке</p>');
+                   }
+                })
+                .fail(function()
+                {
+                    $('#pd-status').append('<p class="alert alert-danger w-100"> Ошибка при отправке</p>');
+                });
+        }
+
+        function veryfySMS(sms_code)
+        {
+            $('#pd-status').empty();
+            $.ajax({
+                method: "POST",
+                headers: {'X-CSRF-TOKEN': "{{ csrf_token() }}"},
+                url: "{{route('client.requests.verifySMS')}}",
+                data: { code:  $('#pd-sms-code').val(),},
+            })
+                .done(function(data) {
+                    if (data['success'] === true)
+                    {
+                        $('#pd-status').append('<p class="alert alert-success w-100"> '+data["msg"]+'</p>');
+                        $('#personal_data_accept').prop( 'checked', true );
+                        $('#personalDataModal').modal('hide');
+                        $('#sms_code').val($('#pd-sms-code').val());
+                    }
+                    else if (data['success'] === false)
+                    {
+                        $('#pd-status').append('<p class="alert alert-danger w-100">'+data["msg"]+'</p>');
+                    }
+
+                    if(data['success'] === null)
+                    {
+                        $('#pd-status').append('<p class="alert alert-danger w-100"> Ошибка при проверке</p>');
+                    }
+                })
+                .fail(function()
+                {
+                   $('#pd-status').append('<p class="alert alert-danger w-100"> Ошибка при проверке</p>');
+                });
+        }
+
         $(document).ready(function() {
             $('#personal_data_accept').on('click', function () {
+                if ($('#request-form')[0].checkValidity() === false)
+                {
+                    $('#submit-btn').click();
+                }
+                else
+                {
+                    $('#personalDataModal').modal('show');
+                }
+
                 $(this).prop( 'checked', false );
             });
 
             $('.pd-accept').on('click', function () {
-                $('#personal_data_accept').prop( 'checked', true );
-                $('#personalDataModal').modal('hide');
+                veryfySMS($('#pd-sms-code'));
+            });
+
+            $('.pd-send-sms').on('click', function () {
+                sendSMS();
             });
 
             $('.pd-decline').on('click', function () {
                 $('#personal_data_accept').prop( 'checked', false );
                 $('#personalDataModal').modal('hide');
+            });
+
+            fillFields();
+
+            $('.upload-file').on('change', function(evt) {
+                if (this.files[0] != null)
+                {
+                    let dangerDivID = $(this).attr('id') + '-danger';
+                    let visibleInput =  $(this).parent().children('.input-group').children('input[type=text]');
+                    let fileSizeMB = this.files[0].size/1024/1024;
+                    if (fileSizeMB > 3)
+                    {
+                        $(this).parent().append('<div class="text-danger text-center" id="' + dangerDivID + '"> Файл превышает 3 МБ! </div>');
+                        $(this).val('');
+                        visibleInput.addClass('border-danger');
+                        visibleInput.val('');
+                    }
+                    else
+                    {
+                        visibleInput.removeClass('border-danger');
+                        if ($('#' + dangerDivID).length)
+                        {
+                            $('#' + dangerDivID).remove();
+                        }
+                    }
+                }
+
             });
         } );
     </script>

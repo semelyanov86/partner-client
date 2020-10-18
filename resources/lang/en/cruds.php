@@ -395,6 +395,10 @@ return [
             'required_helper'    => '',
             'type'               => 'Type',
             'type_helper'        => '',
+            'personal_data'        => 'Personal Data',
+            'personal_data_helper' => ' ',
+            'read_only'            => 'Read Only',
+            'read_only_helper'     => ' ',
         ],
     ],
     'tool'               => [

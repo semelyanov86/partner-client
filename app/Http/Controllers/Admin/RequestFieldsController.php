@@ -49,6 +49,9 @@ class RequestFieldsController extends Controller
             $table->editColumn('key', function ($row) {
                 return $row->key ? $row->key : "";
             });
+            $table->editColumn('type', function ($row) {
+                return $row->type ? RequestField::TYPE_SELECT[$row->type] : '';
+            });
             $table->editColumn('title', function ($row) {
                 return $row->title ? $row->title : "";
             });
@@ -58,11 +61,14 @@ class RequestFieldsController extends Controller
             $table->editColumn('required', function ($row) {
                 return '<input type="checkbox" disabled ' . ($row->required ? 'checked' : null) . '>';
             });
-            $table->editColumn('type', function ($row) {
-                return $row->type ? RequestField::TYPE_SELECT[$row->type] : '';
+            $table->editColumn('personal_data', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->personal_data ? 'checked' : null) . '>';
+            });
+            $table->editColumn('read_only', function ($row) {
+                return '<input type="checkbox" disabled ' . ($row->read_only ? 'checked' : null) . '>';
             });
 
-            $table->rawColumns(['actions', 'placeholder', 'required']);
+            $table->rawColumns(['actions', 'placeholder', 'required', 'personal_data', 'read_only']);
 
             return $table->make(true);
         }

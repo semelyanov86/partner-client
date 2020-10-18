@@ -1,6 +1,29 @@
 @extends('shareholder.layouts.main_app')
-@section('page-title')Заявка № {{ $loanRequest->request_no}}@endsection
+@section('page-title')Заявка № {{ $loanRequest->request_no}}
+
+@endsection
 @section('page-content')
+    @if($errors->has('error_msg'))
+        <div class="row non-print">
+            <div class="col-12">
+                <p class="alert alert-danger w-100">
+                    {{ $errors->first('error_msg') }}
+                </p>
+            </div>
+        </div>
+    @endif
+    <div class="row pb-1">
+        <div class="col-12 col-md-auto">
+            <p><em>Статус актуален на {{\Carbon\Carbon::parse($loanRequest->updated_at)->format('d-m-Y h:m:s')}}. Если данные не актуальны, нажмите "Обновить". </em></p>
+        </div>
+        <div class="col-12 col-md-auto ml-md-auto non-print">
+            <form action="{{route('client.requests')}}/{{$loanRequest->id}}" method="POST">
+                @csrf
+                <button type="submit" class="btn btn-outline-secondary w-100"><i class="mdi mdi-refresh"></i> Обновить</button>
+            </form>
+        </div>
+    </div>
+
     <div id="item-content">
        <div class="row">
            <div class="col-6 col-md-3">
@@ -41,7 +64,6 @@
             </div>
         </div>
 
-
         @if($loanRequest->data)
             @foreach(json_decode($loanRequest->data, true) as $field)
                 <div class="row">
@@ -51,8 +73,12 @@
                         </p>
                     </div>
                     <div class="col-6 col-md-4">
-                        <p>
-                            {{$field['value']}}
+                        <p class="{{$field['type'] == 'phone' ? ' masked-phone ' : ''}}">
+                            @if($field['type'] == 'boolean')
+                                {{ $field['value'] == true ? 'да' : 'нет'}}
+                            @else
+                                {{ $field['value']}}
+                            @endif
                         </p>
                     </div>
                 </div>

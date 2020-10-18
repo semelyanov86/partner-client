@@ -43,6 +43,12 @@
                         {{ trans('cruds.requestField.fields.required') }}
                     </th>
                     <th>
+                        {{ trans('cruds.requestField.fields.personal_data') }}
+                    </th>
+                    <th>
+                        {{ trans('cruds.requestField.fields.read_only') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -97,7 +103,7 @@
     aaSorting: [],
     ajax: "{{ route('admin.request-fields.index') }}",
     columns: [
-      { data: 'placeholder', name: 'placeholder' , "visible" : false},
+      { data: 'placeholder', name: 'placeholder', "visible" : false },
 { data: 'id', name: 'id' },
 { data: 'no', name: 'no' },
 { data: 'key', name: 'key' },
@@ -105,6 +111,8 @@
 { data: 'title', name: 'title' },
 { data: 'placeholder', name: 'placeholder' },
 { data: 'required', name: 'required' },
+{ data: 'personal_data', name: 'personal_data' },
+{ data: 'read_only', name: 'read_only' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -112,7 +120,7 @@
     pageLength: 25,
   };
   let table = $('.datatable-RequestField').DataTable(dtOverrideGlobals);
-  $('a[data-toggle="tab"]').on('shown.bs.tab', function(e){
+  $('a[data-toggle="tab"]').on('shown.bs.tab click', function(e){
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });

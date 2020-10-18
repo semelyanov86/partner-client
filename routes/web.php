@@ -49,6 +49,10 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
     Route::GET('/requestsData', 'ShareholderRequestsController@search')->name('requests.data');
     Route::GET('/requestsCreate', 'ShareholderRequestsController@new')->name('requests.create');
     Route::POST('/requestsCreate', 'ShareholderRequestsController@create')->name('requests.create.submit');
+    Route::get('/infoForLoanRequest', 'ShareholderRequestsController@getShareholderInfo')->name('infoForLoanRequest');
+    Route::POST('/requests/{id}', 'ShareholderRequestsController@update')->name('requests.item.update');
+    Route::POST('/requestSendSMS', 'ShareholderRequestsController@sendSMS')->name('requests.sendSMS');
+    Route::POST('/requestVerifySMS', 'ShareholderRequestsController@verifySMS')->name('requests.verifySMS');
 
     //Credit calc
     Route::get('/creditcalc', 'ShareholderCreditCalcController@index')->name('creditcalc');
@@ -70,7 +74,6 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
     Route::post('/feedback', 'ShareholderFeedbackController@send')->name('feedback.submit');
 
     Route::get('/thanks', 'ShareholderController@thanks')->name('thanks');
-
 
     //qr-code
     Route::get('/qr-code', function () { abort(404);})->name('qr');

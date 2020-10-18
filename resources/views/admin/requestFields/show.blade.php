@@ -71,6 +71,22 @@
                             <input type="checkbox" disabled="disabled" {{ $requestField->required ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.requestField.fields.personal_data') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $requestField->personal_data ? 'checked' : '' }}>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.requestField.fields.read_only') }}
+                        </th>
+                        <td>
+                            <input type="checkbox" disabled="disabled" {{ $requestField->read_only ? 'checked' : '' }}>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

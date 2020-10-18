@@ -14,6 +14,7 @@ use App\Shareholder;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Schema;
 
 class ExtApiUtils
 {
@@ -405,6 +406,101 @@ class ExtApiUtils
         {
             ExtApiUtils::updateContractLoan($deposit->id);
         }
+    }
+
+    public static function getShareholderForLoan($phone)
+    {
+        //$apiURL = env("API_1C_URL", "")."getbyphone/".$phone;
+        $apiURL = "localhost:8083/api/shareholder_info/".$phone;
+
+        try {
+            $response = Http::timeout(30)->get($apiURL);
+            if ($response->status() == 200)
+            {
+                $jsonData = $response->json();
+                return $jsonData;
+            }
+            else
+                return null;
+        }
+        catch (\Exception $exception) {
+            return null;
+        }
+
+    }
+
+    public static function sendLoanRequest($data, $requestData)
+    {
+        //$apiURL = env("API_1C_URL", "")."sendLoanRequest";
+        $apiURL = "localhost:8083/api/sendLoanRequest";
+        $response = Http::timeout(30)->asMultipart();
+        foreach (array_keys($requestData->allFiles()) as $field)
+        {
+            $file = $requestData->file($field);
+            $file_name = $field.'-'.time() . '.' . $file->extension();
+            $response = $response->attach('files', $file, $file_name, ['Content-type' => 'multipart/form-data']);
+        }
+        try {
+            $response = $response->post($apiURL.'?data='.json_encode($data));
+            if ($response->status() == 200)
+            {
+                $jsonData = $response->json();
+                return $jsonData;
+            }
+            else
+                return null;
+        }
+        catch (\Exception $exception) {
+            return null;
+        }
+
+    }
+
+    public static function getLoanRequestInfo($request_no, $request_date)
+    {
+        //$apiURL = env("API_1C_URL", "")."getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
+        $apiURL = "localhost:8083/api/getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
+
+        try {
+            $response = Http::timeout(30)->get($apiURL);
+            if ($response->status() == 200)
+            {
+                $jsonData = $response->json();
+                return $jsonData;
+            }
+            else
+                return null;
+        }
+        catch (\Exception $exception) {
+            return null;
+        }
+    }
+
+    public static function updateLoanRequest($id)
+    {
+        $loanRequest = LoanRequest::where('id', $id)->first();
+        $jsonData = ExtApiUtils::getLoanRequestInfo($loanRequest['request_no'], Carbon::createFromFormat('Y-m-d', $loanRequest['request_date'])->format(ExtApiUtils::dateFormat));
+        if ($jsonData)
+        {
+            foreach (array_keys($jsonData) as $key)
+            {
+                if(Schema::hasColumn('loan_requests', $key))
+                {
+                    $loanRequest->$key = $jsonData[$key];
+                }
+                else
+                {
+                    $loanRequest->setDataField($key, $jsonData[$key]);
+                }
+            }
+            $loanRequest->save();
+        }
+        else
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public static function generateQrCodeText($purpose, $fio)

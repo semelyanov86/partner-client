@@ -9,7 +9,7 @@ class SmsUtils
 {
     public static function sendSMSCode($phone, $code, $ip)
     {
-        $text_sms = "Ваш код для входа: ".$code;
+       $text_sms = "Ваш код для подтверждения: ".$code;
 
         $my_url='https://sms.rt.ru/api/send_message/?operation=send&login=4e9c9077';
         $my_url=$my_url.'&password=311191af&msisdn=7'.$phone.'&shortcode=KPKGPartner&text='.urlencode($text_sms);
@@ -32,6 +32,9 @@ class SmsUtils
             return null;
         }
 
+       //for tests
         //FailedLoginUtils::addNewFailEvent($ip, $phone, 1);
+        //return true;
+        //for tests
     }
 }
