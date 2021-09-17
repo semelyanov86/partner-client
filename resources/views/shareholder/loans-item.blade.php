@@ -109,8 +109,9 @@
             <hr>
             <div class="col-12 col-lg-auto non-print">
                 <div class="btn-group w-100" role="group">
-                    <button class="btn btn-outline-secondary"><i class="mdi mdi-currency-rub"></i> Оплатить онлайн</button>
-                    <button class="btn btn-primary mr-1" data-toggle="modal" data-target="#qrPaymentModal"><i class="fas fa-qrcode"></i> Оплатить по QR-коду</button>
+                    <button type="button" class="btn btn-outline-secondary"><i class="mdi mdi-currency-rub"></i> Оплатить онлайн</button>
+                    <button type="button" class="btn btn-primary " data-toggle="modal" data-target="#qrPaymentModal"><i class="fas fa-qrcode"></i> Оплатить по QR-коду</button>
+                    <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#qrSbpPaymentModal"><span><img src="{{asset('/images/sbp-logo.svg')}}" alt="" height="24"></span> Оплатить по QR-коду СБП</button>
                 </div>
             </div>
         @endif
@@ -232,6 +233,9 @@
                             </div>
                         </div>
                         <div id="qr-code" class="text-center">
+                            <div class="spinner-border text-primary m-2 loader" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
                         </div>
                     </div>
                     <div class="modal-footer">
@@ -251,13 +255,59 @@
         </div>
         <!-- Modal QR -->
 
+        <!-- Modal SBP QR -->
+        <div class="modal fade" id="qrSbpPaymentModal" tabindex="-1" role="dialog" aria-labelledby="qrSbpPaymentModalTitle" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="qrPaymentModalLongTitle">QR-код СБП</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="form-group" id="qr-sbp-payment-amount-block">
+                            <label for="qr-sbp-payment-amount">Введите сумму</label>
+                            <div class="input-group mt-3">
+                                <input type="number" id="qr-sbp-payment-amount" name="qr-sbp-payment-amount" class="form-control" min="0" max="{{$loanContract->full_debt}}" value="{{$loanContract->actual_debt}}" placeholder="Введите сумму">
+                                <span class="input-group-append">
+                                    <button type="button" class="btn btn-primary" id="qr-sbp-payment-generate"><i class="mdi mdi-qrcode-plus"></i>  Сгенерировать</button>
+                                </span>
+                            </div>
+                        </div>
+                        <div id="qr-sbp-code" class="text-center">
+                            <div class="spinner-border text-primary m-2 loader" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <div class="row d-flex">
+                            <div class="col-auto">
+                                <button type="button" class="btn btn-primary mb-1 " id="qr-sbp-save"><i class="ti-save"></i> Сохранить</button>
+                                <button type="button" class="btn btn-primary mb-1 " id="qr-sbp-print"><i class="ti-printer"></i><span class="d-sm-inline d-none"> Печать</span></button>
+                            </div>
+                            <div class=" col-auto ml-sm-auto">
+                                <button type="button" class="btn btn-danger mb-1" data-dismiss="modal"><i class="ti-close"></i><span class="d-sm-inline d-none"> Закрыть</span></button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Modal SBP QR -->
+
     @endif
 
 @endsection
 @section('custom-scripts')
         <script>
             $(document).ready(function() {
+                $('.loader').hide();
                 @if( $loanContract->is_open == "1")
+
+                    //qr-code
                     var qrCodeText = '{!!$qrCodeText!!}';
                     $('#qr-payment-generate').on ('click', function () {
                         $.ajax({
@@ -267,13 +317,19 @@
                             beforeSend: function (request)
                             {
                                 request.setRequestHeader("X-CSRF-TOKEN",  $('meta[name="csrf-token"]').attr('content'));
+
                             },
                             success: function (server_response) {
-                                $('#qr-code').empty();
-                                $('#qr-code').append("<img src='data:image/png;base64, " + server_response + "'>");
+                                if (server_response == null || server_response == '')
+                                    $('#qr-code').append("<p class='text-danger text-center'>Не удалось получить данные! Повторите попытку или свяжитесь с тех. поддержкой.</p>");
+                                else
+                                {
+                                    $('#qr-code').empty();
+                                    $('#qr-code').append("<img src='data:image/png;base64, " + server_response + "'>");
+                                }
                             },
                             error: function() {
-                                $('#qr-code').append("");
+                                $('#qr-code').append("<p class='text-danger text-center'>Не удалось получить данные! Повторите попытку или свяжитесь с тех. поддержкой.</p>");
                             }
                         });
                     });
@@ -305,6 +361,65 @@
                             win.document.close();
                         }
                     });
+
+                    //sbp-qr-code
+                    var qrSbpPurpose = '{!!$qrSbpPurpose!!}';
+                    $('#qr-sbp-payment-generate').on ('click', function () {
+                    $.ajax({
+                        url: '{{route('client.sbp-qr')}}&purpose=' + qrSbpPurpose
+                            + '&amount=' + parseInt(($('#qr-sbp-payment-amount').val()*100).toFixed(2), 10),
+                        method: 'GET',
+                        beforeSend: function (request)
+                        {
+                            $('.loader').show();
+                            request.setRequestHeader("X-CSRF-TOKEN",  $('meta[name="csrf-token"]').attr('content'));
+                        },
+                        success: function (server_response) {
+                            if (server_response == null || server_response == '')
+                                $('#qr-sbp-code').append("<p class='text-danger text-center'>Не удалось получить данные! Повторите попытку или свяжитесь с тех. поддержкой.</p>");
+                            else
+                            {
+                                $('#qr-sbp-code').empty();
+                                $('#qr-sbp-code').append("<img src='data:image/png;base64, " + server_response + "'>");
+                            }
+                        },
+                        error: function() {
+                            $('#qr-sbp-code').append("<p class='text-danger text-center'>Не удалось получить данные! Повторите попытку или свяжитесь с тех. поддержкой.</p>");
+                        },
+                        complete: function () {
+                            $('.loader').hide();
+                        }
+                    });
+                });
+
+                $('#qr-sbp-save').on ('click', function () {
+                    if ($('#qr-sbp-code img').length)
+                    {
+                        let a = document.createElement("a");
+                        a.href = $('#qr-sbp-code img').attr('src');
+                        a.download = "qr-code_{{$loanContract->agreement}}_{{$loanContract->date_calculate}}.png";
+                        a.click();
+                    }
+                });
+
+                $('#qr-sbp-print').on ('click', function () {
+                    if ($('#qr-sbp-code img').length)
+                    {
+                        var win = window.open('about:blank', "_new");
+                        win.document.open();
+                        win.document.write([
+                            '<html>',
+                            '   <head>',
+                            '   </head>',
+                            '   <body onload="window.print()" onafterprint="window.close()">',
+                            '       <img src="' + $('#qr-sbp-code img').attr('src') + '"/>',
+                            '   </body>',
+                            '</html>'
+                        ].join(''));
+                        win.document.close();
+                    }
+                });
+
                 @endif
 
                 $('.print-page').on ('click', function () {

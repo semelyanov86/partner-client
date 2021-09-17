@@ -47,6 +47,15 @@
                             <input type="checkbox" disabled="disabled" {{ $failedLogin->sms ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.failedLogin.fields.created_at') }}
+                        </th>
+                        <td>
+                            {{ $failedLogin->created_at }}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

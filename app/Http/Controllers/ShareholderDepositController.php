@@ -39,7 +39,8 @@ class ShareholderDepositController extends Controller
             return view('shareholder.deposits-item')
                 ->with('depositContract', $depositContract->first())
                 ->with('mainSchedule', $mainSchedule->get())
-                ->with('qrCodeText', $qrCodeText);
+                ->with('qrCodeText', $qrCodeText)
+                ->with('qrSbpPurpose', 'Оплата по договору сбережений №'.$depositContract->first()->agreement);
         }
         else
             abort(404);

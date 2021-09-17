@@ -34,6 +34,9 @@
                         {{ trans('cruds.failedLogin.fields.sms') }}
                     </th>
                     <th>
+                        {{ trans('cruds.failedLogin.fields.created_at') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -93,6 +96,7 @@
 { data: 'ip_address', name: 'ip_address' },
 { data: 'phone', name: 'phone' },
 { data: 'sms', name: 'sms' },
+{ data: 'created_at', name: 'created_at' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -104,7 +108,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

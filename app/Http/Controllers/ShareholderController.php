@@ -28,7 +28,7 @@ class ShareholderController extends Controller
      */
     public function index()
     {
-        $posts = Post::where('Active', 1)->whereNull('deleted_at')->orderBy('created_at')->paginate(3);
+        $posts = Post::where('Active', 1)->whereNull('deleted_at')->orderBy('created_at', 'desc')->paginate(3);
         return view('shareholder.home', ['posts' => $posts]);
     }
 
@@ -47,6 +47,11 @@ class ShareholderController extends Controller
             ->size(224)->generate($text);
         $png = base64_encode($qrcode);
         return  response()->json($png);
+    }
+
+    public function SBPqrCode($purpose, $amount)
+    {
+        return  ExtApiUtils::getSBPqrCode($purpose, $amount);
     }
 
 }

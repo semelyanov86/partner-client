@@ -7,6 +7,7 @@
                 <div class="card">
                     <div class="card-header bg-light">
                         <h3 class="card-title mb-0 fon">{{ $post->title }}</h3>
+                        <p class="mb-0">{{\Carbon\Carbon::parse($post->created_at)->locale('ru')->translatedFormat('M d, Y')}}г.</p>
                     </div>
                     <div class="card-body">
                         {!!$post->content!!}

@@ -47,7 +47,8 @@ class ShareholderLoanController extends Controller
                 ->with('loanContract', $loanContract->first())
                 ->with('mainSchedule', $mainSchedule->get())
                 ->with('memfeeSchedule', $memfeeSchedule->get())
-                ->with('qrCodeText', $qrCodeText);
+                ->with('qrCodeText', $qrCodeText)
+                ->with('qrSbpPurpose', 'Оплата по договору займа №'.$loanContract->first()->agreement);
         }
         else
             abort(404);

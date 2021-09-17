@@ -78,6 +78,10 @@ Route::group(['prefix' => 'client', 'as' => 'client.', 'middleware' => ['failtob
     //qr-code
     Route::get('/qr-code', function () { abort(404);})->name('qr');
     Route::get('/qr-code&text={text}', 'ShareholderController@qrCode');
+
+    //sbp-qr-code
+    Route::get('/sbp-qr-code', function () { abort(404);})->name('sbp-qr');
+    Route::get('/sbp-qr-code&purpose={purpose}&amount={amount}', 'ShareholderController@SBPqrCode');
 });
 
 // Admin

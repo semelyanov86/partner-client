@@ -31,6 +31,9 @@
                         {{ trans('cruds.post.fields.active') }}
                     </th>
                     <th>
+                        {{ trans('cruds.post.fields.created_at') }}
+                    </th>
+                    <th>
                         &nbsp;
                     </th>
                 </tr>
@@ -89,6 +92,7 @@
 { data: 'id', name: 'id' },
 { data: 'title', name: 'title' },
 { data: 'active', name: 'active' },
+{ data: 'created_at', name: 'created_at' },
 { data: 'actions', name: '{{ trans('global.actions') }}' }
     ],
     orderCellsTop: true,
@@ -100,7 +104,7 @@
       $($.fn.dataTable.tables(true)).DataTable()
           .columns.adjust();
   });
-  
+
 });
 
 </script>

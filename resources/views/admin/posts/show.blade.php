@@ -47,6 +47,14 @@
                             <input type="checkbox" disabled="disabled" {{ $post->active ? 'checked' : '' }}>
                         </td>
                     </tr>
+                    <tr>
+                        <th>
+                            {{ trans('cruds.post.fields.created_at') }}
+                        </th>
+                        <td>
+                            {!! $post->created_at !!}
+                        </td>
+                    </tr>
                 </tbody>
             </table>
             <div class="form-group">

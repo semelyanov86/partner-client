@@ -410,8 +410,8 @@ class ExtApiUtils
 
     public static function getShareholderForLoan($phone)
     {
-        //$apiURL = env("API_1C_URL", "")."getbyphone/".$phone;
-        $apiURL = "localhost:8083/api/shareholder_info/".$phone;
+        $apiURL = env("API_1C_URL", "")."getbyphone/".$phone;
+        //$apiURL = "localhost:8083/api/shareholder_info/".$phone;
 
         try {
             $response = Http::timeout(30)->get($apiURL);
@@ -431,8 +431,8 @@ class ExtApiUtils
 
     public static function sendLoanRequest($data, $requestData)
     {
-        //$apiURL = env("API_1C_URL", "")."sendLoanRequest";
-        $apiURL = "localhost:8083/api/sendLoanRequest";
+        $apiURL = env("API_1C_URL", "")."sendLoanRequest";
+        //$apiURL = "localhost:8083/api/sendLoanRequest";
         $response = Http::timeout(30)->asMultipart();
         foreach (array_keys($requestData->allFiles()) as $field)
         {
@@ -458,8 +458,8 @@ class ExtApiUtils
 
     public static function getLoanRequestInfo($request_no, $request_date)
     {
-        //$apiURL = env("API_1C_URL", "")."getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
-        $apiURL = "localhost:8083/api/getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
+        $apiURL = env("API_1C_URL", "")."getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
+        //$apiURL = "localhost:8083/api/getLoanRequestInfo?request_no=".$request_no."&request_date=$request_date";
 
         try {
             $response = Http::timeout(30)->get($apiURL);
@@ -519,4 +519,63 @@ class ExtApiUtils
 
         return $text;
     }
+
+    public static function getSBPqrCode($purpose, $amount)
+    {
+        $baseUrl = env("SBP_BASE_URL", "");
+        $tokenUrl = $baseUrl."/am/ipslegals/connect/token";
+        $qrCodeUrl = $baseUrl."/api/merchant/v1/qrc-data?mediaType=image/png";
+        $clientID = env("SBP_LEGAL_ID", "");
+        $merchantID = env("SBP_MERCHANT_ID", "");
+        $clientSecret = env("SBP_CLIENT_SECRET", "");
+
+        $accessToken = "";
+        $qrCodeBase64Img = null;
+
+        try {
+            $tokenResponse = Http::withBasicAuth($clientID, $clientSecret)
+                ->asMultipart()
+                ->timeout(30)->post($tokenUrl, [
+                'grant_type' => 'client_credentials',
+                'scope' => 'read'
+            ]);
+
+            if ($tokenResponse->status() == 200)
+            {
+                $jsonData = $tokenResponse->json();
+                $accessToken = $jsonData["access_token"];
+
+                $qrCodeResponse = Http::withToken($accessToken, $jsonData["token_type"])
+                    ->asJson()
+                    ->timeout(30)->post($qrCodeUrl, [
+                        'merchantId' => $merchantID,
+                        'templateVersion' => '01',
+                        'qrcType' => '01',
+                        'amount' => $amount,
+                        'currency' => "RUB",
+                        'paymentPurpose' => $purpose,
+                        'Params' => [
+                            'paymentData' => $purpose
+                        ]
+                    ]);
+
+                if ($qrCodeResponse->status() == 201)
+                {
+                    $jsonData = $qrCodeResponse->json();
+                    $qrCodeBase64Img = $jsonData['image']['content'];
+                }
+                else
+                    return null;
+
+            }
+            else
+                return null;
+        }
+        catch (\Exception $exception) {
+            return null;
+        }
+
+        return $qrCodeBase64Img;
+    }
+
 }
